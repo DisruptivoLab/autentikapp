@@ -32,6 +32,22 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .nav-dot.active {
+            background: white;
+            transform: scale(1.5);
+        }
+        .nav-dot:hover {
+            background: rgba(255, 255, 255, 0.7);
+            transform: scale(1.2);
+        }
     </style>
 </head>
 <body class="bg-black text-white">
@@ -56,7 +72,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero-height relative flex items-center justify-center overflow-hidden">
+    <section id="hero" class="hero-height relative flex items-center justify-center overflow-hidden">
         <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0">
             <source src="https://www.pexels.com/es-es/download/video/5095294/" type="video/mp4">
             <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-black to-green-900"></div>
@@ -80,6 +96,15 @@
                     Descubrir Más
                 </button>
             </div>
+        </div>
+        
+        <!-- Floating Navigation -->
+        <div class="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 flex flex-col space-y-4">
+            <div class="nav-dot" onclick="scrollToSection('hero')" title="Inicio"></div>
+            <div class="nav-dot" onclick="scrollToSection('problem')" title="Problema"></div>
+            <div class="nav-dot" onclick="scrollToSection('solution')" title="Solución"></div>
+            <div class="nav-dot" onclick="scrollToSection('benefits')" title="Beneficios"></div>
+            <div class="nav-dot" onclick="scrollToSection('luxury')" title="Marcas Premium"></div>
         </div>
         
         <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-30">
@@ -332,6 +357,36 @@
         function requestDemo() {
             alert('Demo privada solicitada. Nuestro equipo de lujo se pondrá en contacto contigo en las próximas 24 horas.');
         }
+
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Update active navigation dot on scroll
+        window.addEventListener('scroll', () => {
+            const sections = ['hero', 'problem', 'solution', 'benefits', 'luxury'];
+            const navDots = document.querySelectorAll('.nav-dot');
+            
+            let current = '';
+            sections.forEach(section => {
+                const element = document.getElementById(section);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top <= 100 && rect.bottom >= 100) {
+                        current = section;
+                    }
+                }
+            });
+            
+            navDots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (sections[index] === current) {
+                    dot.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 </html>
