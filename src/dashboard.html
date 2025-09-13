@@ -295,7 +295,7 @@
         </section>
 
         <!-- Data Tables -->
-        <section class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <section class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
             <div class="lg:col-span-3 chart-container rounded-2xl p-6">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Ranking de Productos</h3>
                 <div id="product-ranking-table"></div>
@@ -303,6 +303,18 @@
             <div class="lg:col-span-2 chart-container rounded-2xl p-6">
                 <h3 class="text-lg font-medium text-gray-900 mb-4">Actividad Reciente</h3>
                 <div id="recent-activity-feed"></div>
+            </div>
+        </section>
+
+        <!-- Additional Analytics Tables -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="chart-container rounded-2xl p-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Ranking de Ciudades</h3>
+                <div id="city-ranking-table" class="overflow-y-auto h-64"></div>
+            </div>
+            <div class="chart-container rounded-2xl p-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Productos por Color y Material</h3>
+                <div id="products-by-details-list" class="overflow-y-auto h-64"></div>
             </div>
         </section>
     </main>
@@ -643,6 +655,8 @@
         function renderTables(products, claimedItems, clientsMap) {
             renderProductRanking(products);
             renderRecentActivity(claimedItems);
+            renderCityRankingTable(claimedItems, clientsMap);
+            renderProductsByDetails(products);
         }
 
         function renderClaimsOverTime(claimedItems) {
@@ -846,6 +860,85 @@
                             </div>
                             <div class="text-xs text-gray-400">
                                 ${format(parseISO(item.claimedDate), 'dd/MM')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderCityRankingTable(claimedItems, clientsMap) {
+            const container = document.getElementById('city-ranking-table');
+            const cityCounts = {};
+            
+            claimedItems.forEach(item => {
+                const owner = clientsMap.get(item.ownerId);
+                if (owner && owner.city) {
+                    const city = owner.city;
+                    const country = owner.country;
+                    const key = `${city}, ${country}`;
+                    cityCounts[key] = (cityCounts[key] || 0) + 1;
+                }
+            });
+            
+            const cityRanking = Object.entries(cityCounts)
+                .map(([city, count]) => ({ city, count }))
+                .sort((a, b) => b.count - a.count)
+                .slice(0, 15);
+
+            container.innerHTML = `
+                <div class="space-y-2">
+                    ${cityRanking.map((item, index) => `
+                        <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <span class="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center text-xs font-medium mr-3">
+                                    ${index + 1}
+                                </span>
+                                <span class="text-sm text-gray-900">${item.city}</span>
+                            </div>
+                            <span class="text-sm font-medium text-gray-600">${item.count}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderProductsByDetails(products) {
+            const container = document.getElementById('products-by-details-list');
+            const productDetails = [];
+            
+            products.forEach(product => {
+                if (product.details) {
+                    const claimedCount = product.items.filter(item => item.status === 'Claimed').length;
+                    const totalCount = product.items.length;
+                    
+                    productDetails.push({
+                        name: product.productName,
+                        color: product.details.color || 'N/A',
+                        material: product.details.material || 'N/A',
+                        claimed: claimedCount,
+                        total: totalCount,
+                        percentage: totalCount > 0 ? Math.round((claimedCount / totalCount) * 100) : 0
+                    });
+                }
+            });
+            
+            productDetails.sort((a, b) => b.claimed - a.claimed);
+
+            container.innerHTML = `
+                <div class="space-y-3">
+                    ${productDetails.map(product => `
+                        <div class="p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium text-gray-900">${product.name}</span>
+                                <span class="text-xs text-gray-500">${product.claimed}/${product.total}</span>
+                            </div>
+                            <div class="text-xs text-gray-600 mb-2">
+                                <span class="inline-block mr-3">Color: ${product.color}</span>
+                                <span>Material: ${product.material}</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                <div class="bg-gray-600 h-1.5 rounded-full" style="width: ${product.percentage}%"></div>
                             </div>
                         </div>
                     `).join('')}
