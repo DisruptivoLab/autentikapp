@@ -85,9 +85,10 @@
                 </button>
             </div>
             <div id="filters-content" class="space-y-6">
+                <!-- Time Period Filters -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Período</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Período de Tiempo</label>
                         <select id="time-period" class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
                             <option value="all">Todo el tiempo</option>
                             <option value="today">Hoy</option>
@@ -95,24 +96,62 @@
                             <option value="month">Este mes</option>
                             <option value="quarter">Este trimestre</option>
                             <option value="year">Este año</option>
+                            <option value="custom">Personalizado</option>
                         </select>
                     </div>
                     <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Fecha Desde</label>
+                        <input type="date" id="date-from" class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Fecha Hasta</label>
+                        <input type="date" id="date-to" class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Comparar con</label>
+                        <select id="compare-period" class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                            <option value="none">Sin comparación</option>
+                            <option value="previous">Período anterior</option>
+                            <option value="year-ago">Mismo período año anterior</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Geographic and Demographic Filters -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">País</label>
                         <select id="filter-country" class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
-                            <option value="all">Todos</option>
+                            <option value="all">Todos los países</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Ciudad</label>
+                        <select id="filter-city" class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                            <option value="all">Todas las ciudades</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Rango de Edad</label>
+                        <select id="filter-age" class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                            <option value="all">Todas las edades</option>
+                            <option value="18-25">18-25 años</option>
+                            <option value="26-35">26-35 años</option>
+                            <option value="36-45">36-45 años</option>
+                            <option value="46-55">46-55 años</option>
+                            <option value="56+">56+ años</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Segmento</label>
                         <select id="filter-segment" class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
-                            <option value="all">Todos</option>
+                            <option value="all">Todos los segmentos</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Producto</label>
                         <select id="filter-product" class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
-                            <option value="all">Todos</option>
+                            <option value="all">Todos los productos</option>
                         </select>
                     </div>
                 </div>
@@ -322,6 +361,15 @@
                 countrySelect.appendChild(option);
             });
 
+            const cities = [...new Set(data.clients.map(c => c.city))].sort();
+            const citySelect = document.getElementById('filter-city');
+            cities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+
             const segments = [...new Set(data.clients.map(c => c.segment))].sort();
             const segmentSelect = document.getElementById('filter-segment');
             segments.forEach(segment => {
@@ -341,6 +389,45 @@
         }
 
         function handleTimePeriodChange() {
+            const period = document.getElementById('time-period').value;
+            const dateFrom = document.getElementById('date-from');
+            const dateTo = document.getElementById('date-to');
+            
+            if (period === 'custom') {
+                dateFrom.disabled = false;
+                dateTo.disabled = false;
+                return;
+            }
+
+            dateFrom.disabled = true;
+            dateTo.disabled = true;
+
+            // Use data-based dates instead of current date
+            switch(period) {
+                case 'today':
+                    dateFrom.value = '2025-09-24';
+                    dateTo.value = '2025-09-24';
+                    break;
+                case 'week':
+                    dateFrom.value = '2025-09-18';
+                    dateTo.value = '2025-09-24';
+                    break;
+                case 'month':
+                    dateFrom.value = '2025-09-01';
+                    dateTo.value = '2025-09-24';
+                    break;
+                case 'quarter':
+                    dateFrom.value = '2025-07-01';
+                    dateTo.value = '2025-09-24';
+                    break;
+                case 'year':
+                    dateFrom.value = '2025-01-01';
+                    dateTo.value = '2025-09-24';
+                    break;
+                default:
+                    dateFrom.value = '';
+                    dateTo.value = '';
+            }
             applyFilters();
         }
 
@@ -349,7 +436,11 @@
 
             const filters = {
                 timePeriod: document.getElementById('time-period').value,
+                dateFrom: document.getElementById('date-from').value,
+                dateTo: document.getElementById('date-to').value,
                 country: document.getElementById('filter-country').value,
+                city: document.getElementById('filter-city').value,
+                age: document.getElementById('filter-age').value,
                 segment: document.getElementById('filter-segment').value,
                 product: document.getElementById('filter-product').value
             };
@@ -360,17 +451,55 @@
         }
 
         function filterData(data, filters) {
+            // Filter clients based on registration date and other criteria
             let filteredClients = data.clients.filter(client => {
                 if (filters.country !== 'all' && client.country !== filters.country) return false;
+                if (filters.city !== 'all' && client.city.includes(filters.city)) return false;
                 if (filters.segment !== 'all' && client.segment !== filters.segment) return false;
+                
+                if (filters.age !== 'all') {
+                    const age = client.age;
+                    switch(filters.age) {
+                        case '18-25': if (age < 18 || age > 25) return false; break;
+                        case '26-35': if (age < 26 || age > 35) return false; break;
+                        case '36-45': if (age < 36 || age > 45) return false; break;
+                        case '46-55': if (age < 46 || age > 55) return false; break;
+                        case '56+': if (age < 56) return false; break;
+                    }
+                }
+                
+                if (filters.dateFrom && client.registrationDate) {
+                    if (parseISO(client.registrationDate) < parseISO(filters.dateFrom)) return false;
+                }
+                if (filters.dateTo && client.registrationDate) {
+                    if (parseISO(client.registrationDate) > parseISO(filters.dateTo)) return false;
+                }
+                
                 return true;
             });
 
+            // Filter products and their items based on claim dates
             let filteredProducts = data.products.map(product => {
                 if (filters.product !== 'all' && product.productName !== filters.product) {
                     return null;
                 }
-                return product;
+                
+                // Filter items within products based on claim dates
+                let filteredItems = product.items.filter(item => {
+                    // If item is not claimed, include it
+                    if (item.status !== 'Claimed' || !item.claimedDate) return true;
+                    
+                    // Apply date filters to claimed items
+                    if (filters.dateFrom && parseISO(item.claimedDate) < parseISO(filters.dateFrom)) return false;
+                    if (filters.dateTo && parseISO(item.claimedDate) > parseISO(filters.dateTo)) return false;
+                    
+                    return true;
+                });
+                
+                return {
+                    ...product,
+                    items: filteredItems
+                };
             }).filter(product => product !== null);
 
             return { clients: filteredClients, products: filteredProducts };
@@ -382,19 +511,29 @@
             
             if (filters.timePeriod !== 'all') activeFilters.push(`Período: ${filters.timePeriod}`);
             if (filters.country !== 'all') activeFilters.push(`País: ${filters.country}`);
+            if (filters.city !== 'all') activeFilters.push(`Ciudad: ${filters.city}`);
+            if (filters.age !== 'all') activeFilters.push(`Edad: ${filters.age}`);
             if (filters.segment !== 'all') activeFilters.push(`Segmento: ${filters.segment}`);
             if (filters.product !== 'all') activeFilters.push(`Producto: ${filters.product}`);
             
             summary.textContent = activeFilters.length === 0 ? 
                 'Mostrando todos los datos' : 
-                `Filtros: ${activeFilters.join(', ')}`;
+                `Filtros activos: ${activeFilters.join(', ')}`;
         }
 
         function clearAllFilters() {
             document.getElementById('time-period').value = 'all';
+            document.getElementById('date-from').value = '';
+            document.getElementById('date-to').value = '';
             document.getElementById('filter-country').value = 'all';
+            document.getElementById('filter-city').value = 'all';
+            document.getElementById('filter-age').value = 'all';
             document.getElementById('filter-segment').value = 'all';
             document.getElementById('filter-product').value = 'all';
+            
+            document.getElementById('date-from').disabled = true;
+            document.getElementById('date-to').disabled = true;
+            
             applyFilters();
         }
 
