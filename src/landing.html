@@ -5,119 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autentikapp - Plataforma de Autenticación de Productos</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hero-height {
+            height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile */
+        }
+        .video-overlay {
+            background: rgba(0, 0, 0, 0.6);
+        }
+    </style>
 </head>
 <body class="bg-black text-white">
-    <!-- Header -->
-    <header class="bg-gray-900 shadow-lg">
+    <!-- Transparent Header -->
+    <header class="absolute top-0 left-0 right-0 z-50 bg-transparent">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center">
-                <img src="../identidad/autentikapp.webp" alt="Autentikapp" class="h-10 mr-3">
-                <h1 class="text-2xl font-bold text-blue-400">Autentikapp</h1>
+                <img src="/identidad/autentikapp.webp" alt="Autentikapp" class="h-10 mr-3">
+                <h1 class="text-2xl font-bold text-white">Autentikapp</h1>
             </div>
             <nav class="hidden md:flex space-x-6">
-                <a href="#features" class="hover:text-blue-400 transition">Características</a>
-                <a href="#about" class="hover:text-blue-400 transition">Acerca de</a>
-                <a href="#contact" class="hover:text-blue-400 transition">Contacto</a>
+                <a href="#features" class="hover:text-blue-400 transition text-white">Características</a>
+                <a href="#about" class="hover:text-blue-400 transition text-white">Acerca de</a>
+                <a href="#contact" class="hover:text-blue-400 transition text-white">Contacto</a>
             </nav>
-            <button onclick="window.location.href='login.html'" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-medium transition">
+            <button onclick="window.location.href='/login'" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-medium transition">
                 Iniciar Sesión
             </button>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="py-20 px-6">
-        <div class="container mx-auto text-center">
-            <h2 class="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
-                Autenticidad Garantizada
+    <!-- Hero Section with Video Background -->
+    <section class="hero-height relative flex items-center justify-center overflow-hidden">
+        <!-- Video Background -->
+        <video 
+            autoplay 
+            muted 
+            loop 
+            playsinline
+            class="absolute inset-0 w-full h-full object-cover z-0"
+        >
+            <source src="https://www.pexels.com/es-es/download/video/5095294/" type="video/mp4">
+            <!-- Fallback background -->
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-black to-green-900"></div>
+        </video>
+        
+        <!-- Video Overlay -->
+        <div class="absolute inset-0 video-overlay z-10"></div>
+        
+        <!-- Hero Content -->
+        <div class="relative z-20 text-center px-6 max-w-5xl mx-auto">
+            <h2 class="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent leading-tight">
+                Autenticidad<br>Garantizada
             </h2>
-            <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            <p class="text-xl md:text-2xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed">
                 Protege tu marca y conecta con tus clientes a través de nuestra plataforma líder en autenticación de productos mediante códigos QR únicos.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button onclick="window.location.href='login.html'" class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-medium text-lg transition">
-                    Acceder al Panel
+            
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+                <button onclick="window.location.href='/login'" class="bg-blue-600 hover:bg-blue-700 px-10 py-4 rounded-lg font-semibold text-lg transition transform hover:scale-105 shadow-lg">
+                    Ingresar al Panel
                 </button>
-                <button class="border border-gray-600 hover:border-gray-400 px-8 py-3 rounded-lg font-medium text-lg transition">
-                    Ver Demo
+                <button onclick="requestDemo()" class="border-2 border-white hover:bg-white hover:text-black px-10 py-4 rounded-lg font-semibold text-lg transition transform hover:scale-105">
+                    Solicitar Demo
+                </button>
+            </div>
+            
+            <!-- Scroll Down Arrow -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+                <button onclick="scrollToFeatures()" class="text-white hover:text-blue-400 transition">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
                 </button>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-16 px-6 bg-gray-900">
+    <section id="features" class="py-20 px-6 bg-gray-900">
         <div class="container mx-auto">
-            <h3 class="text-3xl font-bold text-center mb-12">Características Principales</h3>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-center p-6">
-                    <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h3 class="text-4xl font-bold text-center mb-16">Características Principales</h3>
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="text-center p-8 bg-gray-800 rounded-xl hover:bg-gray-700 transition">
+                    <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <h4 class="text-xl font-semibold mb-3">Verificación Instantánea</h4>
-                    <p class="text-gray-400">Códigos QR únicos que permiten verificación inmediata de autenticidad</p>
+                    <h4 class="text-2xl font-semibold mb-4">Verificación Instantánea</h4>
+                    <p class="text-gray-400 text-lg">Códigos QR únicos que permiten verificación inmediata de autenticidad</p>
                 </div>
-                <div class="text-center p-6">
-                    <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="text-center p-8 bg-gray-800 rounded-xl hover:bg-gray-700 transition">
+                    <div class="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
-                    <h4 class="text-xl font-semibold mb-3">Dashboard Avanzado</h4>
-                    <p class="text-gray-400">Panel de control completo con analytics y gestión de productos</p>
+                    <h4 class="text-2xl font-semibold mb-4">Dashboard Avanzado</h4>
+                    <p class="text-gray-400 text-lg">Panel de control completo con analytics y gestión de productos</p>
                 </div>
-                <div class="text-center p-6">
-                    <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="text-center p-8 bg-gray-800 rounded-xl hover:bg-gray-700 transition">
+                    <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                         </svg>
                     </div>
-                    <h4 class="text-xl font-semibold mb-3">Seguridad Máxima</h4>
-                    <p class="text-gray-400">Protección avanzada contra falsificación y clonación</p>
+                    <h4 class="text-2xl font-semibold mb-4">Seguridad Máxima</h4>
+                    <p class="text-gray-400 text-lg">Protección avanzada contra falsificación y clonación</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-16 px-6">
+    <section id="about" class="py-20 px-6">
         <div class="container mx-auto max-w-4xl text-center">
-            <h3 class="text-3xl font-bold mb-8">Combatiendo la Falsificación</h3>
-            <p class="text-lg text-gray-300 mb-6">
+            <h3 class="text-4xl font-bold mb-12">Combatiendo la Falsificación</h3>
+            <p class="text-xl text-gray-300 mb-8 leading-relaxed">
                 En un mundo donde la falsificación amenaza la integridad de las marcas, Autentikapp ofrece una solución tecnológica avanzada que garantiza la autenticidad de cada producto.
             </p>
-            <p class="text-lg text-gray-300">
+            <p class="text-xl text-gray-300 leading-relaxed">
                 Nuestra plataforma permite a las empresas generar códigos QR únicos, gestionar inventarios, analizar datos de verificación y conectar directamente con sus clientes finales.
             </p>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-16 px-6 bg-gray-900">
+    <section id="contact" class="py-20 px-6 bg-gray-900">
         <div class="container mx-auto max-w-2xl text-center">
-            <h3 class="text-3xl font-bold mb-8">¿Listo para Proteger tu Marca?</h3>
-            <p class="text-lg text-gray-300 mb-8">
+            <h3 class="text-4xl font-bold mb-12">¿Listo para Proteger tu Marca?</h3>
+            <p class="text-xl text-gray-300 mb-12 leading-relaxed">
                 Únete a las empresas que ya confían en Autentikapp para proteger sus productos y conectar con sus clientes.
             </p>
-            <button onclick="window.location.href='login.html'" class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-medium text-lg transition">
+            <button onclick="window.location.href='/login'" class="bg-blue-600 hover:bg-blue-700 px-10 py-4 rounded-lg font-semibold text-xl transition transform hover:scale-105">
                 Comenzar Ahora
             </button>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-black py-8 px-6">
+    <footer class="bg-black py-12 px-6">
         <div class="container mx-auto text-center">
-            <div class="flex items-center justify-center mb-4">
-                <img src="../identidad/autentikapp.webp" alt="Autentikapp" class="h-8 mr-2">
-                <span class="text-lg font-semibold">Autentikapp</span>
+            <div class="flex items-center justify-center mb-6">
+                <img src="/identidad/autentikapp.webp" alt="Autentikapp" class="h-10 mr-3">
+                <span class="text-xl font-semibold">Autentikapp</span>
             </div>
-            <p class="text-gray-400 text-sm">
+            <p class="text-gray-400">
                 © 2025 Autentikapp. Todos los derechos reservados. | Autenticidad Garantizada, Confianza Verificada
             </p>
         </div>
     </footer>
+
+    <script>
+        function scrollToFeatures() {
+            document.getElementById('features').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        function requestDemo() {
+            // Placeholder for demo request functionality
+            alert('Demo solicitado. Nos pondremos en contacto contigo pronto.');
+        }
+    </script>
 </body>
 </html>
