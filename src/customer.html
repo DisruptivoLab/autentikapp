@@ -174,6 +174,27 @@
         </div>
     </main>
 
+    <!-- Client Detail Modal -->
+    <div id="client-detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="glass-card rounded-3xl p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-3xl font-light text-gray-900">Perfil de Cliente</h2>
+                    <p class="text-gray-500 font-light">Información detallada y productos</p>
+                </div>
+                <button id="close-detail-modal" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="client-detail-content" class="space-y-8">
+                <!-- Client detail content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
     <script src="/js/dataManager.js"></script>
     <script type="module" src="/js/loadSidebar.js"></script>
     <script>
@@ -385,6 +406,11 @@
             clearFilters.addEventListener('click', clearAllFilters);
             applyFilters.addEventListener('click', filterClients);
             toggleFilters.addEventListener('click', toggleFiltersPanel);
+            
+            // Modal event listeners
+            document.getElementById('close-detail-modal').addEventListener('click', () => {
+                document.getElementById('client-detail-modal').classList.add('hidden');
+            });
         }
 
         function filterClients() {
@@ -496,8 +522,127 @@
         }
 
         function showClientDetail(clientId) {
-            // Placeholder for client detail modal
-            console.log('Show client detail for:', clientId);
+            const client = allClientsData.find(c => c.id === clientId);
+            if (!client) return;
+
+            const clientProducts = clientProductsMap[clientId] || [];
+            const registrationDate = client.registrationDate ? format(parseISO(client.registrationDate), 'dd/MM/yyyy') : 'N/A';
+            
+            const detailContent = document.getElementById('client-detail-content');
+            detailContent.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Personal Information -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="metric-card rounded-2xl p-6">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-medium text-gray-900">Información Personal</h3>
+                                <span class="px-3 py-1 text-xs rounded-full ${
+                                    clientProducts.length > 0 ? 'bg-green-50 text-green-600' : 'bg-gray-50 text-gray-500'
+                                }">
+                                    ${clientProducts.length > 0 ? 'Cliente Activo' : 'Sin Actividad'}
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div><span class="text-gray-500 font-light">Nombre:</span> <span class="ml-2 font-medium text-gray-900">${client.name}</span></div>
+                                    <div><span class="text-gray-500 font-light">ID:</span> <span class="ml-2 font-medium text-gray-900">${client.identification}</span></div>
+                                    <div><span class="text-gray-500 font-light">Email:</span> <span class="ml-2 font-medium text-gray-900">${client.email}</span></div>
+                                    <div><span class="text-gray-500 font-light">Teléfono:</span> <span class="ml-2 font-medium text-gray-900">${client.phone}</span></div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div><span class="text-gray-500 font-light">Ciudad:</span> <span class="ml-2 font-medium text-gray-900">${client.city}</span></div>
+                                    <div><span class="text-gray-500 font-light">País:</span> <span class="ml-2 font-medium text-gray-900">${client.country}</span></div>
+                                    <div><span class="text-gray-500 font-light">Edad:</span> <span class="ml-2 font-medium text-gray-900">${client.age} años</span></div>
+                                    <div><span class="text-gray-500 font-light">Registro:</span> <span class="ml-2 font-medium text-gray-900">${registrationDate}</span></div>
+                                </div>
+                            </div>
+                            <div class="mt-6 pt-6 border-t border-gray-100">
+                                <div><span class="text-gray-500 font-light">Segmento:</span> 
+                                    <span class="ml-2 px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700">${client.segment}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Products Section -->
+                        <div class="metric-card rounded-2xl p-6">
+                            <h3 class="text-xl font-medium text-gray-900 mb-6">Productos Verificados (${clientProducts.length})</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                ${clientProducts.length > 0 ? clientProducts.map(product => `
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <img src="${product.productImage}" alt="${product.productName}" 
+                                             class="w-full h-24 rounded-lg object-cover mb-3">
+                                        <div class="font-medium text-gray-900 mb-1">${product.productName}</div>
+                                        <div class="text-sm text-gray-500 font-mono mb-2">${product.id}</div>
+                                        <div class="text-xs text-gray-400">
+                                            Verificado: ${product.claimedDate ? format(parseISO(product.claimedDate), 'dd/MM/yyyy') : 'N/A'}
+                                        </div>
+                                    </div>
+                                `).join('') : '<p class="text-gray-500 text-center py-8 col-span-full font-light">Este cliente no ha verificado ningún producto aún.</p>'}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="space-y-6">
+                        <div class="metric-card rounded-2xl p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Estadísticas</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-500 font-light">Productos:</span>
+                                    <span class="font-medium text-gray-900">${clientProducts.length}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-500 font-light">Último verificado:</span>
+                                    <span class="font-medium text-gray-900">${getLastClaimDate(clientId)}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-500 font-light">Miembro desde:</span>
+                                    <span class="font-medium text-gray-900">${registrationDate}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card rounded-2xl p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Acciones</h3>
+                            <div class="space-y-3">
+                                <button onclick="sendEmail('${client.email}')" class="w-full luxury-button text-white px-4 py-3 rounded-xl text-sm">
+                                    Enviar Email
+                                </button>
+                                <button onclick="exportClientData('${client.id}')" class="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm transition-colors">
+                                    Exportar Datos
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('client-detail-modal').classList.remove('hidden');
+        }
+        
+        function getLastClaimDate(clientId) {
+            const products = clientProductsMap[clientId] || [];
+            if (products.length === 0) return 'Nunca';
+            
+            const lastClaim = products.reduce((latest, product) => {
+                const claimDate = product.claimedDate ? parseISO(product.claimedDate) : new Date(0);
+                return claimDate > latest ? claimDate : latest;
+            }, new Date(0));
+            
+            return format(lastClaim, 'dd/MM/yyyy');
+        }
+        
+        function sendEmail(email) {
+            window.open(`mailto:${email}`, '_blank');
+        }
+        
+        function exportClientData(clientId) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-5 right-5 bg-black text-white py-3 px-6 rounded-xl shadow-lg z-50';
+            toast.textContent = 'Datos del cliente exportados';
+            document.body.appendChild(toast);
+            
+            setTimeout(() => document.body.removeChild(toast), 3000);
         }
 
         // Make functions global for onclick handlers
