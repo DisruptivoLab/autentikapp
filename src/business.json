@@ -1,0 +1,837 @@
+{
+  "business": {
+    "basic": {
+      "name": "W Merch",
+      "legalName": "W Merch S.A.S.",
+      "logo": "../w-merch/logo.webp",
+      "favicon": "https://via.placeholder.com/32x32/00a1ff/ffffff?text=W",
+      "description": "Plataforma líder en autenticación de productos mediante códigos QR únicos, combatiendo la falsificación y conectando marcas con consumidores.",
+      "slogan": "Autenticidad Garantizada, Confianza Verificada",
+      "foundedDate": "2023-03-15",
+      "industry": "Tecnología - Autenticación de Productos",
+      "companyType": "S.A.S."
+    },
+    "contact": {
+      "address": {
+        "street": "Carrera 11 #93-07",
+        "neighborhood": "Chapinero",
+        "city": "Bogotá",
+        "state": "Cundinamarca",
+        "country": "Colombia",
+        "postalCode": "110221"
+      },
+      "phone": {
+        "main": "+57 1 234-5678",
+        "mobile": "+57 300 123-4567",
+        "whatsapp": "+57 300 123-4567"
+      },
+      "email": {
+        "general": "info@wmerch.co",
+        "support": "soporte@wmerch.co",
+        "sales": "ventas@wmerch.co",
+        "admin": "admin@wmerch.co"
+      },
+      "website": "https://wmerchshop.com/"
+    },
+    "socialMedia": {
+      "instagram": {
+        "url": "https://www.instagram.com/wmerch__/",
+        "username": "@wmerch__",
+        "followers": 15420,
+        "active": true
+      },
+      "facebook": {
+        "url": "https://facebook.com/wmercoficial",
+        "username": "wmercoficial",
+        "followers": 8930,
+        "active": true
+      },
+      "twitter": {
+        "url": "https://twitter.com/wmerch_co",
+        "username": "@wmerch_co",
+        "followers": 3250,
+        "active": true
+      },
+      "linkedin": {
+        "url": "https://linkedin.com/company/wmerch",
+        "username": "wmerch",
+        "followers": 1840,
+        "active": true
+      },
+      "tiktok": {
+        "url": "https://tiktok.com/@wmerch_oficial",
+        "username": "@wmerch_oficial",
+        "followers": 22100,
+        "active": true
+      },
+      "youtube": {
+        "url": "https://youtube.com/c/wmercoficial",
+        "username": "wmercoficial",
+        "subscribers": 5670,
+        "active": false
+      }
+    },
+    "legal": {
+      "taxId": "901.234.567-8",
+      "registrationNumber": "S0012345",
+      "chamber": "Cámara de Comercio de Bogotá",
+      "licenses": [
+        {
+          "name": "Licencia de Software",
+          "number": "LS-2023-001",
+          "expiryDate": "2025-03-15"
+        },
+        {
+          "name": "Certificación ISO 27001",
+          "number": "ISO-27001-2024",
+          "expiryDate": "2027-01-20"
+        }
+      ]
+    },
+    "branding": {
+      "primaryColor": "#00a1ff",
+      "secondaryColor": "#1f2937",
+      "accentColor": "#34d399",
+      "backgroundColor": "#000000",
+      "textColor": "#ffffff",
+      "fonts": {
+        "primary": "Inter",
+        "secondary": "Roboto"
+      },
+      "logoVariants": {
+        "horizontal": "../w-merch/logo.webp",
+        "vertical": "../w-merch/logo.webp",
+        "icon": "../w-merch/logo.webp"
+      }
+    },
+    "settings": {
+      "currency": "COP",
+      "language": "es",
+      "timezone": "America/Bogota",
+      "dateFormat": "DD/MM/YYYY",
+      "numberFormat": "1.234.567,89",
+      "businessHours": {
+        "monday": { "open": "08:00", "close": "18:00", "active": true },
+        "tuesday": { "open": "08:00", "close": "18:00", "active": true },
+        "wednesday": { "open": "08:00", "close": "18:00", "active": true },
+        "thursday": { "open": "08:00", "close": "18:00", "active": true },
+        "friday": { "open": "08:00", "close": "18:00", "active": true },
+        "saturday": { "open": "09:00", "close": "14:00", "active": true },
+        "sunday": { "open": "00:00", "close": "00:00", "active": false }
+      }
+    },
+    "policies": {
+      "termsOfService": {
+        "url": "https://wmerchshop.com/pages/terminos-de-venta",
+        "lastUpdated": "2024-01-15",
+        "version": "2.1"
+      },
+      "privacyPolicy": {
+        "url": "https://wmerchshop.com/pages/contact",
+        "lastUpdated": "2024-01-15",
+        "version": "2.1"
+      },
+      "returnPolicy": {
+        "url": "https://wmerchshop.com/pages/terminos-de-venta",
+        "lastUpdated": "2024-01-10",
+        "version": "1.3"
+      },
+      "cookiePolicy": {
+        "url": "https://wmerchshop.com/pages/contact",
+        "lastUpdated": "2024-01-15",
+        "version": "1.2"
+      }
+    },
+    "team": {
+      "totalEmployees": 12,
+      "departments": [
+        { "name": "Desarrollo", "employees": 5 },
+        { "name": "Marketing", "employees": 3 },
+        { "name": "Ventas", "employees": 2 },
+        { "name": "Administración", "employees": 2 }
+      ]
+    },
+    "metrics": {
+      "clientsTotal": 40,
+      "productsManaged": 3,
+      "qrCodesGenerated": 50,
+      "authenticationsPerformed": 35,
+      "uptime": "99.9%",
+      "responseTime": "< 200ms"
+    },
+    "warranty": {
+      "general": {
+        "defaultPeriod": "24 meses",
+        "coverage": "Defectos de fabricación y materiales",
+        "exclusions": ["Daños por mal uso", "Desgaste normal", "Daños accidentales", "Modificaciones no autorizadas"],
+        "claimProcess": "Contactar servicio al cliente con código QR y evidencia fotográfica",
+        "responseTime": "48 horas hábiles",
+        "repairTime": "5-10 días hábiles"
+      },
+      "contact": {
+        "department": "Departamento de Garantías W Merch",
+        "email": "garantias@wmerch.co",
+        "phone": "+57 1 234-5678 ext. 301",
+        "whatsapp": "+57 300 987-6543",
+        "hours": "Lunes a Viernes 8:00 AM - 6:00 PM",
+        "emergencyContact": "+57 300 987-6543 (24/7 para casos urgentes)"
+      },
+      "address": {
+        "name": "Centro de Servicio W Merch",
+        "street": "Carrera 11 #93-07, Oficina 502",
+        "neighborhood": "Chapinero",
+        "city": "Bogotá",
+        "state": "Cundinamarca",
+        "country": "Colombia",
+        "postalCode": "110221",
+        "instructions": "Torre empresarial, piso 5. Horario de atención: Lun-Vie 9:00-17:00"
+      },
+      "onlinePortal": {
+        "website": "https://garantias.wmerch.co",
+        "loginRequired": true,
+        "features": ["Registro de reclamaciones", "Seguimiento en tiempo real", "Historial de garantías", "Descarga de certificados"],
+        "mobileApp": "W Merch Garantías (iOS/Android)"
+      },
+      "documentation": {
+        "required": ["Código QR del producto", "Comprobante de compra", "Fotografías del defecto", "Descripción detallada del problema"],
+        "optional": ["Video del defecto", "Testimonio del cliente", "Condiciones de uso"],
+        "formats": ["PDF", "JPG", "PNG", "MP4 (máx 50MB)"],
+        "retention": "Documentos conservados por 7 años"
+      },
+      "process": {
+        "steps": [
+          {
+            "step": 1,
+            "title": "Reporte inicial",
+            "description": "Cliente reporta el problema vía web, teléfono o WhatsApp",
+            "timeframe": "Inmediato"
+          },
+          {
+            "step": 2,
+            "title": "Evaluación técnica",
+            "description": "Equipo técnico evalúa la reclamación y documentación",
+            "timeframe": "24-48 horas"
+          },
+          {
+            "step": 3,
+            "title": "Decisión de garantía",
+            "description": "Aprobación o rechazo con justificación detallada",
+            "timeframe": "48-72 horas"
+          },
+          {
+            "step": 4,
+            "title": "Solución",
+            "description": "Reparación, reemplazo o reembolso según corresponda",
+            "timeframe": "5-10 días hábiles"
+          }
+        ],
+        "tracking": "Código de seguimiento único para cada caso",
+        "notifications": "SMS y email en cada etapa del proceso"
+      },
+      "solutions": {
+        "repair": {
+          "description": "Reparación gratuita en talleres autorizados",
+          "coverage": "100% de costos de reparación y envío",
+          "warranty": "6 meses adicionales en la reparación"
+        },
+        "replacement": {
+          "description": "Reemplazo por producto nuevo idéntico",
+          "conditions": "Cuando la reparación no es viable",
+          "warranty": "Garantía completa renovada"
+        },
+        "refund": {
+          "description": "Reembolso del 100% del valor pagado",
+          "conditions": "Falla recurrente o imposibilidad de reemplazo",
+          "timeframe": "15 días hábiles"
+        },
+        "upgrade": {
+          "description": "Actualización a modelo superior",
+          "conditions": "Producto descontinuado",
+          "cost": "Cliente paga diferencia si aplica"
+        }
+      },
+      "extendedWarranty": {
+        "available": true,
+        "periods": ["12 meses", "24 meses", "36 meses"],
+        "cost": "10-25% del valor del producto",
+        "benefits": ["Cobertura ampliada", "Servicio prioritario", "Reemplazo inmediato", "Cobertura de accidentes"],
+        "purchase": "Disponible hasta 30 días después de la compra original"
+      },
+      "internationalCoverage": {
+        "countries": ["Colombia", "España", "México", "Perú", "Chile"],
+        "limitations": "Costos de envío internacional a cargo del cliente",
+        "partners": "Red de talleres autorizados en cada país",
+        "contact": "garantias.internacional@wmerch.co"
+      },
+      "qualityAssurance": {
+        "certifications": ["ISO 9001:2015", "ISO 14001:2015"],
+        "testing": "Pruebas de calidad en 100% de productos antes del envío",
+        "feedback": "Sistema de retroalimentación continua para mejora de productos",
+        "satisfaction": "Garantía de satisfacción 30 días o devolución del dinero"
+      }
+    }
+  },
+  "clients": [
+    {"id": "C001", "name": "Juan García", "identification": "1017238456", "email": "juan.garcia@email.com", "phone": "3102345678", "city": "Bogotá", "country": "Colombia", "age": 35, "segment": "Coleccionista", "registrationDate": "2025-01-15"},
+    {"id": "C002", "name": "Sofía Rodríguez", "identification": "1017238457", "email": "sofia.rodriguez@email.com", "phone": "3112345678", "city": "Madrid", "country": "España", "age": 28, "segment": "Amante de la moda", "registrationDate": "2025-01-14"},
+    {"id": "C003", "name": "Mateo Martínez", "identification": "1017238458", "email": "mateo.martinez@email.com", "phone": "3122345678", "city": "Medellín", "country": "Colombia", "age": 42, "segment": "Comprador Ocasional", "registrationDate": "2025-01-13"},
+    {"id": "C004", "name": "Valentina López", "identification": "1017238459", "email": "valentina.lopez@email.com", "phone": "3132345678", "city": "Barcelona", "country": "España", "age": 24, "segment": "Cazador de Tendencias", "registrationDate": "2025-01-16"},
+    {"id": "C005", "name": "Santiago González", "identification": "1017238460", "email": "santiago.gonzalez@email.com", "phone": "3142345678", "city": "Cali", "country": "Colombia", "age": 50, "segment": "Coleccionista", "registrationDate": "2025-01-11"},
+    {"id": "C006", "name": "Isabella Pérez", "identification": "1017238461", "email": "isabella.perez@email.com", "phone": "3152345678", "city": "Sevilla", "country": "España", "age": 31, "segment": "Amante de la moda", "registrationDate": "2025-01-09"},
+    {"id": "C007", "name": "Sebastián Sánchez", "identification": "1017238462", "email": "sebastian.sanchez@email.com", "phone": "3162345678", "city": "Barranquilla", "country": "Colombia", "age": 29, "segment": "Comprador Ocasional", "registrationDate": "2025-01-17"},
+    {"id": "C008", "name": "Camila Ramírez", "identification": "1017238463", "email": "camila.ramirez@email.com", "phone": "3172345678", "city": "Valencia", "country": "España", "age": 38, "segment": "Cazador de Tendencias", "registrationDate": "2025-01-18"},
+    {"id": "C009", "name": "Matías Gómez", "identification": "1017238464", "email": "matias.gomez@email.com", "phone": "3182345678", "city": "Cartagena", "country": "Colombia", "age": 22, "segment": "Coleccionista"},
+    {"id": "C010", "name": "Mariana Torres", "identification": "1017238465", "email": "mariana.torres@email.com", "phone": "3192345678", "city": "Bogotá", "country": "Colombia", "age": 45, "segment": "Amante de la moda"},
+    {"id": "C011", "name": "Nicolás Díaz", "identification": "1017238466", "email": "nicolas.diaz@email.com", "phone": "3202345678", "city": "Madrid", "country": "España", "age": 33, "segment": "Comprador Ocasional"},
+    {"id": "C012", "name": "Gabriela Vargas", "identification": "1017238467", "email": "gabriela.vargas@email.com", "phone": "3212345678", "city": "Medellín", "country": "Colombia", "age": 27, "segment": "Cazador de Tendencias"},
+    {"id": "C013", "name": "Alejandro Moreno", "identification": "1017238468", "email": "alejandro.moreno@email.com", "phone": "3222345678", "city": "Barcelona", "country": "España", "age": 55, "segment": "Coleccionista"},
+    {"id": "C014", "name": "Luciana Rojas", "identification": "1017238469", "email": "luciana.rojas@email.com", "phone": "3232345678", "city": "Cali", "country": "Colombia", "age": 30, "segment": "Amante de la moda"},
+    {"id": "C015", "name": "Daniel Jiménez", "identification": "1017238470", "email": "daniel.jimenez@email.com", "phone": "3003456789", "city": "Sevilla", "country": "España", "age": 40, "segment": "Comprador Ocasional"},
+    {"id": "C016", "name": "Valeria Castro", "identification": "1017238471", "email": "valeria.castro@email.com", "phone": "3013456789", "city": "Barranquilla", "country": "Colombia", "age": 26, "segment": "Cazador de Tendencias"},
+    {"id": "C017", "name": "Benjamín Ortiz", "identification": "1017238472", "email": "benjamin.ortiz@email.com", "phone": "3023456789", "city": "Valencia", "country": "España", "age": 48, "segment": "Coleccionista"},
+    {"id": "C018", "name": "Martina Silva", "identification": "1017238473", "email": "martina.silva@email.com", "phone": "3033456789", "city": "Cartagena", "country": "Colombia", "age": 34, "segment": "Amante de la moda"},
+    {"id": "C019", "name": "Samuel Núñez", "identification": "1017238474", "email": "samuel.nunez@email.com", "phone": "3043456789", "city": "Bogotá", "country": "Colombia", "age": 20, "segment": "Comprador Ocasional"},
+    {"id": "C020", "name": "Antonella Molina", "identification": "1017238475", "email": "antonella.molina@email.com", "phone": "3053456789", "city": "Madrid", "country": "España", "age": 52, "segment": "Cazador de Tendencias"},
+    {"id": "C021", "name": "Joaquín Morales", "identification": "1017238476", "email": "joaquin.morales@email.com", "phone": "3104567890", "city": "Medellín", "country": "Colombia", "age": 37, "segment": "Coleccionista"},
+    {"id": "C022", "name": "Emilia Ortega", "identification": "1017238477", "email": "emilia.ortega@email.com", "phone": "3114567890", "city": "Barcelona", "country": "España", "age": 25, "segment": "Amante de la moda"},
+    {"id": "C023", "name": "Lucas Delgado", "identification": "1017238478", "email": "lucas.delgado@email.com", "phone": "3124567890", "city": "Cali", "country": "Colombia", "age": 41, "segment": "Comprador Ocasional"},
+    {"id": "C024", "name": "Renata Ríos", "identification": "1017238479", "email": "renata.rios@email.com", "phone": "3134567890", "city": "Sevilla", "country": "España", "age": 32, "segment": "Cazador de Tendencias"},
+    {"id": "C025", "name": "Felipe Medina", "identification": "1017238480", "email": "felipe.medina@email.com", "phone": "3144567890", "city": "Barranquilla", "country": "Colombia", "age": 58, "segment": "Coleccionista"},
+    {"id": "C026", "name": "Regina Soto", "identification": "1017238481", "email": "regina.soto@email.com", "phone": "3154567890", "city": "Valencia", "country": "España", "age": 23, "segment": "Amante de la moda"},
+    {"id": "C027", "name": "Tomás Herrera", "identification": "1017238482", "email": "tomas.herrera@email.com", "phone": "3164567890", "city": "Cartagena", "country": "Colombia", "age": 47, "segment": "Comprador Ocasional"},
+    {"id": "C028", "name": "Catalina Guerrero", "identification": "1017238483", "email": "catalina.guerrero@email.com", "phone": "3174567890", "city": "Bogotá", "country": "Colombia", "age": 36, "segment": "Cazador de Tendencias"},
+    {"id": "C029", "name": "Maximiliano Peña", "identification": "1017238484", "email": "maximiliano.pena@email.com", "phone": "3184567890", "city": "Madrid", "country": "España", "age": 19, "segment": "Coleccionista"},
+    {"id": "C030", "name": "Amanda Campos", "identification": "1017238485", "email": "amanda.campos@email.com", "phone": "3194567890", "city": "Medellín", "country": "Colombia", "age": 51, "segment": "Amante de la moda"},
+    {"id": "C031", "name": "Ignacio Vega", "identification": "1017238486", "email": "ignacio.vega@email.com", "phone": "3204567890", "city": "Barcelona", "country": "España", "age": 28, "segment": "Comprador Ocasional"},
+    {"id": "C032", "name": "Olivia Santos", "identification": "1017238487", "email": "olivia.santos@email.com", "phone": "3214567890", "city": "Cali", "country": "Colombia", "age": 43, "segment": "Cazador de Tendencias"},
+    {"id": "C033", "name": "Bruno Reyes", "identification": "1017238488", "email": "bruno.reyes@email.com", "phone": "3224567890", "city": "Sevilla", "country": "España", "age": 30, "segment": "Coleccionista"},
+    {"id": "C034", "name": "Abril Castillo", "identification": "1017238489", "email": "abril.castillo@email.com", "phone": "3234567890", "city": "Barranquilla", "country": "Colombia", "age": 56, "segment": "Amante de la moda"},
+    {"id": "C035", "name": "Thiago Flores", "identification": "1017238490", "email": "thiago.flores@email.com", "phone": "3005678901", "city": "Valencia", "country": "España", "age": 21, "segment": "Comprador Ocasional"},
+    {"id": "C036", "name": "Julieta Cabrera", "identification": "1017238491", "email": "julieta.cabrera@email.com", "phone": "3015678901", "city": "Cartagena", "country": "Colombia", "age": 49, "segment": "Cazador de Tendencias"},
+    {"id": "C037", "name": "Dante Ramos", "identification": "1017238492", "email": "dante.ramos@email.com", "phone": "3025678901", "city": "Bogotá", "country": "Colombia", "age": 39, "segment": "Coleccionista"},
+    {"id": "C038", "name": "Zoe Mendoza", "identification": "1017238493", "email": "zoe.mendoza@email.com", "phone": "3035678901", "city": "Madrid", "country": "España", "age": 26, "segment": "Amante de la moda"},
+    {"id": "C039", "name": "Gael Aguilar", "identification": "1017238494", "email": "gael.aguilar@email.com", "phone": "3045678901", "city": "Medellín", "country": "Colombia", "age": 53, "segment": "Comprador Ocasional"},
+    {"id": "C040", "name": "Mía Paredes", "identification": "1017238495", "email": "mia.paredes@email.com", "phone": "3055678901", "city": "Barcelona", "country": "España", "age": 34, "segment": "Cazador de Tendencias"}
+  ],
+  "authorizedShops": [
+    {
+      "id": "SHOP001",
+      "name": "Taller Cuero Experto",
+      "type": "Reparación de Cuero",
+      "status": "Activo",
+      "rating": 4.8,
+      "contact": {
+        "phone": "+57 300 123-4567",
+        "whatsapp": "+57 300 123-4567",
+        "email": "info@cueroexperto.co",
+        "website": "https://cueroexperto.co"
+      },
+      "address": {
+        "street": "Calle 93 #11-20",
+        "neighborhood": "Chapinero",
+        "city": "Bogotá",
+        "state": "Cundinamarca",
+        "country": "Colombia",
+        "postalCode": "110221"
+      },
+      "businessHours": {
+        "monday": { "open": "08:00", "close": "18:00", "active": true },
+        "tuesday": { "open": "08:00", "close": "18:00", "active": true },
+        "wednesday": { "open": "08:00", "close": "18:00", "active": true },
+        "thursday": { "open": "08:00", "close": "18:00", "active": true },
+        "friday": { "open": "08:00", "close": "18:00", "active": true },
+        "saturday": { "open": "09:00", "close": "14:00", "active": true },
+        "sunday": { "open": "00:00", "close": "00:00", "active": false }
+      },
+      "services": [
+        {
+          "name": "Reparación de costuras",
+          "description": "Reparación profesional de costuras dañadas en productos de cuero",
+          "price": "$25.000 - $45.000",
+          "duration": "2-3 días"
+        },
+        {
+          "name": "Cambio de herrajes",
+          "description": "Reemplazo de cremalleras, hebillas y otros herrajes metálicos",
+          "price": "$15.000 - $35.000",
+          "duration": "1-2 días"
+        },
+        {
+          "name": "Restauración de cuero",
+          "description": "Tratamiento completo para restaurar el color y textura del cuero",
+          "price": "$40.000 - $80.000",
+          "duration": "3-5 días"
+        }
+      ],
+      "specialties": ["Cuero", "Bolsos", "Carteras", "Cinturones"],
+      "certifications": ["Certificado en Reparación de Cuero", "Taller Autorizado W Merch"],
+      "experience": "15 años",
+      "owner": {
+        "name": "Carlos Mendoza",
+        "phone": "+57 300 123-4567",
+        "email": "carlos@cueroexperto.co"
+      },
+      "registrationDate": "2023-05-15",
+      "lastInspection": "2024-11-15",
+      "nextInspection": "2025-05-15"
+    },
+    {
+      "id": "SHOP002",
+      "name": "Leather Care Medellín",
+      "type": "Mantenimiento de Cuero",
+      "status": "Activo",
+      "rating": 4.6,
+      "contact": {
+        "phone": "+57 4 567-8901",
+        "whatsapp": "+57 300 567-8901",
+        "email": "contacto@leathercare.co",
+        "website": "https://leathercare.co"
+      },
+      "address": {
+        "street": "Carrera 70 #45-30",
+        "neighborhood": "El Poblado",
+        "city": "Medellín",
+        "state": "Antioquia",
+        "country": "Colombia",
+        "postalCode": "050021"
+      },
+      "businessHours": {
+        "monday": { "open": "09:00", "close": "19:00", "active": true },
+        "tuesday": { "open": "09:00", "close": "19:00", "active": true },
+        "wednesday": { "open": "09:00", "close": "19:00", "active": true },
+        "thursday": { "open": "09:00", "close": "19:00", "active": true },
+        "friday": { "open": "09:00", "close": "19:00", "active": true },
+        "saturday": { "open": "09:00", "close": "17:00", "active": true },
+        "sunday": { "open": "00:00", "close": "00:00", "active": false }
+      },
+      "services": [
+        {
+          "name": "Mantenimiento preventivo",
+          "description": "Cuidado regular para prolongar la vida útil del cuero",
+          "price": "$18.000 - $25.000",
+          "duration": "1 día"
+        },
+        {
+          "name": "Reparaciones menores",
+          "description": "Arreglos pequeños y ajustes básicos",
+          "price": "$12.000 - $20.000",
+          "duration": "1-2 días"
+        }
+      ],
+      "specialties": ["Cuero", "Mantenimiento", "Asesoría"],
+      "certifications": ["Especialista en Cuero", "Partner Autorizado W Merch"],
+      "experience": "8 años",
+      "owner": {
+        "name": "Ana Sofía Restrepo",
+        "phone": "+57 300 567-8901",
+        "email": "ana@leathercare.co"
+      },
+      "registrationDate": "2023-08-20",
+      "lastInspection": "2024-10-20",
+      "nextInspection": "2025-04-20"
+    },
+    {
+      "id": "SHOP003",
+      "name": "Textiles y Bordados Medellín",
+      "type": "Reparación Textil",
+      "status": "Activo",
+      "rating": 4.7,
+      "contact": {
+        "phone": "+57 4 444-5555",
+        "whatsapp": "+57 300 444-5555",
+        "email": "info@textilesbordados.co"
+      },
+      "address": {
+        "street": "Carrera 50 #30-15",
+        "neighborhood": "Centro",
+        "city": "Medellín",
+        "state": "Antioquia",
+        "country": "Colombia",
+        "postalCode": "050010"
+      },
+      "businessHours": {
+        "monday": { "open": "08:00", "close": "17:00", "active": true },
+        "tuesday": { "open": "08:00", "close": "17:00", "active": true },
+        "wednesday": { "open": "08:00", "close": "17:00", "active": true },
+        "thursday": { "open": "08:00", "close": "17:00", "active": true },
+        "friday": { "open": "08:00", "close": "17:00", "active": true },
+        "saturday": { "open": "09:00", "close": "13:00", "active": true },
+        "sunday": { "open": "00:00", "close": "00:00", "active": false }
+      },
+      "services": [
+        {
+          "name": "Reparación de costuras",
+          "description": "Reparación de costuras en gorras y productos textiles",
+          "price": "$8.000 - $15.000",
+          "duration": "1-2 días"
+        },
+        {
+          "name": "Bordados personalizados",
+          "description": "Bordados y personalizaciones en textiles",
+          "price": "$15.000 - $35.000",
+          "duration": "2-3 días"
+        }
+      ],
+      "specialties": ["Textiles", "Gorras", "Bordados", "Algodón"],
+      "certifications": ["Taller Textil Certificado", "Aliado W Merch"],
+      "experience": "12 años",
+      "owner": {
+        "name": "Miguel Ángel Vargas",
+        "phone": "+57 300 444-5555",
+        "email": "miguel@textilesbordados.co"
+      },
+      "registrationDate": "2023-06-10",
+      "lastInspection": "2024-12-01",
+      "nextInspection": "2025-06-01"
+    },
+    {
+      "id": "SHOP004",
+      "name": "Taller Textil Cali",
+      "type": "Reparación de Lona",
+      "status": "Activo",
+      "rating": 4.9,
+      "contact": {
+        "phone": "+57 2 333-4444",
+        "whatsapp": "+57 300 333-4444",
+        "email": "servicios@tallertextilcali.co",
+        "website": "https://tallertextilcali.co"
+      },
+      "address": {
+        "street": "Avenida 6N #23-45",
+        "neighborhood": "San Fernando",
+        "city": "Cali",
+        "state": "Valle del Cauca",
+        "country": "Colombia",
+        "postalCode": "760001"
+      },
+      "businessHours": {
+        "monday": { "open": "07:30", "close": "18:00", "active": true },
+        "tuesday": { "open": "07:30", "close": "18:00", "active": true },
+        "wednesday": { "open": "07:30", "close": "18:00", "active": true },
+        "thursday": { "open": "07:30", "close": "18:00", "active": true },
+        "friday": { "open": "07:30", "close": "18:00", "active": true },
+        "saturday": { "open": "08:00", "close": "15:00", "active": true },
+        "sunday": { "open": "00:00", "close": "00:00", "active": false }
+      },
+      "services": [
+        {
+          "name": "Refuerzo de asas",
+          "description": "Refuerzo y reparación de asas en bolsos de lona",
+          "price": "$15.000 - $25.000",
+          "duration": "1-2 días"
+        },
+        {
+          "name": "Reparación de costuras",
+          "description": "Reparación especializada en costuras de lona",
+          "price": "$10.000 - $20.000",
+          "duration": "1 día"
+        }
+      ],
+      "specialties": ["Lona", "Algodón", "Bolsos", "Tote bags"],
+      "certifications": ["Especialista en Lona", "Taller Eco-Friendly", "Partner Premium W Merch"],
+      "experience": "20 años",
+      "owner": {
+        "name": "Patricia Morales",
+        "phone": "+57 300 333-4444",
+        "email": "patricia@tallertextilcali.co"
+      },
+      "registrationDate": "2023-03-25",
+      "lastInspection": "2024-11-25",
+      "nextInspection": "2025-05-25"
+    }
+  ],
+  "products": [
+    {
+      "productName": "Bolso de Cuero Negro",
+      "productImage": "https://via.placeholder.com/300x300/1f2937/ffffff?text=Bolso+Negro",
+      "details": {"color": "Negro", "material": "Cuero", "tipo": "Bolso de hombro"},
+      "registrationDate": "2025-01-10",
+      "warrantyPolicy": "https://wmerchshop.com/pages/terminos-de-venta",
+      "manufacturer": {
+        "name": "W Merch Premium",
+        "country": "Colombia",
+        "city": "Bogotá",
+        "certifications": ["ISO 9001:2015", "Leather Working Group Gold", "OEKO-TEX Standard 100"],
+        "contact": {
+          "phone": "+57 1 234-5678",
+          "email": "fabricacion@wmerch.co",
+          "website": "https://wmerch.co/fabricante"
+        },
+        "established": "2018",
+        "employees": 45
+      },
+      "materials": {
+        "primary": "Cuero genuino italiano curtido vegetal",
+        "secondary": ["Forro algodón orgánico certificado", "Herrajes acero inoxidable 316L", "Hilo poliéster reciclado"],
+        "certifications": ["Cuero libre de cromo VI", "Materiales sostenibles FSC", "Algodón GOTS certificado"],
+        "origin": "Cuero: Toscana, Italia | Herrajes: Medellín, Colombia | Forro: Antioquia, Colombia",
+        "durability": "Resistente al agua IPX4, Anti-rayones nivel 3"
+      },
+      "care": {
+        "usage": {
+          "recommendations": [
+            "Capacidad máxima recomendada: 5kg",
+            "Evitar exposición directa al sol por más de 2 horas",
+            "Usar protector de lluvia en clima húmedo",
+            "Alternar uso para prolongar vida útil"
+          ],
+          "warnings": [
+            "No sumergir completamente en agua",
+            "Evitar contacto con químicos agresivos",
+            "No usar cerca de fuentes de calor intenso",
+            "Evitar fricción excesiva con superficies ásperas"
+          ]
+        },
+        "maintenance": {
+          "daily": "Limpiar con paño de microfibra seco después de cada uso",
+          "weekly": "Aplicar crema hidratante específica para cuero con movimientos circulares",
+          "monthly": "Inspección completa de costuras, herrajes y estado general del cuero",
+          "seasonal": "Acondicionamiento profundo con productos especializados",
+          "storage": "Guardar en bolsa de tela transpirable, lugar seco y ventilado, relleno con papel tissue"
+        },
+        "repair": {
+          "authorized": [
+            {
+              "name": "Taller Cuero Experto",
+              "phone": "+57 300 123-4567",
+              "whatsapp": "+57 300 123-4567",
+              "address": "Calle 93 #11-20, Chapinero, Bogotá",
+              "services": ["Reparación de costuras", "Cambio de herrajes", "Restauración de cuero", "Limpieza profunda"],
+              "hours": "Lun-Vie 8:00-18:00, Sáb 9:00-14:00",
+              "rating": 4.8
+            },
+            {
+              "name": "Leather Care Medellín",
+              "phone": "+57 4 567-8901",
+              "address": "Carrera 70 #45-30, El Poblado, Medellín",
+              "services": ["Mantenimiento preventivo", "Reparaciones menores", "Asesoría en cuidado"],
+              "hours": "Lun-Sáb 9:00-19:00",
+              "rating": 4.6
+            }
+          ],
+          "warranty": "24 meses para defectos de fabricación",
+          "parts": "Repuestos originales disponibles por 7 años",
+          "diy": {
+            "basic": "Kit de limpieza básica incluido con el producto",
+            "advanced": "Guía de mantenimiento avanzado disponible en wmerch.co/cuidado"
+          }
+        }
+      },
+      "sustainability": {
+        "environmental": "Cuero curtido con taninos vegetales, proceso libre de químicos tóxicos",
+        "social": "Fabricación con comercio justo, salarios dignos certificados",
+        "recycling": "Programa de reciclaje al final de vida útil - descuento 15% en próxima compra",
+        "carbon": "Huella de carbono compensada al 100%",
+        "packaging": "Empaque biodegradable y reutilizable"
+      },
+      "items": [
+        {"id": "WMB-N1-001", "status": "Claimed", "ownerId": "C001", "claimedDate": "2025-09-10", "creationDate": "2025-07-20"},
+        {"id": "WMB-N1-002", "status": "Claimed", "ownerId": "C011", "claimedDate": "2025-09-11", "creationDate": "2025-07-25"},
+        {"id": "WMB-N1-003", "status": "Claimed", "ownerId": "C021", "claimedDate": "2025-09-12", "creationDate": "2025-07-28"},
+        {"id": "WMB-N1-004", "status": "Claimed", "ownerId": "C031", "claimedDate": "2025-09-13", "creationDate": "2025-08-01"},
+        {"id": "WMB-N1-005", "status": "Claimed", "ownerId": "C002", "claimedDate": "2025-09-14", "creationDate": "2025-08-03"},
+        {"id": "WMB-N1-006", "status": "Claimed", "ownerId": "C012", "claimedDate": "2025-09-15", "creationDate": "2025-08-05"},
+        {"id": "WMB-N1-007", "status": "Claimed", "ownerId": "C022", "claimedDate": "2025-09-16", "creationDate": "2025-08-07"},
+        {"id": "WMB-N1-008", "status": "Claimed", "ownerId": "C032", "claimedDate": "2025-09-17", "creationDate": "2025-08-09"},
+        {"id": "WMB-N1-009", "status": "Claimed", "ownerId": "C003", "claimedDate": "2025-09-18", "creationDate": "2025-08-11"},
+        {"id": "WMB-N1-010", "status": "Claimed", "ownerId": "C013", "claimedDate": "2025-09-19", "creationDate": "2025-08-13"},
+        {"id": "WMB-N1-011", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-07-22"},
+        {"id": "WMB-N1-012", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-07-27"},
+        {"id": "WMB-N1-013", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-02"},
+        {"id": "WMB-N1-014", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-06"},
+        {"id": "WMB-N1-015", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-10"},
+        {"id": "WMB-N1-016", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-14"},
+        {"id": "WMB-N1-017", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-18"}
+      ]
+    },
+    {
+      "productName": "Gorra Edición Limitada",
+      "productImage": "https://via.placeholder.com/300x300/1f2937/ffffff?text=Gorra+Limitada",
+      "details": {"color": "Negro/Blanco", "material": "Algodón", "tipo": "Gorra de béisbol"},
+      "registrationDate": "2025-01-12",
+      "warrantyPolicy": "https://wmerchshop.com/pages/terminos-de-venta",
+      "manufacturer": {
+        "name": "W Merch Textiles",
+        "country": "Colombia",
+        "city": "Medellín",
+        "certifications": ["GOTS Certified", "Fair Trade Certified", "OEKO-TEX Standard 100"],
+        "contact": {
+          "phone": "+57 4 321-6789",
+          "email": "textiles@wmerch.co",
+          "website": "https://wmerch.co/textiles"
+        },
+        "established": "2020",
+        "employees": 28
+      },
+      "materials": {
+        "primary": "Algodón orgánico 100% certificado GOTS",
+        "secondary": ["Visera de poliéster reciclado", "Banda ajustable de nylon", "Bordado hilo poliéster"],
+        "certifications": ["Algodón orgánico GOTS", "Poliéster reciclado GRS", "Tintes libres de metales pesados"],
+        "origin": "Algodón: Valle del Cauca, Colombia | Visera: Material reciclado, Medellín",
+        "durability": "Resistente a UV 50+, Lavable en máquina, Anti-decoloración"
+      },
+      "care": {
+        "usage": {
+          "recommendations": [
+            "Ajustar correctamente para evitar deformación",
+            "Protección UV efectiva hasta 8 horas de exposición",
+            "Ideal para actividades deportivas y casuales",
+            "Rotar entre múltiples gorras para mayor durabilidad"
+          ],
+          "warnings": [
+            "No torcer la visera excesivamente",
+            "Evitar contacto con superficies abrasivas",
+            "No usar productos químicos fuertes",
+            "Evitar almacenamiento en lugares húmedos"
+          ]
+        },
+        "maintenance": {
+          "daily": "Sacudir suavemente para remover polvo y partículas",
+          "weekly": "Limpiar con cepillo suave y agua tibia si es necesario",
+          "monthly": "Lavado completo siguiendo instrucciones de etiqueta",
+          "seasonal": "Inspección de costuras y ajustes, reemplazo si es necesario",
+          "storage": "Mantener forma original, guardar en lugar seco y ventilado"
+        },
+        "repair": {
+          "authorized": [
+            {
+              "name": "Textiles y Bordados Medellín",
+              "phone": "+57 4 444-5555",
+              "whatsapp": "+57 300 444-5555",
+              "address": "Carrera 50 #30-15, Centro, Medellín",
+              "services": ["Reparación de costuras", "Reemplazo de banda ajustable", "Bordados personalizados"],
+              "hours": "Lun-Vie 8:00-17:00, Sáb 9:00-13:00",
+              "rating": 4.7
+            }
+          ],
+          "warranty": "12 meses para defectos de fabricación",
+          "parts": "Repuestos disponibles por 3 años",
+          "diy": {
+            "basic": "Instrucciones de lavado y cuidado incluidas",
+            "advanced": "Video tutoriales de mantenimiento en wmerch.co/cuidado-gorras"
+          }
+        }
+      },
+      "sustainability": {
+        "environmental": "Algodón orgánico sin pesticidas, proceso de teñido eco-friendly",
+        "social": "Producción local, apoyo a comunidades rurales",
+        "recycling": "Material 100% reciclable, programa de recolección",
+        "carbon": "Producción carbono neutral",
+        "packaging": "Empaque compostable"
+      },
+      "items": [
+        {"id": "WMG-L1-001", "status": "Claimed", "ownerId": "C004", "claimedDate": "2025-09-10", "creationDate": "2025-07-21"},
+        {"id": "WMG-L1-002", "status": "Claimed", "ownerId": "C014", "claimedDate": "2025-09-11", "creationDate": "2025-07-26"},
+        {"id": "WMG-L1-003", "status": "Claimed", "ownerId": "C024", "claimedDate": "2025-09-12", "creationDate": "2025-07-29"},
+        {"id": "WMG-L1-004", "status": "Claimed", "ownerId": "C034", "claimedDate": "2025-09-13", "creationDate": "2025-08-02"},
+        {"id": "WMG-L1-005", "status": "Claimed", "ownerId": "C005", "claimedDate": "2025-09-14", "creationDate": "2025-08-04"},
+        {"id": "WMG-L1-006", "status": "Claimed", "ownerId": "C015", "claimedDate": "2025-09-15", "creationDate": "2025-08-06"},
+        {"id": "WMG-L1-007", "status": "Claimed", "ownerId": "C025", "claimedDate": "2025-09-16", "creationDate": "2025-08-08"},
+        {"id": "WMG-L1-008", "status": "Claimed", "ownerId": "C035", "claimedDate": "2025-09-17", "creationDate": "2025-08-10"},
+        {"id": "WMG-L1-009", "status": "Claimed", "ownerId": "C006", "claimedDate": "2025-09-18", "creationDate": "2025-08-12"},
+        {"id": "WMG-L1-010", "status": "Claimed", "ownerId": "C016", "claimedDate": "2025-09-19", "creationDate": "2025-08-14"},
+        {"id": "WMG-L1-011", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-07-23"},
+        {"id": "WMG-L1-012", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-07-28"},
+        {"id": "WMG-L1-013", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-03"},
+        {"id": "WMG-L1-014", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-07"},
+        {"id": "WMG-L1-015", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-11"},
+        {"id": "WMG-L1-016", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-15"}
+      ]
+    },
+    {
+      "productName": "Bolso de Lona Blanco",
+      "productImage": "https://via.placeholder.com/300x300/1f2937/ffffff?text=Bolso+Blanco",
+      "details": {"color": "Blanco", "material": "Lona", "tipo": "Tote bag"},
+      "registrationDate": "2025-01-08",
+      "warrantyPolicy": "https://wmerchshop.com/pages/terminos-de-venta",
+      "manufacturer": {
+        "name": "W Merch Eco",
+        "country": "Colombia",
+        "city": "Cali",
+        "certifications": ["Cradle to Cradle Certified", "B-Corp Certified", "Fair Trade"],
+        "contact": {
+          "phone": "+57 2 555-7890",
+          "email": "eco@wmerch.co",
+          "website": "https://wmerch.co/eco"
+        },
+        "established": "2019",
+        "employees": 35
+      },
+      "materials": {
+        "primary": "Lona de algodón orgánico 12oz certificada",
+        "secondary": ["Asas de algodón reforzado", "Forro interior algodón reciclado", "Botón magnético níquel-free"],
+        "certifications": ["Algodón orgánico GOTS", "Tintes naturales certificados", "Libre de químicos tóxicos"],
+        "origin": "Algodón: Córdoba, Colombia | Procesamiento: Valle del Cauca, Colombia",
+        "durability": "Resistente hasta 15kg, Lavable en máquina, Anti-manchas"
+      },
+      "care": {
+        "usage": {
+          "recommendations": [
+            "Capacidad óptima: 10kg, máxima: 15kg",
+            "Ideal para uso diario y compras",
+            "Distribuir peso uniformemente",
+            "Perfecto para libros, laptop hasta 15 pulgadas"
+          ],
+          "warnings": [
+            "Evitar objetos punzocortantes sin protección",
+            "No sobrecargar más allá de la capacidad máxima",
+            "Evitar arrastrar por el suelo",
+            "No usar como bolsa de deporte para objetos húmedos"
+          ]
+        },
+        "maintenance": {
+          "daily": "Vaciar completamente y sacudir para remover residuos",
+          "weekly": "Limpieza de manchas con paño húmedo y jabón neutro",
+          "monthly": "Lavado completo en máquina (agua fría, ciclo delicado)",
+          "seasonal": "Inspección de costuras y asas, refuerzo si es necesario",
+          "storage": "Secar completamente antes de guardar, mantener forma con relleno"
+        },
+        "repair": {
+          "authorized": [
+            {
+              "name": "Taller Textil Cali",
+              "phone": "+57 2 333-4444",
+              "whatsapp": "+57 300 333-4444",
+              "address": "Avenida 6N #23-45, San Fernando, Cali",
+              "services": ["Refuerzo de asas", "Reparación de costuras", "Parches decorativos", "Limpieza profunda"],
+              "hours": "Lun-Vie 7:30-18:00, Sáb 8:00-15:00",
+              "rating": 4.9
+            }
+          ],
+          "warranty": "18 meses para defectos de fabricación",
+          "parts": "Repuestos disponibles por 5 años",
+          "diy": {
+            "basic": "Kit de reparación básica incluido",
+            "advanced": "Tutoriales de reparación en wmerch.co/reparar-lona"
+          }
+        }
+      },
+      "sustainability": {
+        "environmental": "100% biodegradable, cultivo sin pesticidas",
+        "social": "Apoyo directo a 150 familias agricultoras",
+        "recycling": "Programa de upcycling - transforma tu bolso usado",
+        "carbon": "Producción carbono negativo",
+        "packaging": "Sin empaque plástico, bolsa reutilizable incluida"
+      },
+      "items": [
+        {"id": "WMB-B1-001", "status": "Claimed", "ownerId": "C007", "claimedDate": "2025-09-10", "creationDate": "2025-07-24"},
+        {"id": "WMB-B1-002", "status": "Claimed", "ownerId": "C017", "claimedDate": "2025-09-11", "creationDate": "2025-07-29"},
+        {"id": "WMB-B1-003", "status": "Claimed", "ownerId": "C027", "claimedDate": "2025-09-12", "creationDate": "2025-07-30"},
+        {"id": "WMB-B1-004", "status": "Claimed", "ownerId": "C037", "claimedDate": "2025-09-13", "creationDate": "2025-08-04"},
+        {"id": "WMB-B1-005", "status": "Claimed", "ownerId": "C008", "claimedDate": "2025-09-14", "creationDate": "2025-08-05"},
+        {"id": "WMB-B1-006", "status": "Claimed", "ownerId": "C018", "claimedDate": "2025-09-15", "creationDate": "2025-08-07"},
+        {"id": "WMB-B1-007", "status": "Claimed", "ownerId": "C028", "claimedDate": "2025-09-16", "creationDate": "2025-08-09"},
+        {"id": "WMB-B1-008", "status": "Claimed", "ownerId": "C038", "claimedDate": "2025-09-17", "creationDate": "2025-08-11"},
+        {"id": "WMB-B1-009", "status": "Claimed", "ownerId": "C009", "claimedDate": "2025-09-18", "creationDate": "2025-08-13"},
+        {"id": "WMB-B1-010", "status": "Claimed", "ownerId": "C019", "claimedDate": "2025-09-19", "creationDate": "2025-08-15"},
+        {"id": "WMB-B1-011", "status": "Claimed", "ownerId": "C029", "claimedDate": "2025-09-20", "creationDate": "2025-08-17"},
+        {"id": "WMB-B1-012", "status": "Claimed", "ownerId": "C039", "claimedDate": "2025-09-21", "creationDate": "2025-08-19"},
+        {"id": "WMB-B1-013", "status": "Claimed", "ownerId": "C010", "claimedDate": "2025-09-22", "creationDate": "2025-08-21"},
+        {"id": "WMB-B1-014", "status": "Claimed", "ownerId": "C020", "claimedDate": "2025-09-23", "creationDate": "2025-08-23"},
+        {"id": "WMB-B1-015", "status": "Claimed", "ownerId": "C030", "claimedDate": "2025-09-24", "creationDate": "2025-08-25"},
+        {"id": "WMB-B1-016", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-07-26"},
+        {"id": "WMB-B1-017", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-07-31"}
+      ]
+    }
+  ]
+}

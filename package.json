@@ -1,0 +1,13 @@
+{
+  "name": "autentikapp",
+  "version": "1.0.0",
+  "description": "Plataforma de autenticación de productos mediante QR",
+  "main": "src/landing.html",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "build": "echo 'Static site - no build needed'"
+  },
+  "keywords": ["qr", "authentication", "products", "dashboard"],
+  "author": "W Merch",
+  "license": "MIT"
+}

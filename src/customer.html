@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes | Autentikapp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.28.0/esm/index.js"></script>
+</head>
+<body class="bg-black text-white flex">
+
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6 md:p-10 bg-black">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+            <div>
+                <h1 class="text-3xl font-bold">Clientes</h1>
+                <p class="text-lg text-gray-400">Gestión y análisis de clientes registrados.</p>
+            </div>
+            <button id="add-client-btn" class="mt-4 md:mt-0 px-6 py-3 font-bold text-black bg-[#00a1ff] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">
+                Añadir Cliente
+            </button>
+        </div>
+
+        <!-- Stats Cards -->
+        <div id="client-stats" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <!-- Stats will be loaded here -->
+        </div>
+
+        <!-- Advanced Filter Controls -->
+        <div class="mb-6 space-y-4">
+            <!-- Primary Filters Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <input type="text" id="search-clients" placeholder="Buscar por nombre, email o teléfono..."
+                       class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                <select id="filter-country" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <option value="all">Todos los países</option>
+                </select>
+                <select id="filter-city" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <option value="all">Todas las ciudades</option>
+                </select>
+                <select id="filter-segment" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <option value="all">Todos los segmentos</option>
+                </select>
+            </div>
+            
+            <!-- Secondary Filters Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                <select id="filter-age-range" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <option value="all">Todas las edades</option>
+                    <option value="18-25">18-25 años</option>
+                    <option value="26-35">26-35 años</option>
+                    <option value="36-45">36-45 años</option>
+                    <option value="46-55">46-55 años</option>
+                    <option value="56+">56+ años</option>
+                </select>
+                <select id="filter-activity" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <option value="all">Toda la actividad</option>
+                    <option value="active">Clientes activos</option>
+                    <option value="inactive">Sin productos</option>
+                    <option value="high">Alta actividad (3+)</option>
+                </select>
+                <select id="filter-time" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <option value="all">Todas las fechas</option>
+                    <option value="today">Registrados hoy</option>
+                    <option value="week">Esta semana</option>
+                    <option value="month">Este mes</option>
+                </select>
+                <input type="date" id="date-from" placeholder="Desde" 
+                       class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                <select id="sort-clients" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <option value="name">Ordenar por nombre</option>
+                    <option value="age">Ordenar por edad</option>
+                    <option value="products">Ordenar por productos</option>
+                    <option value="date">Ordenar por fecha</option>
+                    <option value="city">Ordenar por ciudad</option>
+                </select>
+            </div>
+            
+            <!-- Filter Summary and Clear -->
+            <div class="flex items-center justify-between bg-gray-800 rounded-lg p-3">
+                <div id="filter-summary" class="text-sm text-gray-400">
+                    Mostrando todos los clientes
+                </div>
+                <button id="clear-filters" class="text-sm text-blue-400 hover:text-blue-300 underline">
+                    Limpiar filtros
+                </button>
+            </div>
+        </div>
+
+        <!-- Clients Table -->
+        <div class="bg-gray-900 rounded-lg shadow-md overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-800">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Cliente</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Contacto</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Ubicación</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Edad</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Segmento</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Productos</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Fecha Registro</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clients-table-body" class="divide-y divide-gray-800">
+                        <!-- Client rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="no-clients-message" class="p-4 text-center text-gray-500 hidden">No se encontraron clientes.</div>
+        </div>
+    </main>
+
+    <!-- Client Detail Modal -->
+    <div id="client-detail-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-gray-900 rounded-lg shadow-xl p-8 w-full max-w-6xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold">Gestión de Cliente</h2>
+                    <p class="text-gray-400 text-sm">Información completa y herramientas de gestión</p>
+                </div>
+                <div class="flex space-x-2">
+                    <button id="edit-client-btn" class="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg text-sm">
+                        Editar Cliente
+                    </button>
+                    <button id="close-detail-modal" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tab Navigation -->
+            <div class="border-b border-gray-700 mb-6">
+                <nav class="flex space-x-8">
+                    <button id="tab-info" class="tab-button active py-2 px-1 border-b-2 border-blue-500 text-blue-400 font-medium text-sm">
+                        Información
+                    </button>
+                    <button id="tab-products" class="tab-button py-2 px-1 border-b-2 border-transparent text-gray-400 hover:text-gray-300 font-medium text-sm">
+                        Productos
+                    </button>
+                    <button id="tab-activity" class="tab-button py-2 px-1 border-b-2 border-transparent text-gray-400 hover:text-gray-300 font-medium text-sm">
+                        Actividad
+                    </button>
+                    <button id="tab-notes" class="tab-button py-2 px-1 border-b-2 border-transparent text-gray-400 hover:text-gray-300 font-medium text-sm">
+                        Notas
+                    </button>
+                </nav>
+            </div>
+            
+            <div id="client-detail-content">
+                <!-- Client detail content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Client Modal -->
+    <div id="edit-client-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-gray-900 rounded-lg shadow-xl p-8 w-full max-w-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Editar Cliente</h2>
+                <button id="close-edit-client-modal" class="text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="edit-client-form" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Nombre completo</label>
+                        <input type="text" id="edit-client-name" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                        <input type="email" id="edit-client-email" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Teléfono</label>
+                        <input type="text" id="edit-client-phone" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Edad</label>
+                        <input type="number" id="edit-client-age" min="18" max="100" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Ciudad</label>
+                        <input type="text" id="edit-client-city" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Segmento</label>
+                        <select id="edit-client-segment" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                            <option value="Coleccionista">Coleccionista</option>
+                            <option value="Amante de la moda">Amante de la moda</option>
+                            <option value="Comprador Ocasional">Comprador Ocasional</option>
+                            <option value="Cazador de Tendencias">Cazador de Tendencias</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex space-x-4 pt-4">
+                    <button type="submit" class="flex-1 px-4 py-2 bg-[#00a1ff] text-black font-medium rounded-md hover:bg-blue-400">
+                        Guardar Cambios
+                    </button>
+                    <button type="button" id="cancel-edit-client" class="flex-1 px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Client Modal -->
+    <div id="add-client-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-gray-900 rounded-lg shadow-xl p-8 w-full max-w-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Añadir Nuevo Cliente</h2>
+                <button id="close-add-client-modal" class="text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="add-client-form" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Nombre completo *</label>
+                        <input type="text" id="new-client-name" required class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Identificación *</label>
+                        <input type="text" id="new-client-id" required class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Email *</label>
+                        <input type="email" id="new-client-email" required class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Teléfono *</label>
+                        <input type="text" id="new-client-phone" required class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Edad *</label>
+                        <input type="number" id="new-client-age" min="18" max="100" required class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Ciudad *</label>
+                        <input type="text" id="new-client-city" required class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">País *</label>
+                        <input type="text" id="new-client-country" required class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Segmento *</label>
+                        <select id="new-client-segment" required class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                            <option value="">Seleccionar segmento</option>
+                            <option value="Coleccionista">Coleccionista</option>
+                            <option value="Amante de la moda">Amante de la moda</option>
+                            <option value="Comprador Ocasional">Comprador Ocasional</option>
+                            <option value="Cazador de Tendencias">Cazador de Tendencias</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex space-x-4 pt-4">
+                    <button type="submit" class="flex-1 px-4 py-2 bg-[#00a1ff] text-black font-medium rounded-md hover:bg-blue-400">
+                        Crear Cliente
+                    </button>
+                    <button type="button" id="cancel-add-client" class="flex-1 px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg hidden z-50">
+        <span id="toast-message">Acción completada</span>
+    </div>
+
+    <script src="./js/dataManager.js"></script>
+    <script type="module" src="./js/loadSidebar.js"></script>
+    <script>
+        // Check authentication
+        if (localStorage.getItem('autentikapp_session') !== 'authenticated') {
+            window.location.href = 'login.html';
+        }
+    </script>
+    <script type="module">
+        import { parseISO, format } from 'https://cdn.jsdelivr.net/npm/date-fns@2.28.0/esm/index.js';
+
+        let allClientsData = [];
+        let productsData = [];
+        let clientProductsMap = {};
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const data = await window.DataManager.load();
+                allClientsData = data.clients;
+                productsData = data.products;
+                    
+                    // Create map of client products
+                    productsData.forEach(product => {
+                        product.items.forEach(item => {
+                            if (item.ownerId) {
+                                if (!clientProductsMap[item.ownerId]) {
+                                    clientProductsMap[item.ownerId] = [];
+                                }
+                                clientProductsMap[item.ownerId].push({
+                                    ...item,
+                                    productName: product.productName,
+                                    productImage: product.productImage
+                                });
+                            }
+                        });
+                    });
+
+                renderClientStats();
+                renderClientsTable(allClientsData);
+                populateFilters();
+                setupEventListeners();
+            } catch (error) {
+                console.error("Error al cargar los datos:", error);
+                document.getElementById('no-clients-message').classList.remove('hidden');
+            }
+        });
+
+        function renderClientStats() {
+            const totalClients = allClientsData.length;
+            const activeClients = Object.keys(clientProductsMap).length;
+            const avgAge = Math.round(allClientsData.reduce((sum, client) => sum + client.age, 0) / totalClients);
+            const countries = new Set(allClientsData.map(client => client.country)).size;
+
+            const statsContainer = document.getElementById('client-stats');
+            statsContainer.innerHTML = `
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <h4 class="text-gray-400 text-sm font-medium">Total Clientes</h4>
+                    <p class="text-2xl font-bold mt-1">${totalClients}</p>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <h4 class="text-gray-400 text-sm font-medium">Clientes Activos</h4>
+                    <p class="text-2xl font-bold mt-1 text-green-400">${activeClients}</p>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <h4 class="text-gray-400 text-sm font-medium">Edad Promedio</h4>
+                    <p class="text-2xl font-bold mt-1">${avgAge} años</p>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <h4 class="text-gray-400 text-sm font-medium">Países</h4>
+                    <p class="text-2xl font-bold mt-1">${countries}</p>
+                </div>
+            `;
+        }
+
+        function renderClientsTable(clientsToRender) {
+            const tableBody = document.getElementById('clients-table-body');
+            const noClientsMessage = document.getElementById('no-clients-message');
+
+            if (clientsToRender.length === 0) {
+                tableBody.innerHTML = '';
+                noClientsMessage.classList.remove('hidden');
+                return;
+            }
+
+            noClientsMessage.classList.add('hidden');
+            tableBody.innerHTML = clientsToRender.map(client => {
+                const clientProducts = clientProductsMap[client.id] || [];
+                const productCount = clientProducts.length;
+                const registrationDate = client.registrationDate ? format(parseISO(client.registrationDate), 'dd/MM/yyyy') : 'N/A';
+
+                return `
+                    <tr class="bg-gray-900 hover:bg-gray-800">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="h-10 w-10 rounded-full bg-gray-700 flex items-center justify-center mr-4">
+                                    <span class="text-sm font-medium">${client.name.charAt(0)}</span>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-medium text-white">${client.name}</div>
+                                    <div class="text-sm text-gray-400">${client.identification}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-300">${client.email}</div>
+                            <div class="text-sm text-gray-400">${client.phone}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-300">${client.city}</div>
+                            <div class="text-sm text-gray-400">${client.country}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${client.age}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs rounded-full bg-blue-900 text-blue-300">
+                                ${client.segment}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="text-sm font-medium ${productCount > 0 ? 'text-green-400' : 'text-gray-400'}">
+                                ${productCount} producto${productCount !== 1 ? 's' : ''}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${registrationDate}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button onclick="showClientDetail('${client.id}')" 
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs">
+                                Ver Perfil
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function populateFilters() {
+            // Populate country filter
+            const countryFilter = document.getElementById('filter-country');
+            const countries = [...new Set(allClientsData.map(client => client.country))].sort();
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country;
+                option.textContent = country;
+                countryFilter.appendChild(option);
+            });
+
+            // Populate city filter
+            const cityFilter = document.getElementById('filter-city');
+            const cities = [...new Set(allClientsData.map(client => client.city))].sort();
+            cities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                cityFilter.appendChild(option);
+            });
+
+            // Populate segment filter
+            const segmentFilter = document.getElementById('filter-segment');
+            const segments = [...new Set(allClientsData.map(client => client.segment))].sort();
+            segments.forEach(segment => {
+                const option = document.createElement('option');
+                option.value = segment;
+                option.textContent = segment;
+                segmentFilter.appendChild(option);
+            });
+        }
+
+        function setupEventListeners() {
+            const searchInput = document.getElementById('search-clients');
+            const filterCountry = document.getElementById('filter-country');
+            const filterCity = document.getElementById('filter-city');
+            const filterSegment = document.getElementById('filter-segment');
+            const filterAgeRange = document.getElementById('filter-age-range');
+            const filterActivity = document.getElementById('filter-activity');
+            const filterTime = document.getElementById('filter-time');
+            const dateFrom = document.getElementById('date-from');
+            const sortClients = document.getElementById('sort-clients');
+            const clearFilters = document.getElementById('clear-filters');
+            const closeDetailModal = document.getElementById('close-detail-modal');
+
+            searchInput.addEventListener('input', filterClients);
+            filterCountry.addEventListener('change', filterClients);
+            filterCity.addEventListener('change', filterClients);
+            filterSegment.addEventListener('change', filterClients);
+            filterAgeRange.addEventListener('change', filterClients);
+            filterActivity.addEventListener('change', filterClients);
+            filterTime.addEventListener('change', filterClients);
+            dateFrom.addEventListener('change', filterClients);
+            sortClients.addEventListener('change', filterClients);
+            clearFilters.addEventListener('click', clearAllFilters);
+            
+            closeDetailModal.addEventListener('click', () => {
+                document.getElementById('client-detail-modal').classList.add('hidden');
+            });
+            
+            setupClientManagement();
+            setupAddClient();
+        }
+
+        function filterClients() {
+            const searchTerm = document.getElementById('search-clients').value.toLowerCase();
+            const countryFilter = document.getElementById('filter-country').value;
+            const cityFilter = document.getElementById('filter-city').value;
+            const segmentFilter = document.getElementById('filter-segment').value;
+            const ageRangeFilter = document.getElementById('filter-age-range').value;
+            const activityFilter = document.getElementById('filter-activity').value;
+            const timeFilter = document.getElementById('filter-time').value;
+            const dateFrom = document.getElementById('date-from').value;
+            const sortBy = document.getElementById('sort-clients').value;
+
+            let filtered = allClientsData.filter(client => {
+                const matchesSearch = client.name.toLowerCase().includes(searchTerm) ||
+                                    client.email.toLowerCase().includes(searchTerm) ||
+                                    client.phone.includes(searchTerm) ||
+                                    client.identification.includes(searchTerm);
+                
+                const matchesCountry = countryFilter === 'all' || client.country === countryFilter;
+                const matchesCity = cityFilter === 'all' || client.city === cityFilter;
+                const matchesSegment = segmentFilter === 'all' || client.segment === segmentFilter;
+
+                // Age range filter
+                let matchesAge = true;
+                if (ageRangeFilter !== 'all') {
+                    const age = client.age;
+                    switch(ageRangeFilter) {
+                        case '18-25': matchesAge = age >= 18 && age <= 25; break;
+                        case '26-35': matchesAge = age >= 26 && age <= 35; break;
+                        case '36-45': matchesAge = age >= 36 && age <= 45; break;
+                        case '46-55': matchesAge = age >= 46 && age <= 55; break;
+                        case '56+': matchesAge = age >= 56; break;
+                    }
+                }
+
+                // Activity filter
+                let matchesActivity = true;
+                if (activityFilter !== 'all') {
+                    const productCount = (clientProductsMap[client.id] || []).length;
+                    switch(activityFilter) {
+                        case 'active': matchesActivity = productCount > 0; break;
+                        case 'inactive': matchesActivity = productCount === 0; break;
+                        case 'high': matchesActivity = productCount >= 3; break;
+                    }
+                }
+
+                // Time filter
+                let matchesTime = true;
+                if (client.registrationDate) {
+                    const regDate = parseISO(client.registrationDate);
+                    const today = new Date();
+                    
+                    if (timeFilter === 'today') {
+                        matchesTime = format(regDate, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd');
+                    } else if (timeFilter === 'week') {
+                        const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+                        matchesTime = regDate >= weekAgo;
+                    } else if (timeFilter === 'month') {
+                        const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+                        matchesTime = regDate >= monthAgo;
+                    }
+                    
+                    if (dateFrom) {
+                        const fromDate = parseISO(dateFrom);
+                        matchesTime = matchesTime && regDate >= fromDate;
+                    }
+                }
+
+                return matchesSearch && matchesCountry && matchesCity && matchesSegment && 
+                       matchesAge && matchesActivity && matchesTime;
+            });
+
+            // Sort clients
+            filtered.sort((a, b) => {
+                switch(sortBy) {
+                    case 'name': return a.name.localeCompare(b.name);
+                    case 'age': return b.age - a.age;
+                    case 'products': 
+                        const productsA = (clientProductsMap[a.id] || []).length;
+                        const productsB = (clientProductsMap[b.id] || []).length;
+                        return productsB - productsA;
+                    case 'date':
+                        const dateA = a.registrationDate ? parseISO(a.registrationDate) : new Date(0);
+                        const dateB = b.registrationDate ? parseISO(b.registrationDate) : new Date(0);
+                        return dateB - dateA;
+                    case 'city': return a.city.localeCompare(b.city);
+                    default: return 0;
+                }
+            });
+
+            updateFilterSummary(filtered.length);
+            renderClientsTable(filtered);
+        }
+
+        function updateFilterSummary(count) {
+            const summary = document.getElementById('filter-summary');
+            const total = allClientsData.length;
+            
+            if (count === total) {
+                summary.textContent = `Mostrando todos los ${total} clientes`;
+            } else {
+                summary.textContent = `Mostrando ${count} de ${total} clientes`;
+            }
+        }
+
+        function clearAllFilters() {
+            document.getElementById('search-clients').value = '';
+            document.getElementById('filter-country').value = 'all';
+            document.getElementById('filter-city').value = 'all';
+            document.getElementById('filter-segment').value = 'all';
+            document.getElementById('filter-age-range').value = 'all';
+            document.getElementById('filter-activity').value = 'all';
+            document.getElementById('filter-time').value = 'all';
+            document.getElementById('date-from').value = '';
+            document.getElementById('sort-clients').value = 'name';
+            filterClients();
+        }
+
+        let currentClientId = null;
+        let currentTab = 'info';
+
+        function showClientDetail(clientId) {
+            currentClientId = clientId;
+            currentTab = 'info';
+            
+            // Reset tab states
+            document.querySelectorAll('.tab-button').forEach(tab => {
+                tab.classList.remove('active', 'border-blue-500', 'text-blue-400');
+                tab.classList.add('border-transparent', 'text-gray-400');
+            });
+            document.getElementById('tab-info').classList.add('active', 'border-blue-500', 'text-blue-400');
+            
+            loadClientTab('info');
+            document.getElementById('client-detail-modal').classList.remove('hidden');
+        }
+
+        function loadClientTab(tabName) {
+            const client = allClientsData.find(c => c.id === currentClientId);
+            if (!client) return;
+
+            const clientProducts = clientProductsMap[currentClientId] || [];
+            const detailContent = document.getElementById('client-detail-content');
+            
+            switch(tabName) {
+                case 'info':
+                    detailContent.innerHTML = renderClientInfo(client);
+                    break;
+                case 'products':
+                    detailContent.innerHTML = renderClientProducts(clientProducts);
+                    break;
+                case 'activity':
+                    detailContent.innerHTML = renderClientActivity(client, clientProducts);
+                    break;
+                case 'notes':
+                    detailContent.innerHTML = renderClientNotes(client);
+                    break;
+            }
+        }
+
+        function renderClientInfo(client) {
+            const registrationDate = client.registrationDate ? format(parseISO(client.registrationDate), 'dd/MM/yyyy') : 'N/A';
+            const productCount = (clientProductsMap[client.id] || []).length;
+            
+            return `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Personal Information -->
+                    <div class="lg:col-span-2 bg-gray-800 rounded-lg p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold">Información Personal</h3>
+                            <span class="px-3 py-1 text-xs rounded-full ${
+                                productCount > 0 ? 'bg-green-900 text-green-300' : 'bg-gray-700 text-gray-300'
+                            }">
+                                ${productCount > 0 ? 'Cliente Activo' : 'Sin Actividad'}
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-3">
+                                <div><span class="text-gray-400">Nombre:</span> <span class="ml-2 font-medium">${client.name}</span></div>
+                                <div><span class="text-gray-400">ID:</span> <span class="ml-2 font-medium">${client.identification}</span></div>
+                                <div><span class="text-gray-400">Email:</span> <span class="ml-2 font-medium">${client.email}</span></div>
+                                <div><span class="text-gray-400">Teléfono:</span> <span class="ml-2 font-medium">${client.phone}</span></div>
+                            </div>
+                            <div class="space-y-3">
+                                <div><span class="text-gray-400">Ciudad:</span> <span class="ml-2 font-medium">${client.city}</span></div>
+                                <div><span class="text-gray-400">País:</span> <span class="ml-2 font-medium">${client.country}</span></div>
+                                <div><span class="text-gray-400">Edad:</span> <span class="ml-2 font-medium">${client.age} años</span></div>
+                                <div><span class="text-gray-400">Registro:</span> <span class="ml-2 font-medium">${registrationDate}</span></div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-700">
+                            <div><span class="text-gray-400">Segmento:</span> 
+                                <span class="ml-2 px-2 py-1 text-xs rounded-full bg-blue-900 text-blue-300">${client.segment}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="bg-gray-800 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4">Acciones Rápidas</h3>
+                        <div class="space-y-3">
+                            <button onclick="editClient('${client.id}')" class="w-full px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg text-sm">
+                                Editar Cliente
+                            </button>
+                            <button onclick="sendEmail('${client.email}')" class="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm">
+                                Enviar Email
+                            </button>
+                            <button onclick="exportClientData('${client.id}')" class="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm">
+                                Exportar Datos
+                            </button>
+                            <button onclick="blockClient('${client.id}')" class="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm">
+                                Bloquear Cliente
+                            </button>
+                        </div>
+                        
+                        <div class="mt-6 pt-4 border-t border-gray-700">
+                            <h4 class="text-sm font-medium text-gray-300 mb-2">Estadísticas</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Productos:</span>
+                                    <span class="font-medium">${productCount}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Último reclamo:</span>
+                                    <span class="font-medium">${getLastClaimDate(client.id)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderClientProducts(clientProducts) {
+            return `
+                <div class="bg-gray-800 rounded-lg p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold">Productos Reclamados (${clientProducts.length})</h3>
+                        <button onclick="assignProduct('${currentClientId}')" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm">
+                            Asignar Producto
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        ${clientProducts.length > 0 ? clientProducts.map(product => `
+                            <div class="bg-gray-700 rounded-lg p-4">
+                                <img src="${product.productImage}" alt="${product.productName}" 
+                                     class="w-full h-32 rounded object-cover mb-3">
+                                <div class="font-medium mb-1">${product.productName}</div>
+                                <div class="text-sm text-gray-400 font-mono mb-2">${product.id}</div>
+                                <div class="text-xs text-gray-500 mb-3">
+                                    Reclamado: ${product.claimedDate ? format(parseISO(product.claimedDate), 'dd/MM/yyyy') : 'N/A'}
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button onclick="viewProductQR('${product.id}')" 
+                                            class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-xs">
+                                        Ver QR
+                                    </button>
+                                    <button onclick="revokeProduct('${product.id}')" 
+                                            class="flex-1 bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs">
+                                        Revocar
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('') : '<p class="text-gray-400 text-center py-8 col-span-full">Este cliente no ha reclamado ningún producto aún.</p>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderClientActivity(client, clientProducts) {
+            const activities = generateClientActivities(client, clientProducts);
+            
+            return `
+                <div class="bg-gray-800 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4">Historial de Actividad</h3>
+                    <div class="space-y-4 max-h-96 overflow-y-auto">
+                        ${activities.map(activity => `
+                            <div class="flex items-start space-x-3 p-3 bg-gray-700 rounded-lg">
+                                <div class="w-2 h-2 rounded-full bg-blue-400 mt-2"></div>
+                                <div class="flex-1">
+                                    <div class="font-medium">${activity.action}</div>
+                                    <div class="text-sm text-gray-400">${activity.details}</div>
+                                    <div class="text-xs text-gray-500 mt-1">${activity.date}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderClientNotes(client) {
+            return `
+                <div class="bg-gray-800 rounded-lg p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold">Notas del Cliente</h3>
+                        <button onclick="addNote('${client.id}')" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm">
+                            Añadir Nota
+                        </button>
+                    </div>
+                    <div class="space-y-4">
+                        <textarea id="client-notes" placeholder="Escribir nueva nota..." 
+                                  class="w-full h-32 px-3 py-2 text-white bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]"></textarea>
+                        <button onclick="saveNote('${client.id}')" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm">
+                            Guardar Nota
+                        </button>
+                    </div>
+                    <div class="mt-6">
+                        <h4 class="text-lg font-medium mb-3">Notas Anteriores</h4>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-gray-700 rounded-lg">
+                                <div class="text-sm text-gray-300">Cliente muy activo, excelente comunicación.</div>
+                                <div class="text-xs text-gray-500 mt-1">15/01/2025 - Admin</div>
+                            </div>
+                            <div class="p-3 bg-gray-700 rounded-lg">
+                                <div class="text-sm text-gray-300">Interesado en productos de edición limitada.</div>
+                                <div class="text-xs text-gray-500 mt-1">10/01/2025 - Ventas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function viewProductQR(itemId) {
+            window.open(`verify.html?id=${itemId}`, '_blank');
+        }
+
+        function setupClientManagement() {
+            // Tab switching
+            document.getElementById('tab-info').addEventListener('click', () => switchTab('info'));
+            document.getElementById('tab-products').addEventListener('click', () => switchTab('products'));
+            document.getElementById('tab-activity').addEventListener('click', () => switchTab('activity'));
+            document.getElementById('tab-notes').addEventListener('click', () => switchTab('notes'));
+            
+            // Edit client modal
+            document.getElementById('edit-client-btn').addEventListener('click', () => {
+                if (currentClientId) editClient(currentClientId);
+            });
+            document.getElementById('close-edit-client-modal').addEventListener('click', () => {
+                document.getElementById('edit-client-modal').classList.add('hidden');
+            });
+            document.getElementById('cancel-edit-client').addEventListener('click', () => {
+                document.getElementById('edit-client-modal').classList.add('hidden');
+            });
+            document.getElementById('edit-client-form').addEventListener('submit', saveClientChanges);
+        }
+
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // Update tab styles
+            document.querySelectorAll('.tab-button').forEach(tab => {
+                tab.classList.remove('active', 'border-blue-500', 'text-blue-400');
+                tab.classList.add('border-transparent', 'text-gray-400');
+            });
+            document.getElementById(`tab-${tabName}`).classList.add('active', 'border-blue-500', 'text-blue-400');
+            
+            loadClientTab(tabName);
+        }
+
+        function editClient(clientId) {
+            const client = allClientsData.find(c => c.id === clientId);
+            if (!client) return;
+            
+            document.getElementById('edit-client-name').value = client.name;
+            document.getElementById('edit-client-email').value = client.email;
+            document.getElementById('edit-client-phone').value = client.phone;
+            document.getElementById('edit-client-age').value = client.age;
+            document.getElementById('edit-client-city').value = client.city;
+            document.getElementById('edit-client-segment').value = client.segment;
+            
+            document.getElementById('edit-client-modal').classList.remove('hidden');
+        }
+
+        function saveClientChanges(e) {
+            e.preventDefault();
+            
+            const client = allClientsData.find(c => c.id === currentClientId);
+            if (!client) return;
+            
+            client.name = document.getElementById('edit-client-name').value;
+            client.email = document.getElementById('edit-client-email').value;
+            client.phone = document.getElementById('edit-client-phone').value;
+            client.age = parseInt(document.getElementById('edit-client-age').value);
+            client.city = document.getElementById('edit-client-city').value;
+            client.segment = document.getElementById('edit-client-segment').value;
+            
+            document.getElementById('edit-client-modal').classList.add('hidden');
+            loadClientTab(currentTab);
+            renderClientsTable(allClientsData);
+            showToast('Cliente actualizado exitosamente');
+        }
+
+        function getLastClaimDate(clientId) {
+            const products = clientProductsMap[clientId] || [];
+            if (products.length === 0) return 'Nunca';
+            
+            const lastClaim = products.reduce((latest, product) => {
+                const claimDate = product.claimedDate ? parseISO(product.claimedDate) : new Date(0);
+                return claimDate > latest ? claimDate : latest;
+            }, new Date(0));
+            
+            return format(lastClaim, 'dd/MM/yyyy');
+        }
+
+        function generateClientActivities(client, products) {
+            const activities = [];
+            
+            activities.push({
+                action: 'Cliente registrado',
+                details: `Se registró en la plataforma desde ${client.city}`,
+                date: client.registrationDate ? format(parseISO(client.registrationDate), 'dd/MM/yyyy HH:mm') : 'Fecha desconocida'
+            });
+            
+            products.forEach(product => {
+                if (product.claimedDate) {
+                    activities.push({
+                        action: 'Producto reclamado',
+                        details: `Reclamó ${product.productName} (${product.id})`,
+                        date: format(parseISO(product.claimedDate), 'dd/MM/yyyy HH:mm')
+                    });
+                }
+            });
+            
+            return activities.sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Action functions
+        function sendEmail(email) {
+            window.open(`mailto:${email}`, '_blank');
+            showToast('Cliente de email abierto');
+        }
+
+        function exportClientData(clientId) {
+            showToast('Datos del cliente exportados');
+        }
+
+        function blockClient(clientId) {
+            if (confirm('¿Estás seguro de que quieres bloquear este cliente?')) {
+                showToast('Cliente bloqueado exitosamente');
+            }
+        }
+
+        function assignProduct(clientId) {
+            showToast('Función de asignación de producto');
+        }
+
+        function revokeProduct(productId) {
+            if (confirm('¿Estás seguro de que quieres revocar este producto?')) {
+                showToast('Producto revocado exitosamente');
+            }
+        }
+
+        function addNote(clientId) {
+            document.getElementById('client-notes').focus();
+        }
+
+        function saveNote(clientId) {
+            const noteText = document.getElementById('client-notes').value;
+            if (noteText.trim()) {
+                document.getElementById('client-notes').value = '';
+                showToast('Nota guardada exitosamente');
+                loadClientTab('notes');
+            }
+        }
+
+        function setupAddClient() {
+            const addClientBtn = document.getElementById('add-client-btn');
+            const addClientModal = document.getElementById('add-client-modal');
+            const closeAddClientModal = document.getElementById('close-add-client-modal');
+            const cancelAddClient = document.getElementById('cancel-add-client');
+            const addClientForm = document.getElementById('add-client-form');
+
+            addClientBtn.addEventListener('click', () => {
+                addClientModal.classList.remove('hidden');
+            });
+
+            closeAddClientModal.addEventListener('click', () => {
+                addClientModal.classList.add('hidden');
+                addClientForm.reset();
+            });
+
+            cancelAddClient.addEventListener('click', () => {
+                addClientModal.classList.add('hidden');
+                addClientForm.reset();
+            });
+
+            addClientForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                createNewClient();
+            });
+        }
+
+        function createNewClient() {
+            const newClient = {
+                id: `C${String(allClientsData.length + 1).padStart(3, '0')}`,
+                name: document.getElementById('new-client-name').value,
+                identification: document.getElementById('new-client-id').value,
+                email: document.getElementById('new-client-email').value,
+                phone: document.getElementById('new-client-phone').value,
+                city: document.getElementById('new-client-city').value,
+                country: document.getElementById('new-client-country').value,
+                age: parseInt(document.getElementById('new-client-age').value),
+                segment: document.getElementById('new-client-segment').value,
+                registrationDate: new Date().toISOString().split('T')[0]
+            };
+
+            allClientsData.push(newClient);
+            document.getElementById('add-client-modal').classList.add('hidden');
+            document.getElementById('add-client-form').reset();
+            
+            renderClientStats();
+            renderClientsTable(allClientsData);
+            populateFilters();
+            showToast('Cliente creado exitosamente');
+        }
+
+        // Make functions global for onclick handlers
+        window.showClientDetail = showClientDetail;
+        window.viewProductQR = viewProductQR;
+        window.editClient = editClient;
+        window.sendEmail = sendEmail;
+        window.exportClientData = exportClientData;
+        window.blockClient = blockClient;
+        window.assignProduct = assignProduct;
+        window.revokeProduct = revokeProduct;
+        window.addNote = addNote;
+        window.saveNote = saveNote;
+    </script>
+</body>
+</html>

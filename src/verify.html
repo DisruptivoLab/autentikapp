@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Producto | Autentikapp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white flex items-center justify-center min-h-screen p-4">
+
+    <div id="verification-card" class="w-full max-w-md bg-gray-900 rounded-2xl shadow-2xl p-8 text-center transition-opacity duration-500 opacity-0">
+        <!-- El contenido se insertará aquí -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const verificationCard = document.getElementById('verification-card');
+            const urlParams = new URLSearchParams(window.location.search);
+            const itemId = urlParams.get('id');
+            const isClaimedSimulation = urlParams.get('claimed') === 'true';
+
+            if (!itemId) {
+                renderError("No se proporcionó un ID de producto.");
+                return;
+            }
+
+            fetch('database.json')
+                .then(response => response.json())
+                .then(productGroups => {
+                    let foundProduct = null;
+                    let foundItem = null;
+
+                    for (const group of productGroups) {
+                        const item = group.items.find(i => i.id === itemId);
+                        if (item) {
+                            foundProduct = group;
+                            foundItem = item;
+                            break;
+                        }
+                    }
+
+                    if (!foundItem) {
+                        renderError(`El código <strong>${itemId}</strong> no es válido o no se encuentra en nuestra base de datos.`);
+                    } else {
+                        if (isClaimedSimulation) {
+                            renderClaimed(foundProduct, foundItem, true);
+                        } else {
+                            renderProduct(foundProduct, foundItem);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al cargar la base de datos simulada:", error);
+                    renderError("Hubo un problema al verificar el producto. Inténtelo de nuevo.");
+                });
+        });
+
+        function renderProduct(product, item) {
+            if (item.status === 'Claimed') {
+                renderClaimed(product, item, false);
+            } else {
+                renderUnclaimed(product, item);
+            }
+        }
+
+        function renderUnclaimed(product, item) {
+            const content = `
+                <div class="flex justify-center mb-4">
+                    <svg class="w-16 h-16 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h1 class="text-2xl font-bold text-yellow-400 mb-2">PRODUCTO AUTÉNTICO</h1>
+                <p class="text-gray-400 mb-6">Este producto es genuino y está listo para ser tuyo.</p>
+                
+                <div class="bg-gray-800 rounded-lg p-4 mb-6 text-left">
+                    <img src="${product.productImage}" alt="${product.productName}" class="rounded-lg mx-auto mb-4 w-48 h-48 object-cover">
+                    <p class="text-lg font-semibold">${product.productName}</p>
+                    <p class="text-sm text-gray-500">ID: ${item.id}</p>
+                </div>
+
+                <button onclick="simulateClaim('${item.id}')" class="w-full px-6 py-3 font-bold text-black bg-[#00a1ff] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 transform hover:scale-105">
+                    RECLAMAR PROPIEDAD
+                </button>
+            `;
+            verificationCard.innerHTML = content;
+            verificationCard.classList.remove('opacity-0');
+        }
+
+        function renderClaimed(product, item, isSimulation) {
+            const ownerName = isSimulation ? "Diego P. (Tú)" : item.owner;
+            const claimedDate = isSimulation ? new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) : new Date(item.claimedDate).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            const content = `
+                <div class="flex justify-center mb-4">
+                    <svg class="w-16 h-16 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h1 class="text-2xl font-bold text-green-400 mb-2">PRODUCTO AUTÉNTICO</h1>
+                <p class="text-gray-400 mb-6">Este producto ya tiene un propietario registrado.</p>
+                
+                <div class="bg-gray-800 rounded-lg p-4 mb-6 text-left">
+                    <img src="${product.productImage}" alt="${product.productName}" class="rounded-lg mx-auto mb-4 w-48 h-48 object-cover">
+                    <p class="text-lg font-semibold">${product.productName}</p>
+                    <p class="text-sm text-gray-500">ID: ${item.id}</p>
+                    <hr class="border-gray-700 my-3">
+                    <p class="text-sm"><span class="font-bold text-gray-400">Propietario:</span> ${ownerName}</p>
+                    <p class="text-sm"><span class="font-bold text-gray-400">Fecha de Registro:</span> ${claimedDate}</p>
+                </div>
+            `;
+            verificationCard.innerHTML = content;
+            verificationCard.classList.remove('opacity-0');
+        }
+
+        function renderError(message) {
+            const content = `
+                <div class="flex justify-center mb-4">
+                    <svg class="w-16 h-16 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h1 class="text-2xl font-bold text-red-500 mb-2">Verificación Fallida</h1>
+                <p class="text-gray-400">${message}</p>
+            `;
+            verificationCard.innerHTML = content;
+            verificationCard.classList.remove('opacity-0');
+        }
+
+        function simulateClaim(itemId) {
+            verificationCard.classList.add('opacity-0');
+            setTimeout(() => {
+                 window.location.href = `verify.html?id=${itemId}&claimed=true`;
+            }, 500);
+        }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Producto | Autentikapp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.28.0/esm/index.js"></script>
+</head>
+<body class="bg-black text-white flex">
+
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6 md:p-10 bg-black">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center">
+                <button onclick="goBack()" class="mr-4 p-2 text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                <div>
+                    <h1 id="product-title" class="text-3xl font-bold">Cargando...</h1>
+                    <p class="text-lg text-gray-400">Detalles completos del producto</p>
+                </div>
+            </div>
+            <div class="flex space-x-3">
+                <button id="edit-product-btn" class="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-medium">
+                    Editar Producto
+                </button>
+                <button id="generate-qr-btn" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium">
+                    + Generar QR
+                </button>
+            </div>
+        </div>
+
+        <!-- Product Info Card -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <!-- Product Display -->
+            <div id="product-info" class="lg:col-span-2 bg-gray-900 rounded-lg p-6">
+                <!-- Product Tabs -->
+                <div class="mb-6">
+                    <nav class="flex space-x-1 bg-gray-800 p-1 rounded-lg">
+                        <button class="product-tab active px-3 py-2 text-sm font-medium rounded-md bg-blue-600 text-white" data-tab="overview">Resumen</button>
+                        <button class="product-tab px-3 py-2 text-sm font-medium rounded-md text-gray-300 hover:text-white" data-tab="manufacturer">Fabricante</button>
+                        <button class="product-tab px-3 py-2 text-sm font-medium rounded-md text-gray-300 hover:text-white" data-tab="materials">Materiales</button>
+                        <button class="product-tab px-3 py-2 text-sm font-medium rounded-md text-gray-300 hover:text-white" data-tab="care">Cuidado</button>
+                        <button class="product-tab px-3 py-2 text-sm font-medium rounded-md text-gray-300 hover:text-white" data-tab="sustainability">Sostenibilidad</button>
+                    </nav>
+                </div>
+                <div id="product-tab-content">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Product Edit Form -->
+            <div id="product-edit-form" class="bg-gray-900 rounded-lg p-6 hidden">
+                <h3 class="text-lg font-semibold mb-4">Editar Producto</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Nombre del Producto</label>
+                        <input type="text" id="edit-name" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Color</label>
+                        <input type="text" id="edit-color" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Material</label>
+                        <input type="text" id="edit-material" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Tipo</label>
+                        <input type="text" id="edit-type" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    </div>
+                    <div class="flex space-x-3 pt-4">
+                        <button id="save-changes-btn" class="flex-1 px-4 py-2 bg-[#00a1ff] text-black font-medium rounded-md hover:bg-blue-400">
+                            Guardar
+                        </button>
+                        <button id="cancel-edit-btn" class="flex-1 px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div id="product-stats" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <!-- Stats will be loaded here -->
+        </div>
+
+        <!-- Filters -->
+        <div class="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <input type="text" id="search-ids" placeholder="Buscar por ID o cliente..."
+                   class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+            <select id="filter-status" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                <option value="all">Todos los estados</option>
+                <option value="claimed">Reclamados</option>
+                <option value="unclaimed">Disponibles</option>
+            </select>
+            <select id="filter-time" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                <option value="all">Todas las fechas</option>
+                <option value="today">Hoy</option>
+                <option value="week">Esta semana</option>
+                <option value="month">Este mes</option>
+            </select>
+            <input type="date" id="date-from" placeholder="Desde" 
+                   class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+            <select id="sort-ids" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                <option value="id">Ordenar por ID</option>
+                <option value="date">Ordenar por fecha creación</option>
+                <option value="claimed">Ordenar por fecha reclamo</option>
+                <option value="status">Ordenar por estado</option>
+            </select>
+        </div>
+
+        <!-- IDs Table -->
+        <div class="bg-gray-900 rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-700">
+                <h3 class="text-lg font-semibold">Códigos QR del Producto</h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-800">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">ID del Producto</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Estado</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Cliente</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Fecha Creación</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Fecha Reclamo</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ids-table-body" class="divide-y divide-gray-800">
+                        <!-- Rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="no-ids-message" class="p-4 text-center text-gray-500 hidden">No se encontraron códigos.</div>
+        </div>
+    </main>
+
+    <!-- Client Profile Modal -->
+    <div id="client-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-gray-900 rounded-lg shadow-xl p-8 w-full max-w-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Perfil del Cliente</h2>
+                <button id="close-client-modal" class="text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="client-profile-content">
+                <!-- Client profile content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Generate QR Modal -->
+    <div id="qr-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-gray-900 rounded-lg shadow-xl p-8 w-full max-w-md text-center">
+            <h2 class="text-2xl font-bold mb-4">Generar Nuevo QR</h2>
+            <p class="text-gray-400 mb-6">Se generará un nuevo código QR único para este producto.</p>
+            <div class="space-y-4">
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <p class="text-sm text-gray-300">Producto:</p>
+                    <p id="qr-product-name" class="font-semibold"></p>
+                </div>
+                <button id="confirm-generate-btn" class="w-full px-4 py-2 font-bold text-black bg-[#00a1ff] rounded-md hover:bg-blue-400">
+                    Confirmar Generación
+                </button>
+            </div>
+            <button id="close-qr-modal" class="mt-6 text-gray-400 hover:text-white text-sm">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg hidden z-50">
+        <span id="toast-message">Acción completada</span>
+    </div>
+
+    <script type="module" src="./js/loadSidebar.js"></script>
+    <script type="module">
+        import { parseISO, format } from 'https://cdn.jsdelivr.net/npm/date-fns@2.28.0/esm/index.js';
+
+        let productData = null;
+        let allItems = [];
+        let clientsData = {};
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productName = urlParams.get('name');
+
+            if (!productName) {
+                document.getElementById('product-title').textContent = 'Producto no encontrado';
+                return;
+            }
+
+            loadProductData(productName);
+            setupEventListeners();
+            setupEditFunctionality();
+        });
+
+        function loadProductData(productName) {
+            fetch('business.json')
+                .then(response => response.json())
+                .then(data => {
+                    productData = data.products.find(p => p.productName === productName);
+                    clientsData = data.clients.reduce((acc, client) => {
+                        acc[client.id] = client;
+                        return acc;
+                    }, {});
+
+                    if (!productData) {
+                        document.getElementById('product-title').textContent = 'Producto no encontrado';
+                        return;
+                    }
+
+                    allItems = productData.items.map(item => ({
+                        ...item,
+                        client: clientsData[item.ownerId] || null
+                    }));
+
+                    renderProductInfo();
+                    renderProductStats();
+                    renderItemsTable(allItems);
+                })
+                .catch(error => {
+                    console.error("Error al cargar los datos:", error);
+                    document.getElementById('product-title').textContent = 'Error al cargar el producto';
+                });
+        }
+
+        function renderProductInfo() {
+            document.getElementById('product-title').textContent = productData.productName;
+            showProductTab('overview');
+            setupProductTabs();
+        }
+
+        function setupProductTabs() {
+            document.querySelectorAll('.product-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.dataset.tab;
+                    showProductTab(tabName);
+                });
+            });
+        }
+
+        function showProductTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.product-tab').forEach(tab => {
+                tab.classList.remove('active', 'bg-blue-600', 'text-white');
+                tab.classList.add('text-gray-300');
+            });
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active', 'bg-blue-600', 'text-white');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.remove('text-gray-300');
+
+            // Show tab content
+            const content = document.getElementById('product-tab-content');
+            switch(tabName) {
+                case 'overview':
+                    content.innerHTML = getOverviewTabContent();
+                    break;
+                case 'manufacturer':
+                    content.innerHTML = getManufacturerTabContent();
+                    break;
+                case 'materials':
+                    content.innerHTML = getMaterialsTabContent();
+                    break;
+                case 'care':
+                    content.innerHTML = getCareTabContent();
+                    break;
+                case 'sustainability':
+                    content.innerHTML = getSustainabilityTabContent();
+                    break;
+            }
+        }
+
+        function getOverviewTabContent() {
+            return `
+                <div class="flex flex-col md:flex-row gap-6">
+                    <img src="${productData.productImage}" alt="${productData.productName}" 
+                         class="w-32 h-32 rounded-lg object-cover">
+                    <div class="flex-1">
+                        <h2 class="text-2xl font-bold mb-4">${productData.productName}</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <span class="text-gray-400">Color:</span>
+                                <span class="ml-2 font-semibold">${productData.details?.color || 'N/A'}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400">Material:</span>
+                                <span class="ml-2 font-semibold">${productData.details?.material || 'N/A'}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400">Tipo:</span>
+                                <span class="ml-2 font-semibold">${productData.details?.tipo || 'N/A'}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400">Total IDs:</span>
+                                <span class="ml-2 font-semibold">${allItems.length}</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-gray-800 rounded-lg">
+                            <h4 class="text-sm font-medium text-gray-300 mb-2">Descripción</h4>
+                            <p class="text-sm text-gray-400">Producto auténtico con códigos QR únicos para verificación de autenticidad. Cada unidad cuenta con un identificador irrepetible que garantiza su originalidad.</p>
+                            ${productData.warrantyPolicy ? `
+                                <div class="mt-3 pt-3 border-t border-gray-700">
+                                    <a href="${productData.warrantyPolicy}" target="_blank" 
+                                       class="inline-flex items-center text-blue-400 hover:text-blue-300 text-sm font-medium">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                        Ver Política de Garantía
+                                    </a>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getManufacturerTabContent() {
+            const manufacturer = productData.manufacturer || {};
+            return `
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">${manufacturer.name || 'N/A'}</h3>
+                            <p class="text-gray-400">${manufacturer.city || 'N/A'}, ${manufacturer.country || 'N/A'}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div>
+                                <span class="text-gray-400">Fundado en:</span>
+                                <span class="ml-2 font-semibold">${manufacturer.established || 'N/A'}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400">Empleados:</span>
+                                <span class="ml-2 font-semibold">${manufacturer.employees || 'N/A'}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400">Teléfono:</span>
+                                <span class="ml-2 font-semibold">${manufacturer.contact?.phone || 'N/A'}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-400">Email:</span>
+                                <span class="ml-2 font-semibold">${manufacturer.contact?.email || 'N/A'}</span>
+                            </div>
+                            ${manufacturer.contact?.website ? `
+                                <div>
+                                    <a href="${manufacturer.contact.website}" target="_blank" class="text-blue-400 hover:text-blue-300">Visitar sitio web</a>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-semibold mb-3">Certificaciones</h4>
+                            <div class="space-y-2">
+                                ${(manufacturer.certifications || []).map(cert => `
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 text-green-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span class="text-sm">${cert}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getMaterialsTabContent() {
+            const materials = productData.materials || {};
+            return `
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3">Material Principal</h3>
+                        <p class="text-gray-300">${materials.primary || 'N/A'}</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-3">Materiales Secundarios</h3>
+                        <div class="space-y-2">
+                            ${(materials.secondary || []).map(material => `
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span class="text-sm">${material}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="text-lg font-semibold mb-3">Certificaciones</h4>
+                            <div class="space-y-2">
+                                ${(materials.certifications || []).map(cert => `
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 text-green-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span class="text-sm">${cert}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-semibold mb-3">Durabilidad</h4>
+                            <p class="text-sm text-gray-300">${materials.durability || 'N/A'}</p>
+                            
+                            <h4 class="text-lg font-semibold mb-3 mt-4">Origen</h4>
+                            <p class="text-sm text-gray-300">${materials.origin || 'N/A'}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getCareTabContent() {
+            const care = productData.care || {};
+            return `
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-3 text-green-400">Recomendaciones de Uso</h3>
+                            <div class="space-y-2">
+                                ${(care.usage?.recommendations || []).map(rec => `
+                                    <div class="flex items-start">
+                                        <svg class="w-4 h-4 text-green-400 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span class="text-sm">${rec}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-semibold mb-3 text-red-400">Advertencias</h3>
+                            <div class="space-y-2">
+                                ${(care.usage?.warnings || []).map(warning => `
+                                    <div class="flex items-start">
+                                        <svg class="w-4 h-4 text-red-400 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                        </svg>
+                                        <span class="text-sm">${warning}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Guía de Mantenimiento</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-gray-800 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-400 mb-2">Cuidado Diario</h4>
+                                <p class="text-sm text-gray-300">${care.maintenance?.daily || 'N/A'}</p>
+                            </div>
+                            <div class="bg-gray-800 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-400 mb-2">Cuidado Semanal</h4>
+                                <p class="text-sm text-gray-300">${care.maintenance?.weekly || 'N/A'}</p>
+                            </div>
+                            <div class="bg-gray-800 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-400 mb-2">Cuidado Mensual</h4>
+                                <p class="text-sm text-gray-300">${care.maintenance?.monthly || 'N/A'}</p>
+                            </div>
+                            <div class="bg-gray-800 p-4 rounded-lg">
+                                <h4 class="font-semibold text-blue-400 mb-2">Almacenamiento</h4>
+                                <p class="text-sm text-gray-300">${care.maintenance?.storage || 'N/A'}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Servicios de Reparación Autorizados</h3>
+                        <div class="space-y-4">
+                            ${(care.repair?.authorized || []).map(shop => `
+                                <div class="bg-gray-800 p-4 rounded-lg">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h4 class="font-semibold">${shop.name}</h4>
+                                        <div class="flex items-center">
+                                            <svg class="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                            </svg>
+                                            <span class="text-sm">${shop.rating}</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-400 mb-2">${shop.address}</p>
+                                    <div class="flex flex-wrap gap-2 mb-2">
+                                        ${shop.services.map(service => `
+                                            <span class="px-2 py-1 bg-blue-900 text-blue-300 text-xs rounded">${service}</span>
+                                        `).join('')}
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-gray-400">${shop.hours}</span>
+                                        <a href="tel:${shop.phone}" class="text-blue-400 hover:text-blue-300">${shop.phone}</a>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="mt-4 p-4 bg-gray-800 rounded-lg">
+                            <h4 class="font-semibold mb-2">Información de Garantía</h4>
+                            <p class="text-sm text-gray-300 mb-2"><strong>Cobertura:</strong> ${care.repair?.warranty || 'N/A'}</p>
+                            <p class="text-sm text-gray-300"><strong>Repuestos:</strong> ${care.repair?.parts || 'N/A'}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getSustainabilityTabContent() {
+            const sustainability = productData.sustainability || {};
+            return `
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-green-900 bg-opacity-20 p-4 rounded-lg border border-green-700">
+                            <div class="flex items-center mb-3">
+                                <svg class="w-6 h-6 text-green-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <h3 class="text-lg font-semibold text-green-400">Impacto Ambiental</h3>
+                            </div>
+                            <p class="text-sm text-gray-300">${sustainability.environmental || 'N/A'}</p>
+                        </div>
+                        
+                        <div class="bg-blue-900 bg-opacity-20 p-4 rounded-lg border border-blue-700">
+                            <div class="flex items-center mb-3">
+                                <svg class="w-6 h-6 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                                <h3 class="text-lg font-semibold text-blue-400">Impacto Social</h3>
+                            </div>
+                            <p class="text-sm text-gray-300">${sustainability.social || 'N/A'}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-gray-800 p-4 rounded-lg">
+                            <h4 class="font-semibold text-purple-400 mb-2">Reciclaje</h4>
+                            <p class="text-sm text-gray-300">${sustainability.recycling || 'N/A'}</p>
+                        </div>
+                        <div class="bg-gray-800 p-4 rounded-lg">
+                            <h4 class="font-semibold text-orange-400 mb-2">Huella de Carbono</h4>
+                            <p class="text-sm text-gray-300">${sustainability.carbon || 'N/A'}</p>
+                        </div>
+                        <div class="bg-gray-800 p-4 rounded-lg">
+                            <h4 class="font-semibold text-cyan-400 mb-2">Empaque</h4>
+                            <p class="text-sm text-gray-300">${sustainability.packaging || 'N/A'}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProductStats() {
+            const totalItems = allItems.length;
+            const claimedItems = allItems.filter(item => item.status === 'Claimed').length;
+            const availableItems = totalItems - claimedItems;
+            const claimRate = totalItems > 0 ? ((claimedItems / totalItems) * 100).toFixed(1) : 0;
+
+            const statsContainer = document.getElementById('product-stats');
+            statsContainer.innerHTML = `
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <h4 class="text-gray-400 text-sm font-medium">Total Unidades</h4>
+                    <p class="text-2xl font-bold mt-1">${totalItems}</p>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <h4 class="text-gray-400 text-sm font-medium">Reclamadas</h4>
+                    <p class="text-2xl font-bold mt-1 text-green-400">${claimedItems}</p>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <h4 class="text-gray-400 text-sm font-medium">Disponibles</h4>
+                    <p class="text-2xl font-bold mt-1 text-blue-400">${availableItems}</p>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <h4 class="text-gray-400 text-sm font-medium">Tasa Reclamo</h4>
+                    <p class="text-2xl font-bold mt-1">${claimRate}%</p>
+                </div>
+            `;
+        }
+
+        function renderItemsTable(items) {
+            const tableBody = document.getElementById('ids-table-body');
+            const noItemsMessage = document.getElementById('no-ids-message');
+
+            if (items.length === 0) {
+                tableBody.innerHTML = '';
+                noItemsMessage.classList.remove('hidden');
+                return;
+            }
+
+            noItemsMessage.classList.add('hidden');
+            tableBody.innerHTML = items.map(item => {
+                const creationDate = item.creationDate ? format(parseISO(item.creationDate), 'dd/MM/yyyy') : 'N/A';
+                const claimedDate = item.claimedDate ? format(parseISO(item.claimedDate), 'dd/MM/yyyy') : '-';
+                
+                return `
+                    <tr class="bg-gray-900 hover:bg-gray-800">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="font-mono text-sm">${item.id}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs rounded-full ${
+                                item.status === 'Claimed' 
+                                    ? 'bg-green-900 text-green-300' 
+                                    : 'bg-blue-900 text-blue-300'
+                            }">
+                                ${item.status === 'Claimed' ? 'Reclamado' : 'Disponible'}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            ${item.client ? `
+                                <button onclick="showClientProfile('${item.client.id}')" 
+                                        class="text-blue-400 hover:text-blue-300 hover:underline">
+                                    ${item.client.name}
+                                </button>
+                            ` : '<span class="text-gray-500">-</span>'}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${creationDate}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${claimedDate}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button onclick="viewQR('${item.id}')" 
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs mr-2">
+                                Ver QR
+                            </button>
+                            ${item.status !== 'Claimed' ? `
+                                <button onclick="claimProduct('${item.id}')" 
+                                        class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs">
+                                    Reclamar
+                                </button>
+                            ` : ''}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function setupEventListeners() {
+            const searchInput = document.getElementById('search-ids');
+            const filterStatus = document.getElementById('filter-status');
+            const filterTime = document.getElementById('filter-time');
+            const dateFrom = document.getElementById('date-from');
+            const sortIds = document.getElementById('sort-ids');
+            const closeClientModal = document.getElementById('close-client-modal');
+
+            searchInput.addEventListener('input', filterItems);
+            filterStatus.addEventListener('change', filterItems);
+            filterTime.addEventListener('change', filterItems);
+            dateFrom.addEventListener('change', filterItems);
+            sortIds.addEventListener('change', filterItems);
+            closeClientModal.addEventListener('click', () => {
+                document.getElementById('client-modal').classList.add('hidden');
+            });
+        }
+
+        function setupEditFunctionality() {
+            const editBtn = document.getElementById('edit-product-btn');
+            const generateBtn = document.getElementById('generate-qr-btn');
+            const saveBtn = document.getElementById('save-changes-btn');
+            const cancelBtn = document.getElementById('cancel-edit-btn');
+            const closeQrModal = document.getElementById('close-qr-modal');
+            const confirmGenerateBtn = document.getElementById('confirm-generate-btn');
+
+            editBtn.addEventListener('click', toggleEditMode);
+            generateBtn.addEventListener('click', showQRModal);
+            saveBtn.addEventListener('click', saveProductChanges);
+            cancelBtn.addEventListener('click', cancelEdit);
+            closeQrModal.addEventListener('click', () => {
+                document.getElementById('qr-modal').classList.add('hidden');
+            });
+            confirmGenerateBtn.addEventListener('click', generateNewQR);
+        }
+
+        function toggleEditMode() {
+            const editForm = document.getElementById('product-edit-form');
+            const productInfo = document.getElementById('product-info');
+            
+            if (editForm.classList.contains('hidden')) {
+                // Show edit form
+                editForm.classList.remove('hidden');
+                productInfo.classList.add('lg:col-span-1');
+                productInfo.classList.remove('lg:col-span-2');
+                
+                // Populate form with current data
+                document.getElementById('edit-name').value = productData.productName;
+                document.getElementById('edit-color').value = productData.details?.color || '';
+                document.getElementById('edit-material').value = productData.details?.material || '';
+                document.getElementById('edit-type').value = productData.details?.tipo || '';
+            } else {
+                cancelEdit();
+            }
+        }
+
+        function cancelEdit() {
+            const editForm = document.getElementById('product-edit-form');
+            const productInfo = document.getElementById('product-info');
+            
+            editForm.classList.add('hidden');
+            productInfo.classList.remove('lg:col-span-1');
+            productInfo.classList.add('lg:col-span-2');
+        }
+
+        function saveProductChanges() {
+            const newName = document.getElementById('edit-name').value;
+            const newColor = document.getElementById('edit-color').value;
+            const newMaterial = document.getElementById('edit-material').value;
+            const newType = document.getElementById('edit-type').value;
+
+            productData.productName = newName;
+            productData.details = {
+                color: newColor,
+                material: newMaterial,
+                tipo: newType
+            };
+
+            renderProductInfo();
+            cancelEdit();
+            showToast('Producto actualizado exitosamente');
+        }
+
+        function showQRModal() {
+            document.getElementById('qr-product-name').textContent = productData.productName;
+            document.getElementById('qr-modal').classList.remove('hidden');
+        }
+
+        function generateNewQR() {
+            const newId = `${productData.productName.substring(0,3).toUpperCase()}-${Date.now()}`;
+            
+            const newItem = {
+                id: newId,
+                status: 'Unclaimed',
+                ownerId: null,
+                claimedDate: null,
+                creationDate: new Date().toISOString().split('T')[0],
+                client: null
+            };
+            
+            allItems.push(newItem);
+            
+            renderProductInfo();
+            renderProductStats();
+            renderItemsTable(allItems);
+            
+            document.getElementById('qr-modal').classList.add('hidden');
+            showToast(`Nuevo QR generado: ${newId}`);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        function filterItems() {
+            const searchTerm = document.getElementById('search-ids').value.toLowerCase();
+            const statusFilter = document.getElementById('filter-status').value;
+            const timeFilter = document.getElementById('filter-time').value;
+            const dateFrom = document.getElementById('date-from').value;
+            const sortBy = document.getElementById('sort-ids').value;
+
+            let filtered = allItems.filter(item => {
+                const matchesSearch = item.id.toLowerCase().includes(searchTerm) ||
+                                    (item.client && item.client.name.toLowerCase().includes(searchTerm));
+                
+                let matchesStatus = true;
+                if (statusFilter === 'claimed') {
+                    matchesStatus = item.status === 'Claimed';
+                } else if (statusFilter === 'unclaimed') {
+                    matchesStatus = item.status !== 'Claimed';
+                }
+
+                let matchesTime = true;
+                if (item.creationDate) {
+                    const creationDate = parseISO(item.creationDate);
+                    const today = new Date();
+                    
+                    if (timeFilter === 'today') {
+                        matchesTime = format(creationDate, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd');
+                    } else if (timeFilter === 'week') {
+                        const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+                        matchesTime = creationDate >= weekAgo;
+                    } else if (timeFilter === 'month') {
+                        const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+                        matchesTime = creationDate >= monthAgo;
+                    }
+                    
+                    if (dateFrom) {
+                        const fromDate = parseISO(dateFrom);
+                        matchesTime = matchesTime && creationDate >= fromDate;
+                    }
+                }
+
+                return matchesSearch && matchesStatus && matchesTime;
+            });
+
+            // Sort items
+            filtered.sort((a, b) => {
+                switch(sortBy) {
+                    case 'id': return a.id.localeCompare(b.id);
+                    case 'date': 
+                        const dateA = a.creationDate ? parseISO(a.creationDate) : new Date(0);
+                        const dateB = b.creationDate ? parseISO(b.creationDate) : new Date(0);
+                        return dateB - dateA;
+                    case 'claimed':
+                        const claimedA = a.claimedDate ? parseISO(a.claimedDate) : new Date(0);
+                        const claimedB = b.claimedDate ? parseISO(b.claimedDate) : new Date(0);
+                        return claimedB - claimedA;
+                    case 'status': return a.status.localeCompare(b.status);
+                    default: return 0;
+                }
+            });
+
+            renderItemsTable(filtered);
+        }
+
+        function showClientProfile(clientId) {
+            const client = clientsData[clientId];
+            if (!client) return;
+
+            const clientProducts = allItems.filter(item => item.ownerId === clientId);
+            
+            const profileContent = document.getElementById('client-profile-content');
+            profileContent.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Información Personal</h3>
+                        <div class="space-y-3">
+                            <div><span class="text-gray-400">Nombre:</span> <span class="ml-2">${client.name}</span></div>
+                            <div><span class="text-gray-400">Email:</span> <span class="ml-2">${client.email}</span></div>
+                            <div><span class="text-gray-400">Teléfono:</span> <span class="ml-2">${client.phone}</span></div>
+                            <div><span class="text-gray-400">Ciudad:</span> <span class="ml-2">${client.city}</span></div>
+                            <div><span class="text-gray-400">País:</span> <span class="ml-2">${client.country}</span></div>
+                            <div><span class="text-gray-400">Edad:</span> <span class="ml-2">${client.age} años</span></div>
+                            <div><span class="text-gray-400">Segmento:</span> <span class="ml-2">${client.segment}</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Productos Reclamados</h3>
+                        <div class="space-y-2 max-h-48 overflow-y-auto">
+                            ${clientProducts.map(item => `
+                                <div class="bg-gray-800 p-3 rounded">
+                                    <div class="font-mono text-sm">${item.id}</div>
+                                    <div class="text-xs text-gray-400">
+                                        Reclamado: ${item.claimedDate ? format(parseISO(item.claimedDate), 'dd/MM/yyyy') : 'N/A'}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('client-modal').classList.remove('hidden');
+        }
+
+        function viewQR(itemId) {
+            window.open(`verify.html?id=${itemId}`, '_blank');
+        }
+
+        function claimProduct(itemId) {
+            window.open(`verify.html?id=${itemId}&claimed=true`, '_blank');
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        // Make functions global for onclick handlers
+        window.showClientProfile = showClientProfile;
+        window.viewQR = viewQR;
+        window.claimProduct = claimProduct;
+        window.goBack = goBack;
+        window.toggleEditMode = toggleEditMode;
+    </script>
+</body>
+</html>

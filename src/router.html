@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autentikapp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="app-container"></div>
+    
+    <script>
+        class Router {
+            constructor() {
+                this.routes = {
+                    '': 'dashboard.html',
+                    'dashboard': 'dashboard.html',
+                    'customer': 'customer.html',
+                    'productos': 'productos.html',
+                    'ids': 'ids.html',
+                    'business': 'business.html',
+                    'talleres': 'talleres.html',
+                    'login': 'login.html',
+                    'product': 'product.html',
+                    'verify': 'verify.html'
+                };
+                this.init();
+            }
+
+            init() {
+                window.addEventListener('popstate', () => this.handleRoute());
+                this.handleRoute();
+                this.interceptLinks();
+            }
+
+            handleRoute() {
+                const path = window.location.hash.substring(1) || '';
+                const route = this.routes[path];
+                
+                if (route) {
+                    this.loadPage(route);
+                    this.updateURL(path);
+                } else {
+                    this.loadPage('dashboard.html');
+                    this.updateURL('dashboard');
+                }
+            }
+
+            async loadPage(page) {
+                try {
+                    const response = await fetch(page);
+                    const html = await response.text();
+                    
+                    // Extract body content
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const bodyContent = doc.body.innerHTML;
+                    
+                    document.getElementById('app-container').innerHTML = bodyContent;
+                    
+                    // Update title
+                    const title = doc.title;
+                    document.title = title;
+                    
+                    // Execute scripts
+                    this.executeScripts(doc);
+                    
+                } catch (error) {
+                    console.error('Error loading page:', error);
+                    document.getElementById('app-container').innerHTML = '<p class="text-red-500 p-4">Error al cargar la página</p>';
+                }
+            }
+
+            executeScripts(doc) {
+                const scripts = doc.querySelectorAll('script');
+                scripts.forEach(script => {
+                    if (script.src) {
+                        const newScript = document.createElement('script');
+                        newScript.src = script.src;
+                        document.head.appendChild(newScript);
+                    } else if (script.textContent) {
+                        try {
+                            eval(script.textContent);
+                        } catch (e) {
+                            console.error('Script execution error:', e);
+                        }
+                    }
+                });
+            }
+
+            updateURL(path) {
+                const cleanURL = window.location.origin + window.location.pathname + (path ? '#' + path : '');
+                history.replaceState(null, '', cleanURL);
+            }
+
+            interceptLinks() {
+                document.addEventListener('click', (e) => {
+                    const link = e.target.closest('a');
+                    if (link && link.href) {
+                        const url = new URL(link.href);
+                        const filename = url.pathname.split('/').pop();
+                        
+                        if (filename.endsWith('.html')) {
+                            e.preventDefault();
+                            const route = filename.replace('.html', '');
+                            window.location.hash = route;
+                        }
+                    }
+                });
+            }
+
+            navigate(path) {
+                window.location.hash = path;
+            }
+        }
+
+        // Initialize router
+        const router = new Router();
+        
+        // Global navigation function
+        window.navigateTo = (path) => router.navigate(path);
+    </script>
+</body>
+</html>

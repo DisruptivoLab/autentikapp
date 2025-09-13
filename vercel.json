@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/src/landing.html" },
+    { "source": "/login", "destination": "/src/login.html" },
+    { "source": "/dashboard", "destination": "/src/dashboard.html" },
+    { "source": "/clientes", "destination": "/src/customer.html" },
+    { "source": "/productos", "destination": "/src/productos.html" },
+    { "source": "/ids", "destination": "/src/ids.html" },
+    { "source": "/negocio", "destination": "/src/business.html" },
+    { "source": "/talleres", "destination": "/src/talleres.html" },
+    { "source": "/src/(.*)", "destination": "/src/$1" }
+  ]
+}

@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de IDs | Autentikapp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.28.0/esm/index.js"></script>
+</head>
+<body class="bg-black text-white flex">
+
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6 md:p-10 bg-black">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+            <div>
+                <h1 class="text-3xl font-bold">Gestión de IDs</h1>
+                <p class="text-lg text-gray-400">Control completo de códigos QR y autenticación.</p>
+            </div>
+            <div class="flex space-x-3 mt-4 md:mt-0">
+                <button id="bulk-actions-btn" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium">
+                    Acciones Masivas
+                </button>
+                <button id="generate-batch-btn" class="px-6 py-3 font-bold text-black bg-[#00a1ff] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">
+                    Generar Lote
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div id="ids-stats" class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+            <!-- Stats will be loaded here -->
+        </div>
+
+        <!-- Advanced Filter Controls -->
+        <div class="mb-6 space-y-4">
+            <!-- Primary Filters Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <input type="text" id="search-ids" placeholder="Buscar por ID, cliente o producto..."
+                       class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                <select id="filter-product" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <option value="all">Todos los productos</option>
+                </select>
+                <select id="filter-status" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <option value="all">Todos los estados</option>
+                    <option value="claimed">Reclamados</option>
+                    <option value="unclaimed">Disponibles</option>
+                </select>
+                <select id="filter-client-segment" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <option value="all">Todos los segmentos</option>
+                </select>
+            </div>
+            
+            <!-- Secondary Filters Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+                <select id="filter-time-range" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <option value="all">Todas las fechas</option>
+                    <option value="today">Hoy</option>
+                    <option value="week">Esta semana</option>
+                    <option value="month">Este mes</option>
+                    <option value="quarter">Este trimestre</option>
+                </select>
+                <input type="date" id="date-from" placeholder="Desde" 
+                       class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                <input type="date" id="date-to" placeholder="Hasta" 
+                       class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                <select id="filter-country" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <option value="all">Todos los países</option>
+                </select>
+                <select id="sort-ids" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <option value="id">Ordenar por ID</option>
+                    <option value="creation">Por fecha creación</option>
+                    <option value="claimed">Por fecha reclamo</option>
+                    <option value="product">Por producto</option>
+                    <option value="client">Por cliente</option>
+                </select>
+                <button id="export-filtered" class="px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium">
+                    Exportar
+                </button>
+            </div>
+            
+            <!-- Filter Summary and Actions -->
+            <div class="flex items-center justify-between bg-gray-800 rounded-lg p-3">
+                <div class="flex items-center space-x-4">
+                    <div id="filter-summary" class="text-sm text-gray-400">
+                        Mostrando todos los IDs
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="select-all" class="rounded">
+                        <label for="select-all" class="text-sm text-gray-400">Seleccionar todos</label>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <span id="selected-count" class="text-sm text-blue-400 hidden">0 seleccionados</span>
+                    <button id="clear-filters" class="text-sm text-blue-400 hover:text-blue-300 underline">
+                        Limpiar filtros
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- IDs Table -->
+        <div class="bg-gray-900 rounded-lg shadow-md overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-gray-800">
+                        <tr>
+                            <th class="px-6 py-3 text-left">
+                                <input type="checkbox" id="header-checkbox" class="rounded">
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">ID del Producto</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Producto</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Estado</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Cliente</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Ubicación</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Fecha Creación</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Fecha Reclamo</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ids-table-body" class="divide-y divide-gray-800">
+                        <!-- ID rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="no-ids-message" class="p-4 text-center text-gray-500 hidden">No se encontraron IDs.</div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex items-center justify-between mt-6">
+            <div class="text-sm text-gray-400">
+                <span id="pagination-info">Mostrando 1-50 de 100 IDs</span>
+            </div>
+            <div class="flex space-x-2">
+                <button id="prev-page" class="px-3 py-2 bg-gray-800 text-gray-400 rounded hover:bg-gray-700 disabled:opacity-50">
+                    Anterior
+                </button>
+                <div id="page-numbers" class="flex space-x-1">
+                    <!-- Page numbers will be inserted here -->
+                </div>
+                <button id="next-page" class="px-3 py-2 bg-gray-800 text-gray-400 rounded hover:bg-gray-700 disabled:opacity-50">
+                    Siguiente
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Generate Batch Modal -->
+    <div id="batch-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-gray-900 rounded-lg shadow-xl p-8 w-full max-w-md">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Generar Lote de QRs</h2>
+                <button id="close-batch-modal" class="text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="batch-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Producto</label>
+                    <select id="batch-product" required class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                        <option value="">Seleccionar producto</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Cantidad de QRs</label>
+                    <input type="number" id="batch-quantity" min="1" max="1000" required class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Prefijo personalizado (opcional)</label>
+                    <input type="text" id="batch-prefix" placeholder="Ej: LOTE2025" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                </div>
+                <div class="flex space-x-4 pt-4">
+                    <button type="submit" class="flex-1 px-4 py-2 bg-[#00a1ff] text-black font-medium rounded-md hover:bg-blue-400">
+                        Generar Lote
+                    </button>
+                    <button type="button" id="cancel-batch" class="flex-1 px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bulk Actions Modal -->
+    <div id="bulk-actions-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-gray-900 rounded-lg shadow-xl p-8 w-full max-w-md">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Acciones Masivas</h2>
+                <button id="close-bulk-modal" class="text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <button onclick="bulkExport()" class="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg">
+                    Exportar Seleccionados
+                </button>
+                <button onclick="bulkDeactivate()" class="w-full px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg">
+                    Desactivar Seleccionados
+                </button>
+                <button onclick="bulkDelete()" class="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg">
+                    Eliminar Seleccionados
+                </button>
+                <button onclick="bulkReassign()" class="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg">
+                    Reasignar Seleccionados
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ID Detail Modal -->
+    <div id="id-detail-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-gray-900 rounded-lg shadow-xl p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Detalles del ID</h2>
+                <button id="close-id-detail-modal" class="text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="id-detail-content">
+                <!-- ID detail content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast-notification" class="fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg hidden z-50">
+        <span id="toast-message">Acción completada</span>
+    </div>
+
+    <script type="module" src="./js/loadSidebar.js"></script>
+    <script>
+        // Check authentication
+        if (localStorage.getItem('autentikapp_session') !== 'authenticated') {
+            window.location.href = 'login.html';
+        }
+    </script>
+    <script type="module">
+        import { parseISO, format, subDays, subMonths } from 'https://cdn.jsdelivr.net/npm/date-fns@2.28.0/esm/index.js';
+
+        let allIdsData = [];
+        let allClientsData = [];
+        let allProductsData = [];
+        let filteredIds = [];
+        let selectedIds = new Set();
+        let currentPage = 1;
+        const itemsPerPage = 50;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            setupEventListeners();
+        });
+
+        function loadData() {
+            fetch('business.json')
+                .then(response => response.json())
+                .then(data => {
+                    allClientsData = data.clients;
+                    allProductsData = data.products;
+                    
+                    // Create flat array of all IDs with product and client info
+                    allIdsData = [];
+                    data.products.forEach(product => {
+                        product.items.forEach(item => {
+                            const client = data.clients.find(c => c.id === item.ownerId);
+                            allIdsData.push({
+                                ...item,
+                                productName: product.productName,
+                                productImage: product.productImage,
+                                productDetails: product.details,
+                                client: client || null
+                            });
+                        });
+                    });
+
+                    renderStats();
+                    populateFilters();
+                    filterIds();
+                })
+                .catch(error => {
+                    console.error("Error al cargar los datos:", error);
+                    document.getElementById('no-ids-message').classList.remove('hidden');
+                });
+        }
+
+        function setupEventListeners() {
+            // Filter events
+            document.getElementById('search-ids').addEventListener('input', filterIds);
+            document.getElementById('filter-product').addEventListener('change', filterIds);
+            document.getElementById('filter-status').addEventListener('change', filterIds);
+            document.getElementById('filter-client-segment').addEventListener('change', filterIds);
+            document.getElementById('filter-time-range').addEventListener('change', filterIds);
+            document.getElementById('date-from').addEventListener('change', filterIds);
+            document.getElementById('date-to').addEventListener('change', filterIds);
+            document.getElementById('filter-country').addEventListener('change', filterIds);
+            document.getElementById('sort-ids').addEventListener('change', filterIds);
+
+            // Action buttons
+            document.getElementById('generate-batch-btn').addEventListener('click', () => {
+                document.getElementById('batch-modal').classList.remove('hidden');
+            });
+            document.getElementById('bulk-actions-btn').addEventListener('click', () => {
+                document.getElementById('bulk-actions-modal').classList.remove('hidden');
+            });
+            document.getElementById('clear-filters').addEventListener('click', clearAllFilters);
+            document.getElementById('export-filtered').addEventListener('click', exportFiltered);
+
+            // Modal events
+            setupModalEvents();
+            
+            // Selection events
+            document.getElementById('select-all').addEventListener('change', toggleSelectAll);
+            document.getElementById('header-checkbox').addEventListener('change', toggleSelectAll);
+        }
+
+        function setupModalEvents() {
+            // Batch modal
+            document.getElementById('close-batch-modal').addEventListener('click', () => {
+                document.getElementById('batch-modal').classList.add('hidden');
+            });
+            document.getElementById('cancel-batch').addEventListener('click', () => {
+                document.getElementById('batch-modal').classList.add('hidden');
+            });
+            document.getElementById('batch-form').addEventListener('submit', generateBatch);
+
+            // Bulk actions modal
+            document.getElementById('close-bulk-modal').addEventListener('click', () => {
+                document.getElementById('bulk-actions-modal').classList.add('hidden');
+            });
+
+            // ID detail modal
+            document.getElementById('close-id-detail-modal').addEventListener('click', () => {
+                document.getElementById('id-detail-modal').classList.add('hidden');
+            });
+        }
+
+        function renderStats() {
+            const totalIds = allIdsData.length;
+            const claimedIds = allIdsData.filter(id => id.status === 'Claimed').length;
+            const availableIds = totalIds - claimedIds;
+            const claimRate = totalIds > 0 ? ((claimedIds / totalIds) * 100).toFixed(1) : 0;
+            const uniqueProducts = new Set(allIdsData.map(id => id.productName)).size;
+
+            const statsContainer = document.getElementById('ids-stats');
+            statsContainer.innerHTML = `
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <h4 class="text-gray-400 text-sm font-medium">Total IDs</h4>
+                    <p class="text-2xl font-bold mt-1">${totalIds}</p>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <h4 class="text-gray-400 text-sm font-medium">Reclamados</h4>
+                    <p class="text-2xl font-bold mt-1 text-green-400">${claimedIds}</p>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <h4 class="text-gray-400 text-sm font-medium">Disponibles</h4>
+                    <p class="text-2xl font-bold mt-1 text-blue-400">${availableIds}</p>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <h4 class="text-gray-400 text-sm font-medium">Tasa Reclamo</h4>
+                    <p class="text-2xl font-bold mt-1">${claimRate}%</p>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <h4 class="text-gray-400 text-sm font-medium">Productos</h4>
+                    <p class="text-2xl font-bold mt-1">${uniqueProducts}</p>
+                </div>
+            `;
+        }
+
+        function populateFilters() {
+            // Populate product filter
+            const productFilter = document.getElementById('filter-product');
+            const batchProduct = document.getElementById('batch-product');
+            const products = [...new Set(allIdsData.map(id => id.productName))].sort();
+            
+            products.forEach(product => {
+                const option1 = document.createElement('option');
+                option1.value = product;
+                option1.textContent = product;
+                productFilter.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = product;
+                option2.textContent = product;
+                batchProduct.appendChild(option2);
+            });
+
+            // Populate segment filter
+            const segmentFilter = document.getElementById('filter-client-segment');
+            const segments = [...new Set(allClientsData.map(client => client.segment))].sort();
+            segments.forEach(segment => {
+                const option = document.createElement('option');
+                option.value = segment;
+                option.textContent = segment;
+                segmentFilter.appendChild(option);
+            });
+
+            // Populate country filter
+            const countryFilter = document.getElementById('filter-country');
+            const countries = [...new Set(allClientsData.map(client => client.country))].sort();
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country;
+                option.textContent = country;
+                countryFilter.appendChild(option);
+            });
+        }
+
+        function filterIds() {
+            const searchTerm = document.getElementById('search-ids').value.toLowerCase();
+            const productFilter = document.getElementById('filter-product').value;
+            const statusFilter = document.getElementById('filter-status').value;
+            const segmentFilter = document.getElementById('filter-client-segment').value;
+            const timeRangeFilter = document.getElementById('filter-time-range').value;
+            const dateFrom = document.getElementById('date-from').value;
+            const dateTo = document.getElementById('date-to').value;
+            const countryFilter = document.getElementById('filter-country').value;
+            const sortBy = document.getElementById('sort-ids').value;
+
+            filteredIds = allIdsData.filter(id => {
+                const matchesSearch = id.id.toLowerCase().includes(searchTerm) ||
+                                    id.productName.toLowerCase().includes(searchTerm) ||
+                                    (id.client && id.client.name.toLowerCase().includes(searchTerm));
+                
+                const matchesProduct = productFilter === 'all' || id.productName === productFilter;
+                const matchesStatus = statusFilter === 'all' || 
+                                    (statusFilter === 'claimed' && id.status === 'Claimed') ||
+                                    (statusFilter === 'unclaimed' && id.status !== 'Claimed');
+                
+                const matchesSegment = segmentFilter === 'all' || 
+                                     (id.client && id.client.segment === segmentFilter);
+                
+                const matchesCountry = countryFilter === 'all' || 
+                                     (id.client && id.client.country === countryFilter);
+
+                // Time filter
+                let matchesTime = true;
+                if (id.creationDate && timeRangeFilter !== 'all') {
+                    const creationDate = parseISO(id.creationDate);
+                    const today = new Date();
+                    
+                    switch(timeRangeFilter) {
+                        case 'today':
+                            matchesTime = format(creationDate, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd');
+                            break;
+                        case 'week':
+                            matchesTime = creationDate >= subDays(today, 7);
+                            break;
+                        case 'month':
+                            matchesTime = creationDate >= subDays(today, 30);
+                            break;
+                        case 'quarter':
+                            matchesTime = creationDate >= subMonths(today, 3);
+                            break;
+                    }
+                }
+
+                // Date range filter
+                if (dateFrom && id.creationDate) {
+                    const creationDate = parseISO(id.creationDate);
+                    const fromDate = parseISO(dateFrom);
+                    matchesTime = matchesTime && creationDate >= fromDate;
+                }
+                if (dateTo && id.creationDate) {
+                    const creationDate = parseISO(id.creationDate);
+                    const toDate = parseISO(dateTo);
+                    matchesTime = matchesTime && creationDate <= toDate;
+                }
+
+                return matchesSearch && matchesProduct && matchesStatus && 
+                       matchesSegment && matchesCountry && matchesTime;
+            });
+
+            // Sort filtered results
+            filteredIds.sort((a, b) => {
+                switch(sortBy) {
+                    case 'id': return a.id.localeCompare(b.id);
+                    case 'creation':
+                        const dateA = a.creationDate ? parseISO(a.creationDate) : new Date(0);
+                        const dateB = b.creationDate ? parseISO(b.creationDate) : new Date(0);
+                        return dateB - dateA;
+                    case 'claimed':
+                        const claimedA = a.claimedDate ? parseISO(a.claimedDate) : new Date(0);
+                        const claimedB = b.claimedDate ? parseISO(b.claimedDate) : new Date(0);
+                        return claimedB - claimedA;
+                    case 'product': return a.productName.localeCompare(b.productName);
+                    case 'client': 
+                        const clientA = a.client ? a.client.name : 'ZZZ';
+                        const clientB = b.client ? b.client.name : 'ZZZ';
+                        return clientA.localeCompare(clientB);
+                    default: return 0;
+                }
+            });
+
+            currentPage = 1;
+            updateFilterSummary();
+            renderIdsTable();
+            renderPagination();
+        }
+
+        function renderIdsTable() {
+            const tableBody = document.getElementById('ids-table-body');
+            const noIdsMessage = document.getElementById('no-ids-message');
+
+            if (filteredIds.length === 0) {
+                tableBody.innerHTML = '';
+                noIdsMessage.classList.remove('hidden');
+                return;
+            }
+
+            noIdsMessage.classList.add('hidden');
+            
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageIds = filteredIds.slice(startIndex, endIndex);
+
+            tableBody.innerHTML = pageIds.map(id => {
+                const creationDate = id.creationDate ? format(parseISO(id.creationDate), 'dd/MM/yyyy') : 'N/A';
+                const claimedDate = id.claimedDate ? format(parseISO(id.claimedDate), 'dd/MM/yyyy') : '-';
+                const clientInfo = id.client ? `${id.client.name}` : '-';
+                const location = id.client ? `${id.client.city}, ${id.client.country}` : '-';
+
+                return `
+                    <tr class="bg-gray-900 hover:bg-gray-800 ${selectedIds.has(id.id) ? 'bg-blue-900' : ''}">
+                        <td class="px-6 py-4">
+                            <input type="checkbox" class="id-checkbox rounded" data-id="${id.id}" 
+                                   ${selectedIds.has(id.id) ? 'checked' : ''}>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="font-mono text-sm">${id.id}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <img src="${id.productImage}" alt="${id.productName}" class="w-8 h-8 rounded mr-3">
+                                <span class="text-sm">${id.productName}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 text-xs rounded-full ${
+                                id.status === 'Claimed' 
+                                    ? 'bg-green-900 text-green-300' 
+                                    : 'bg-blue-900 text-blue-300'
+                            }">
+                                ${id.status === 'Claimed' ? 'Reclamado' : 'Disponible'}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            ${id.client ? `
+                                <button onclick="showClientProfile('${id.client.id}')" 
+                                        class="text-blue-400 hover:text-blue-300 hover:underline text-sm">
+                                    ${clientInfo}
+                                </button>
+                            ` : '<span class="text-gray-500 text-sm">-</span>'}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${location}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${creationDate}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${claimedDate}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <div class="flex justify-end space-x-2">
+                                <button onclick="showIdDetail('${id.id}')" 
+                                        class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-xs">
+                                    Detalles
+                                </button>
+                                <button onclick="viewQR('${id.id}')" 
+                                        class="bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded text-xs">
+                                    Ver QR
+                                </button>
+                                ${id.status !== 'Claimed' ? `
+                                    <button onclick="claimId('${id.id}')" 
+                                            class="bg-yellow-600 hover:bg-yellow-700 text-white px-2 py-1 rounded text-xs">
+                                        Reclamar
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Add event listeners to checkboxes
+            document.querySelectorAll('.id-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', handleIdSelection);
+            });
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredIds.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage + 1;
+            const endIndex = Math.min(currentPage * itemsPerPage, filteredIds.length);
+
+            document.getElementById('pagination-info').textContent = 
+                `Mostrando ${startIndex}-${endIndex} de ${filteredIds.length} IDs`;
+
+            const pageNumbers = document.getElementById('page-numbers');
+            pageNumbers.innerHTML = '';
+
+            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.className = `px-3 py-2 rounded ${i === currentPage ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`;
+                button.addEventListener('click', () => {
+                    currentPage = i;
+                    renderIdsTable();
+                    renderPagination();
+                });
+                pageNumbers.appendChild(button);
+            }
+
+            document.getElementById('prev-page').disabled = currentPage === 1;
+            document.getElementById('next-page').disabled = currentPage === totalPages;
+        }
+
+        function updateFilterSummary() {
+            const summary = document.getElementById('filter-summary');
+            const total = allIdsData.length;
+            const filtered = filteredIds.length;
+            
+            if (filtered === total) {
+                summary.textContent = `Mostrando todos los ${total} IDs`;
+            } else {
+                summary.textContent = `Mostrando ${filtered} de ${total} IDs`;
+            }
+        }
+
+        function handleIdSelection(e) {
+            const idValue = e.target.dataset.id;
+            if (e.target.checked) {
+                selectedIds.add(idValue);
+            } else {
+                selectedIds.delete(idValue);
+            }
+            updateSelectionUI();
+        }
+
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('select-all').checked;
+            const pageIds = filteredIds.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+            
+            if (selectAll) {
+                pageIds.forEach(id => selectedIds.add(id.id));
+            } else {
+                pageIds.forEach(id => selectedIds.delete(id.id));
+            }
+            
+            renderIdsTable();
+            updateSelectionUI();
+        }
+
+        function updateSelectionUI() {
+            const selectedCount = document.getElementById('selected-count');
+            if (selectedIds.size > 0) {
+                selectedCount.textContent = `${selectedIds.size} seleccionados`;
+                selectedCount.classList.remove('hidden');
+            } else {
+                selectedCount.classList.add('hidden');
+            }
+        }
+
+        function clearAllFilters() {
+            document.getElementById('search-ids').value = '';
+            document.getElementById('filter-product').value = 'all';
+            document.getElementById('filter-status').value = 'all';
+            document.getElementById('filter-client-segment').value = 'all';
+            document.getElementById('filter-time-range').value = 'all';
+            document.getElementById('date-from').value = '';
+            document.getElementById('date-to').value = '';
+            document.getElementById('filter-country').value = 'all';
+            document.getElementById('sort-ids').value = 'id';
+            filterIds();
+        }
+
+        function generateBatch(e) {
+            e.preventDefault();
+            const product = document.getElementById('batch-product').value;
+            const quantity = parseInt(document.getElementById('batch-quantity').value);
+            const prefix = document.getElementById('batch-prefix').value || 'BATCH';
+            
+            // Generate new IDs (simulation)
+            for (let i = 0; i < quantity; i++) {
+                const newId = `${prefix}-${Date.now()}-${i}`;
+                allIdsData.push({
+                    id: newId,
+                    status: 'Unclaimed',
+                    ownerId: null,
+                    claimedDate: null,
+                    creationDate: new Date().toISOString().split('T')[0],
+                    productName: product,
+                    productImage: allProductsData.find(p => p.productName === product)?.productImage || '',
+                    client: null
+                });
+            }
+            
+            document.getElementById('batch-modal').classList.add('hidden');
+            document.getElementById('batch-form').reset();
+            renderStats();
+            filterIds();
+            showToast(`Lote de ${quantity} QRs generado exitosamente`);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Action functions
+        function showIdDetail(idValue) {
+            const id = allIdsData.find(item => item.id === idValue);
+            if (!id) return;
+
+            const detailContent = document.getElementById('id-detail-content');
+            detailContent.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-gray-800 rounded-lg p-6">
+                        <h3 class="text-xl font-semibold mb-4">Información del ID</h3>
+                        <div class="space-y-3">
+                            <div><span class="text-gray-400">ID:</span> <span class="ml-2 font-mono">${id.id}</span></div>
+                            <div><span class="text-gray-400">Producto:</span> <span class="ml-2">${id.productName}</span></div>
+                            <div><span class="text-gray-400">Estado:</span> 
+                                <span class="ml-2 px-2 py-1 text-xs rounded-full ${
+                                    id.status === 'Claimed' ? 'bg-green-900 text-green-300' : 'bg-blue-900 text-blue-300'
+                                }">
+                                    ${id.status === 'Claimed' ? 'Reclamado' : 'Disponible'}
+                                </span>
+                            </div>
+                            <div><span class="text-gray-400">Fecha Creación:</span> <span class="ml-2">${id.creationDate ? format(parseISO(id.creationDate), 'dd/MM/yyyy') : 'N/A'}</span></div>
+                            ${id.claimedDate ? `<div><span class="text-gray-400">Fecha Reclamo:</span> <span class="ml-2">${format(parseISO(id.claimedDate), 'dd/MM/yyyy')}</span></div>` : ''}
+                        </div>
+                    </div>
+                    
+                    ${id.client ? `
+                        <div class="bg-gray-800 rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-4">Información del Cliente</h3>
+                            <div class="space-y-3">
+                                <div><span class="text-gray-400">Nombre:</span> <span class="ml-2">${id.client.name}</span></div>
+                                <div><span class="text-gray-400">Email:</span> <span class="ml-2">${id.client.email}</span></div>
+                                <div><span class="text-gray-400">Teléfono:</span> <span class="ml-2">${id.client.phone}</span></div>
+                                <div><span class="text-gray-400">Ubicación:</span> <span class="ml-2">${id.client.city}, ${id.client.country}</span></div>
+                                <div><span class="text-gray-400">Segmento:</span> <span class="ml-2">${id.client.segment}</span></div>
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="bg-gray-800 rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-4">Sin Cliente Asignado</h3>
+                            <p class="text-gray-400">Este ID aún no ha sido reclamado por ningún cliente.</p>
+                        </div>
+                    `}
+                </div>
+            `;
+
+            document.getElementById('id-detail-modal').classList.remove('hidden');
+        }
+
+        function viewQR(idValue) {
+            window.open(`verify.html?id=${idValue}`, '_blank');
+        }
+
+        function claimId(idValue) {
+            window.open(`verify.html?id=${idValue}&claimed=true`, '_blank');
+        }
+
+        function showClientProfile(clientId) {
+            // This would open the client profile - for now just show a message
+            showToast('Abriendo perfil del cliente...');
+        }
+
+        function exportFiltered() {
+            showToast(`Exportando ${filteredIds.length} IDs filtrados...`);
+        }
+
+        // Bulk action functions
+        function bulkExport() {
+            showToast(`Exportando ${selectedIds.size} IDs seleccionados...`);
+            document.getElementById('bulk-actions-modal').classList.add('hidden');
+        }
+
+        function bulkDeactivate() {
+            if (confirm(`¿Desactivar ${selectedIds.size} IDs seleccionados?`)) {
+                showToast(`${selectedIds.size} IDs desactivados`);
+                selectedIds.clear();
+                updateSelectionUI();
+                document.getElementById('bulk-actions-modal').classList.add('hidden');
+            }
+        }
+
+        function bulkDelete() {
+            if (confirm(`¿Eliminar permanentemente ${selectedIds.size} IDs seleccionados?`)) {
+                showToast(`${selectedIds.size} IDs eliminados`);
+                selectedIds.clear();
+                updateSelectionUI();
+                document.getElementById('bulk-actions-modal').classList.add('hidden');
+            }
+        }
+
+        function bulkReassign() {
+            showToast(`Función de reasignación masiva para ${selectedIds.size} IDs`);
+            document.getElementById('bulk-actions-modal').classList.add('hidden');
+        }
+
+        // Make functions global
+        window.showIdDetail = showIdDetail;
+        window.viewQR = viewQR;
+        window.claimId = claimId;
+        window.showClientProfile = showClientProfile;
+        window.bulkExport = bulkExport;
+        window.bulkDeactivate = bulkDeactivate;
+        window.bulkDelete = bulkDelete;
+        window.bulkReassign = bulkReassign;
+    </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autentikapp - Plataforma de Autenticación de Productos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white">
+    <!-- Header -->
+    <header class="bg-gray-900 shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="../identidad/autentikapp.webp" alt="Autentikapp" class="h-10 mr-3">
+                <h1 class="text-2xl font-bold text-blue-400">Autentikapp</h1>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#features" class="hover:text-blue-400 transition">Características</a>
+                <a href="#about" class="hover:text-blue-400 transition">Acerca de</a>
+                <a href="#contact" class="hover:text-blue-400 transition">Contacto</a>
+            </nav>
+            <button onclick="window.location.href='login.html'" class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-medium transition">
+                Iniciar Sesión
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-20 px-6">
+        <div class="container mx-auto text-center">
+            <h2 class="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
+                Autenticidad Garantizada
+            </h2>
+            <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                Protege tu marca y conecta con tus clientes a través de nuestra plataforma líder en autenticación de productos mediante códigos QR únicos.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="window.location.href='login.html'" class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-medium text-lg transition">
+                    Acceder al Panel
+                </button>
+                <button class="border border-gray-600 hover:border-gray-400 px-8 py-3 rounded-lg font-medium text-lg transition">
+                    Ver Demo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 px-6 bg-gray-900">
+        <div class="container mx-auto">
+            <h3 class="text-3xl font-bold text-center mb-12">Características Principales</h3>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">Verificación Instantánea</h4>
+                    <p class="text-gray-400">Códigos QR únicos que permiten verificación inmediata de autenticidad</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">Dashboard Avanzado</h4>
+                    <p class="text-gray-400">Panel de control completo con analytics y gestión de productos</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-semibold mb-3">Seguridad Máxima</h4>
+                    <p class="text-gray-400">Protección avanzada contra falsificación y clonación</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 px-6">
+        <div class="container mx-auto max-w-4xl text-center">
+            <h3 class="text-3xl font-bold mb-8">Combatiendo la Falsificación</h3>
+            <p class="text-lg text-gray-300 mb-6">
+                En un mundo donde la falsificación amenaza la integridad de las marcas, Autentikapp ofrece una solución tecnológica avanzada que garantiza la autenticidad de cada producto.
+            </p>
+            <p class="text-lg text-gray-300">
+                Nuestra plataforma permite a las empresas generar códigos QR únicos, gestionar inventarios, analizar datos de verificación y conectar directamente con sus clientes finales.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 px-6 bg-gray-900">
+        <div class="container mx-auto max-w-2xl text-center">
+            <h3 class="text-3xl font-bold mb-8">¿Listo para Proteger tu Marca?</h3>
+            <p class="text-lg text-gray-300 mb-8">
+                Únete a las empresas que ya confían en Autentikapp para proteger sus productos y conectar con sus clientes.
+            </p>
+            <button onclick="window.location.href='login.html'" class="bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-lg font-medium text-lg transition">
+                Comenzar Ahora
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-8 px-6">
+        <div class="container mx-auto text-center">
+            <div class="flex items-center justify-center mb-4">
+                <img src="../identidad/autentikapp.webp" alt="Autentikapp" class="h-8 mr-2">
+                <span class="text-lg font-semibold">Autentikapp</span>
+            </div>
+            <p class="text-gray-400 text-sm">
+                © 2025 Autentikapp. Todos los derechos reservados. | Autenticidad Garantizada, Confianza Verificada
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
