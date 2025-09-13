@@ -76,14 +76,14 @@
                 <button onclick="window.location.href='/login'" class="bg-white text-black px-12 py-4 rounded-full font-semibold text-lg transition transform hover:scale-105 shadow-2xl">
                     Proteger mi Marca
                 </button>
-                <button onclick="scrollToSolution()" class="border-2 border-white hover:bg-white hover:text-black px-12 py-4 rounded-full font-semibold text-lg transition transform hover:scale-105">
+                <button onclick="scrollToProblem()" class="border-2 border-white hover:bg-white hover:text-black px-12 py-4 rounded-full font-semibold text-lg transition transform hover:scale-105">
                     Descubrir Más
                 </button>
             </div>
         </div>
         
         <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-30">
-            <button onclick="scrollToSolution()" class="text-white hover:text-blue-400 transition">
+            <button onclick="scrollToProblem()" class="text-white hover:text-blue-400 transition">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                 </svg>
@@ -92,7 +92,7 @@
     </section>
 
     <!-- Problem Statement -->
-    <section class="py-40 px-6 bg-black">
+    <section id="problem" class="py-40 px-6 bg-black">
         <div class="container mx-auto max-w-5xl text-center">
             <h3 class="text-5xl md:text-6xl font-light mb-24 text-luxury">
                 El Problema que <span class="font-bold">Enfrentas</span>
@@ -294,6 +294,12 @@
     </footer>
 
     <script>
+        function scrollToProblem() {
+            document.getElementById('problem').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
         function scrollToSolution() {
             document.getElementById('solution').scrollIntoView({ 
                 behavior: 'smooth' 
