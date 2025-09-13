@@ -3,7 +3,7 @@
     "basic": {
       "name": "W Merch",
       "legalName": "W Merch S.A.S.",
-      "logo": "../w-merch/logo.webp",
+      "logo": "/w-merch/logo.webp",
       "favicon": "https://via.placeholder.com/32x32/00a1ff/ffffff?text=W",
       "description": "Plataforma líder en autenticación de productos mediante códigos QR únicos, combatiendo la falsificación y conectando marcas con consumidores.",
       "slogan": "Autenticidad Garantizada, Confianza Verificada",
@@ -99,9 +99,9 @@
         "secondary": "Roboto"
       },
       "logoVariants": {
-        "horizontal": "../w-merch/logo.webp",
-        "vertical": "../w-merch/logo.webp",
-        "icon": "../w-merch/logo.webp"
+        "horizontal": "/w-merch/logo.webp",
+        "vertical": "/w-merch/logo.webp",
+        "icon": "/w-merch/logo.webp"
       }
     },
     "settings": {
@@ -543,7 +543,7 @@
   "products": [
     {
       "productName": "Bolso de Cuero Negro",
-      "productImage": "https://via.placeholder.com/300x300/1f2937/ffffff?text=Bolso+Negro",
+      "productImage": "/w-merch/productos/bolso-1.webp",
       "details": {"color": "Negro", "material": "Cuero", "tipo": "Bolso de hombro"},
       "registrationDate": "2025-01-10",
       "warrantyPolicy": "https://wmerchshop.com/pages/terminos-de-venta",
