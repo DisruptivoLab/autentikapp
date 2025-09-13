@@ -7,7 +7,7 @@ window.Sidebar = {
         const sidebarHtml = `
             <aside class="w-64 bg-gray-900 shadow-md h-screen sticky top-0 flex flex-col">
                 <div class="flex items-center justify-center h-20 border-b border-gray-800">
-                    <img src="/identidad/autentikapp.webp" alt="Autentikapp" class="h-12">
+                    <img src="/identidad/autentikapp.svg" alt="Autentikapp" class="h-12">
                 </div>
                 <nav class="flex-grow px-4 py-6">
                     <a href="/dashboard" data-route="/dashboard" class="nav-link flex items-center px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-md">
