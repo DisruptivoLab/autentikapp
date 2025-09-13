@@ -5,16 +5,16 @@ window.Sidebar = {
         if (!sidebarPlaceholder) return;
         
         const sidebarHtml = `
-            <aside id="sidebar" class="w-16 hover:w-64 bg-gray-900 shadow-md h-screen sticky top-0 flex flex-col transition-all duration-300 group">
-                <div class="flex items-center justify-center h-20 border-b border-gray-800 px-4">
-                    <img src="/identidad/logotipo-oficial.webp" alt="Autentikapp" class="h-8 flex-shrink-0">
-                    <span class="text-lg text-white ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap" style="font-family: 'Poppins', sans-serif;">
+            <aside id="sidebar" class="w-16 hover:w-64 bg-gray-900 shadow-md h-screen sticky top-0 flex flex-col transition-all duration-300 group overflow-hidden">
+                <div class="flex items-center h-20 border-b border-gray-800 px-3">
+                    <img src="/identidad/logotipo-oficial.webp" alt="Autentikapp" class="h-8 flex-shrink-0 min-w-8">
+                    <span class="text-lg text-white ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap overflow-hidden" style="font-family: 'Poppins', sans-serif;">
                         <span class="font-bold">Autentik</span><span class="font-light">app</span>
                     </span>
                 </div>
-                <nav class="flex-grow px-2 py-6">
-                    <a href="/dashboard" data-route="/dashboard" class="nav-link flex items-center px-3 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-md mb-2 group/item">
-                        <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18M3 6h18"></path></svg>
+                <nav class="flex-grow px-2 py-6 overflow-hidden">
+                    <a href="/dashboard" data-route="/dashboard" class="nav-link flex items-center px-3 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-md mb-2 overflow-hidden">
+                        <svg class="w-6 h-6 flex-shrink-0 min-w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18M3 6h18"></path></svg>
                         <span class="ml-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">Tablero</span>
                     </a>
                     <a href="/clientes" data-route="/clientes" class="nav-link flex items-center px-3 py-3 text-gray-400 hover:bg-gray-800 hover:text-white rounded-md mb-2 group/item">
