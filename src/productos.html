@@ -3,170 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos | Autentikapp</title>
+    <title>Productos | autentikapp</title>
+    <link rel="icon" type="image/webp" href="/identidad/logotipo-oficial.webp">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/date-fns@2.28.0/esm/index.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #ffffff;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        .filter-input {
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        .filter-input:focus {
+            background: rgba(0, 0, 0, 0.03);
+            border-color: rgba(0, 0, 0, 0.15);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+        }
+        .luxury-button {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            transition: all 0.3s ease;
+        }
+        .luxury-button:hover {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        .table-container {
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+    </style>
 </head>
-<body class="bg-black text-white flex">
+<body class="bg-white text-gray-900 flex">
 
     <div id="sidebar-placeholder"></div>
 
     <!-- Main Content -->
-    <main class="flex-1 p-6 md:p-10 bg-black">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+    <main class="flex-1 p-8 bg-white transition-all duration-300">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
             <div>
-                <h1 class="text-3xl font-bold">Productos</h1>
-                <p class="text-lg text-gray-400">Inventario y estado de unidades.</p>
+                <h1 class="text-4xl font-light text-gray-900 mb-2">Productos</h1>
+                <p class="text-lg text-gray-500 font-light">Inventario y gestión de productos</p>
             </div>
-            <button id="assign-qr-btn" class="mt-4 md:mt-0 px-6 py-3 font-bold text-black bg-[#00a1ff] rounded-lg hover:bg-blue-400 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">
-                Asignar Nuevo QR
+            <button id="assign-qr-btn" class="luxury-button mt-4 md:mt-0 px-6 py-3 text-white rounded-xl font-medium">
+                Generar QR
             </button>
         </div>
 
-        <!-- Search and Filter Controls -->
-        <div class="mb-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            <input type="text" id="search-products" placeholder="Buscar productos..."
-                   class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-            <select id="filter-status" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                <option value="all">Todos los estados</option>
-                <option value="claimed">Con reclamos</option>
-                <option value="unclaimed">Sin reclamos</option>
-            </select>
-            <select id="filter-color" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                <option value="all">Todos los colores</option>
-            </select>
-            <select id="filter-time" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                <option value="all">Todas las fechas</option>
-                <option value="today">Hoy</option>
-                <option value="week">Esta semana</option>
-                <option value="month">Este mes</option>
-            </select>
-            <input type="date" id="date-from" placeholder="Desde" 
-                   class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-            <select id="sort-by" class="px-4 py-3 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                <option value="name">Ordenar por nombre</option>
-                <option value="units">Ordenar por unidades</option>
-                <option value="claimed">Ordenar por reclamos</option>
-                <option value="rate">Ordenar por tasa</option>
-                <option value="date">Ordenar por fecha</option>
-            </select>
+        <!-- Filters Panel -->
+        <div class="glass-card rounded-2xl p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-medium text-gray-900">Filtros</h3>
+                <button id="toggle-filters" class="text-gray-500 hover:text-gray-700 text-sm font-light">
+                    Ocultar
+                </button>
+            </div>
+            <div id="filters-content" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <input type="text" id="search-products" placeholder="Buscar productos..."
+                           class="filter-input px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                    <select id="filter-status" class="filter-input px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                        <option value="all">Todos los estados</option>
+                        <option value="claimed">Con verificaciones</option>
+                        <option value="unclaimed">Sin verificaciones</option>
+                    </select>
+                    <select id="filter-color" class="filter-input px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                        <option value="all">Todos los colores</option>
+                    </select>
+                    <select id="filter-time" class="filter-input px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                        <option value="all">Todas las fechas</option>
+                        <option value="today">Hoy</option>
+                        <option value="week">Esta semana</option>
+                        <option value="month">Este mes</option>
+                    </select>
+                    <input type="date" id="date-from" placeholder="Desde" 
+                           class="filter-input px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                    <select id="sort-by" class="filter-input px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                        <option value="name">Ordenar por nombre</option>
+                        <option value="units">Ordenar por unidades</option>
+                        <option value="claimed">Ordenar por verificaciones</option>
+                        <option value="rate">Ordenar por tasa</option>
+                        <option value="date">Ordenar por fecha</option>
+                    </select>
+                </div>
+                
+                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                    <div id="filter-summary" class="text-sm text-gray-500 font-light">
+                        Mostrando todos los productos
+                    </div>
+                    <div class="flex space-x-3">
+                        <button id="clear-filters" class="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors">
+                            Limpiar
+                        </button>
+                        <button id="apply-filters" class="luxury-button px-4 py-2 text-sm text-white rounded-lg">
+                            Aplicar
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Products Table -->
-        <div class="bg-gray-900 rounded-lg shadow-md overflow-hidden">
+        <div class="table-container rounded-2xl shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-700">
-                    <thead class="bg-gray-800">
+                <table class="min-w-full divide-y divide-gray-100">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Producto</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Unidades</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Reclamadas</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Tasa Reclamo</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Fecha Registro</th>
-                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Acciones</th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unidades</th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Verificadas</th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tasa Verificación</th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Registro</th>
+                            <th class="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="products-table-body" class="divide-y divide-gray-800">
+                    <tbody id="products-table-body" class="bg-white divide-y divide-gray-50">
                         <!-- Product rows will be inserted here -->
                     </tbody>
                 </table>
             </div>
-            <div id="no-products-message" class="p-4 text-center text-gray-500 hidden">No se encontraron productos.</div>
+            <div id="no-products-message" class="p-8 text-center text-gray-500 hidden">No se encontraron productos.</div>
         </div>
     </main>
 
-    <!-- QR Modal -->
-    <div id="qr-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
-        <div class="bg-gray-900 rounded-lg shadow-xl p-8 w-full max-w-md text-center">
-            <h2 class="text-2xl font-bold mb-4">Generar Nuevo QR</h2>
-            <p class="text-gray-400 mb-6">Selecciona un producto para generar un nuevo código QR único.</p>
-            <div class="space-y-4">
-                <select id="product-select" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                </select>
-                <button id="generate-sim-btn" class="w-full px-4 py-2 font-bold text-black bg-[#00a1ff] rounded-md">Generar Código</button>
-            </div>
-            <button id="close-modal-btn" class="mt-6 text-gray-400 hover:text-white text-sm">Cerrar</button>
-        </div>
-    </div>
-
-    <!-- Edit Product Modal -->
-    <div id="edit-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
-        <div class="bg-gray-900 rounded-lg shadow-xl p-8 w-full max-w-lg">
-            <h2 class="text-2xl font-bold mb-4">Editar Producto</h2>
-            <div class="space-y-4">
+    <!-- Product Detail Modal -->
+    <div id="product-detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="glass-card rounded-3xl p-8 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-8">
                 <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Nombre del Producto</label>
-                    <input type="text" id="edit-product-name" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
+                    <h2 class="text-3xl font-light text-gray-900">Detalles del Producto</h2>
+                    <p class="text-gray-500 font-light">Información completa y gestión</p>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Color</label>
-                        <input type="text" id="edit-product-color" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Material</label>
-                        <input type="text" id="edit-product-material" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-300 mb-2">Tipo</label>
-                    <input type="text" id="edit-product-type" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                </div>
-                <div class="flex space-x-4 pt-4">
-                    <button id="save-edit-btn" class="flex-1 px-4 py-2 font-bold text-black bg-[#00a1ff] rounded-md">Guardar Cambios</button>
-                    <button id="close-edit-btn" class="flex-1 px-4 py-2 text-gray-400 border border-gray-600 rounded-md hover:bg-gray-800">Cancelar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Manage Product Info Modal -->
-    <div id="manage-info-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
-        <div class="bg-gray-900 rounded-lg shadow-xl p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold">Gestionar Información del Producto</h2>
-                <button id="close-manage-info" class="text-gray-400 hover:text-white">
+                <button id="close-detail-modal" class="text-gray-400 hover:text-gray-600 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
             
-            <!-- Tabs -->
-            <div class="mb-6">
-                <nav class="flex space-x-1 bg-gray-800 p-1 rounded-lg">
-                    <button class="info-tab active px-4 py-2 text-sm font-medium rounded-md bg-blue-600 text-white" data-tab="basic">Básico</button>
-                    <button class="info-tab px-4 py-2 text-sm font-medium rounded-md text-gray-300 hover:text-white" data-tab="manufacturer">Fabricante</button>
-                    <button class="info-tab px-4 py-2 text-sm font-medium rounded-md text-gray-300 hover:text-white" data-tab="materials">Materiales</button>
-                    <button class="info-tab px-4 py-2 text-sm font-medium rounded-md text-gray-300 hover:text-white" data-tab="care">Cuidado</button>
-                    <button class="info-tab px-4 py-2 text-sm font-medium rounded-md text-gray-300 hover:text-white" data-tab="sustainability">Sostenibilidad</button>
-                </nav>
-            </div>
-            
-            <!-- Tab Content -->
-            <div id="info-tab-content">
-                <!-- Content will be populated by JavaScript -->
-            </div>
-            
-            <div class="flex justify-end space-x-3 mt-6 pt-4 border-t border-gray-700">
-                <button id="save-product-info" class="px-6 py-2 bg-[#00a1ff] text-black font-medium rounded-md hover:bg-blue-400">
-                    Guardar Cambios
-                </button>
-                <button id="cancel-product-info" class="px-6 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600">
-                    Cancelar
-                </button>
+            <div id="product-detail-content" class="space-y-8">
+                <!-- Product detail content will be loaded here -->
             </div>
         </div>
     </div>
-    <div id="toast-notification" class="fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg hidden z-50">
-        Nuevo QR generado para el producto seleccionado.
-    </div>
 
-    <script src="./js/dataManager.js"></script>
-    <script type="module" src="./js/loadSidebar.js"></script>
+    <script src="/js/dataManager.js"></script>
+    <script type="module" src="/js/loadSidebar.js"></script>
     <script>
-        // Check authentication
         if (localStorage.getItem('autentikapp_session') !== 'authenticated') {
             window.location.href = 'login.html';
         }
@@ -181,18 +184,24 @@
                 const data = await window.DataManager.load();
                 allProductsData = data.products;
                 renderProductsTable(allProductsData);
-                populateModalSelect(allProductsData);
+                populateColorFilter(allProductsData);
+                setupEventListeners();
             } catch (error) {
                 console.error("Error al cargar los datos:", error);
                 document.getElementById('no-products-message').classList.remove('hidden');
             }
+        });
 
+        function setupEventListeners() {
             const searchInput = document.getElementById('search-products');
             const filterStatus = document.getElementById('filter-status');
             const filterColor = document.getElementById('filter-color');
             const filterTime = document.getElementById('filter-time');
             const dateFrom = document.getElementById('date-from');
             const sortBy = document.getElementById('sort-by');
+            const clearFilters = document.getElementById('clear-filters');
+            const applyFilters = document.getElementById('apply-filters');
+            const toggleFilters = document.getElementById('toggle-filters');
 
             searchInput.addEventListener('input', filterProducts);
             filterStatus.addEventListener('change', filterProducts);
@@ -200,39 +209,24 @@
             filterTime.addEventListener('change', filterProducts);
             dateFrom.addEventListener('change', filterProducts);
             sortBy.addEventListener('change', filterProducts);
-
-            populateColorFilter(allProductsData);
-
-            // Modal Logic
-            const qrModal = document.getElementById('qr-modal');
-            const editModal = document.getElementById('edit-modal');
-            const assignBtn = document.getElementById('assign-qr-btn');
-            const closeModalBtn = document.getElementById('close-modal-btn');
-            const closeEditBtn = document.getElementById('close-edit-btn');
-            const generateSimBtn = document.getElementById('generate-sim-btn');
-            const saveEditBtn = document.getElementById('save-edit-btn');
-            const toast = document.getElementById('toast-notification');
-
-            assignBtn.addEventListener('click', () => qrModal.classList.remove('hidden'));
-            closeModalBtn.addEventListener('click', () => qrModal.classList.add('hidden'));
-            closeEditBtn.addEventListener('click', () => editModal.classList.add('hidden'));
+            clearFilters.addEventListener('click', clearAllFilters);
+            applyFilters.addEventListener('click', filterProducts);
+            toggleFilters.addEventListener('click', toggleFiltersPanel);
             
-            generateSimBtn.addEventListener('click', () => {
-                qrModal.classList.add('hidden');
-                showToast('Nuevo QR generado exitosamente');
+            // Modal event listeners
+            document.getElementById('close-detail-modal').addEventListener('click', () => {
+                document.getElementById('product-detail-modal').classList.add('hidden');
             });
             
-            saveEditBtn.addEventListener('click', () => {
-                editModal.classList.add('hidden');
-                showToast('Producto actualizado exitosamente');
+            document.getElementById('assign-qr-btn').addEventListener('click', () => {
+                showToast('Función de generación de QR');
             });
-        });
+        }
 
         function calculateProductStats(productGroup) {
             const totalUnits = productGroup.items.length;
             const claimedUnits = productGroup.items.filter(item => item.status === 'Claimed').length;
             const claimRate = totalUnits > 0 ? ((claimedUnits / totalUnits) * 100).toFixed(1) : 0;
-
             const registrationDate = productGroup.registrationDate ? format(parseISO(productGroup.registrationDate), 'dd/MM/yyyy') : 'N/A';
 
             return { totalUnits, claimedUnits, claimRate, registrationDate };
@@ -240,44 +234,42 @@
 
         function renderProductsTable(productsToRender) {
             const tableBody = document.getElementById('products-table-body');
-            tableBody.innerHTML = '';
             const noProductsMessage = document.getElementById('no-products-message');
 
             if (productsToRender.length === 0) {
+                tableBody.innerHTML = '';
                 noProductsMessage.classList.remove('hidden');
                 return;
             }
-            noProductsMessage.classList.add('hidden');
 
-            productsToRender.forEach(productGroup => {
+            noProductsMessage.classList.add('hidden');
+            tableBody.innerHTML = productsToRender.map(productGroup => {
                 const { totalUnits, claimedUnits, claimRate, registrationDate } = calculateProductStats(productGroup);
 
-                const row = `
-                    <tr class="bg-gray-900 hover:bg-gray-800">
+                return `
+                    <tr class="hover:bg-gray-50 transition-colors">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
-                                <img class="h-10 w-10 rounded-full mr-4" src="${productGroup.productImage}" alt="${productGroup.productName}">
+                                <img class="h-12 w-12 rounded-xl object-cover mr-4" src="${productGroup.productImage}" alt="${productGroup.productName}">
                                 <div>
-                                    <div class="text-sm font-medium text-white">${productGroup.productName}</div>
-                                    <button onclick="manageProductInfo('${productGroup.productName}')" class="text-xs text-blue-400 hover:text-blue-300">Gestionar Info</button>
+                                    <div class="text-sm font-medium text-gray-900">${productGroup.productName}</div>
+                                    <div class="text-sm text-gray-500">${productGroup.details?.color || 'N/A'} • ${productGroup.details?.material || 'N/A'}</div>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${totalUnits}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${claimedUnits}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${claimRate}%</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${registrationDate}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${totalUnits}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium ${claimedUnits > 0 ? 'text-green-600' : 'text-gray-400'}">${claimedUnits}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${claimRate}%</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${registrationDate}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <div class="flex justify-end space-x-2">
-                                <button onclick="viewProductDetails('${productGroup.productName}')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs">Ver Detalles</button>
-                                <button onclick="editProduct('${productGroup.productName}')" class="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded text-xs">Editar</button>
-                                <button onclick="generateQR('${productGroup.productName}')" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs">+ QR</button>
-                            </div>
+                            <button onclick="showProductDetail('${productGroup.productName}')" 
+                                    class="luxury-button text-white px-4 py-2 rounded-lg text-xs">
+                                Ver Detalles
+                            </button>
                         </td>
                     </tr>
                 `;
-                tableBody.innerHTML += row;
-            });
+            }).join('');
         }
 
         function filterProducts() {
@@ -303,28 +295,7 @@
                     matchesColor = productGroup.details?.color === colorFilter;
                 }
 
-                let matchesTime = true;
-                if (productGroup.registrationDate) {
-                    const regDate = parseISO(productGroup.registrationDate);
-                    const today = new Date();
-                    
-                    if (timeFilter === 'today') {
-                        matchesTime = format(regDate, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd');
-                    } else if (timeFilter === 'week') {
-                        const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-                        matchesTime = regDate >= weekAgo;
-                    } else if (timeFilter === 'month') {
-                        const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
-                        matchesTime = regDate >= monthAgo;
-                    }
-                    
-                    if (dateFrom) {
-                        const fromDate = parseISO(dateFrom);
-                        matchesTime = matchesTime && regDate >= fromDate;
-                    }
-                }
-
-                return matchesSearch && matchesStatus && matchesColor && matchesTime;
+                return matchesSearch && matchesStatus && matchesColor;
             });
 
             // Sort products
@@ -345,7 +316,19 @@
                 }
             });
 
+            updateFilterSummary(filtered.length);
             renderProductsTable(filtered);
+        }
+
+        function updateFilterSummary(count) {
+            const summary = document.getElementById('filter-summary');
+            const total = allProductsData.length;
+            
+            if (count === total) {
+                summary.textContent = `Mostrando todos los ${total} productos`;
+            } else {
+                summary.textContent = `Mostrando ${count} de ${total} productos`;
+            }
         }
 
         function populateColorFilter(products) {
@@ -366,315 +349,141 @@
             });
         }
 
-        function showToast(message) {
-            const toast = document.getElementById('toast-notification');
-            toast.textContent = message;
-            toast.classList.remove('hidden');
-            setTimeout(() => { toast.classList.add('hidden'); }, 3000);
+        function clearAllFilters() {
+            document.getElementById('search-products').value = '';
+            document.getElementById('filter-status').value = 'all';
+            document.getElementById('filter-color').value = 'all';
+            document.getElementById('filter-time').value = 'all';
+            document.getElementById('date-from').value = '';
+            document.getElementById('sort-by').value = 'name';
+            filterProducts();
         }
 
-        function editProduct(productName) {
-            const product = allProductsData.find(p => p.productName === productName);
-            if (product) {
-                document.getElementById('edit-product-name').value = product.productName;
-                document.getElementById('edit-product-color').value = product.details?.color || '';
-                document.getElementById('edit-product-material').value = product.details?.material || '';
-                document.getElementById('edit-product-type').value = product.details?.tipo || '';
-                document.getElementById('edit-modal').classList.remove('hidden');
+        function toggleFiltersPanel() {
+            const content = document.getElementById('filters-content');
+            const button = document.getElementById('toggle-filters');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                button.textContent = 'Ocultar';
+            } else {
+                content.classList.add('hidden');
+                button.textContent = 'Mostrar';
             }
+        }
+
+        function showProductDetail(productName) {
+            const product = allProductsData.find(p => p.productName === productName);
+            if (!product) return;
+
+            const { totalUnits, claimedUnits, claimRate, registrationDate } = calculateProductStats(product);
+            
+            const detailContent = document.getElementById('product-detail-content');
+            detailContent.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Product Information -->\n                    <div class="lg:col-span-2 space-y-6">
+                        <div class="metric-card rounded-2xl p-6">
+                            <div class="flex items-center mb-6">
+                                <img src="${product.productImage}" alt="${product.productName}" 
+                                     class="h-16 w-16 rounded-xl object-cover mr-4">
+                                <div>
+                                    <h3 class="text-2xl font-medium text-gray-900">${product.productName}</h3>
+                                    <p class="text-gray-500">${product.details?.color || 'N/A'} • ${product.details?.material || 'N/A'}</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div><span class="text-gray-500 font-light">Tipo:</span> <span class="ml-2 font-medium text-gray-900">${product.details?.tipo || 'N/A'}</span></div>
+                                    <div><span class="text-gray-500 font-light">Material:</span> <span class="ml-2 font-medium text-gray-900">${product.details?.material || 'N/A'}</span></div>
+                                    <div><span class="text-gray-500 font-light">Color:</span> <span class="ml-2 font-medium text-gray-900">${product.details?.color || 'N/A'}</span></div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div><span class="text-gray-500 font-light">Total Unidades:</span> <span class="ml-2 font-medium text-gray-900">${totalUnits}</span></div>
+                                    <div><span class="text-gray-500 font-light">Verificadas:</span> <span class="ml-2 font-medium text-green-600">${claimedUnits}</span></div>
+                                    <div><span class="text-gray-500 font-light">Tasa Verificación:</span> <span class="ml-2 font-medium text-gray-900">${claimRate}%</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Units Grid -->
+                        <div class="metric-card rounded-2xl p-6">
+                            <h3 class="text-xl font-medium text-gray-900 mb-6">Unidades (${totalUnits})</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 max-h-64 overflow-y-auto">
+                                ${product.items.map(item => `
+                                    <div class="p-3 rounded-lg text-center text-xs ${
+                                        item.status === 'Claimed' ? 'bg-green-50 text-green-700' : 'bg-gray-50 text-gray-600'
+                                    }">
+                                        <div class="font-mono">${item.id}</div>
+                                        <div class="mt-1">${item.status === 'Claimed' ? 'Verificado' : 'Disponible'}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="space-y-6">
+                        <div class="metric-card rounded-2xl p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Estadísticas</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-500 font-light">Disponibles:</span>
+                                    <span class="font-medium text-gray-900">${totalUnits - claimedUnits}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-500 font-light">Verificadas:</span>
+                                    <span class="font-medium text-green-600">${claimedUnits}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-500 font-light">Tasa:</span>
+                                    <span class="font-medium text-gray-900">${claimRate}%</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-500 font-light">Registrado:</span>
+                                    <span class="font-medium text-gray-900">${registrationDate}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card rounded-2xl p-6">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Acciones</h3>
+                            <div class="space-y-3">
+                                <button onclick="generateQR('${product.productName}')" class="w-full luxury-button text-white px-4 py-3 rounded-xl text-sm">
+                                    Generar QR
+                                </button>
+                                <button onclick="exportProduct('${product.productName}')" class="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm transition-colors">
+                                    Exportar Datos
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('product-detail-modal').classList.remove('hidden');
         }
 
         function generateQR(productName) {
-            const productSelect = document.getElementById('product-select');
-            productSelect.value = productName;
-            document.getElementById('qr-modal').classList.remove('hidden');
+            showToast('QR generado para ' + productName);
         }
 
-        function populateModalSelect(products) {
-            const productSelect = document.getElementById('product-select');
-            productSelect.innerHTML = ''; // Clear existing options
-            products.forEach(group => {
-                const option = document.createElement('option');
-                option.value = group.productName;
-                option.textContent = group.productName;
-                productSelect.appendChild(option);
-            });
+        function exportProduct(productName) {
+            showToast('Datos exportados para ' + productName);
         }
 
-        function viewProductDetails(productName) {
-            window.location.href = `product.html?name=${encodeURIComponent(productName)}`;
-        }
-
-        function manageProductInfo(productName) {
-            const product = allProductsData.find(p => p.productName === productName);
-            if (product) {
-                currentEditingProduct = product;
-                showManageInfoModal(product);
-            }
-        }
-
-        let currentEditingProduct = null;
-
-        function showManageInfoModal(product) {
-            document.getElementById('manage-info-modal').classList.remove('hidden');
-            showInfoTab('basic');
-            populateInfoForm(product);
-        }
-
-        function showInfoTab(tabName) {
-            // Update tab buttons
-            document.querySelectorAll('.info-tab').forEach(tab => {
-                tab.classList.remove('active', 'bg-blue-600', 'text-white');
-                tab.classList.add('text-gray-300');
-            });
-            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active', 'bg-blue-600', 'text-white');
-            document.querySelector(`[data-tab="${tabName}"]`).classList.remove('text-gray-300');
-
-            // Show tab content
-            const content = document.getElementById('info-tab-content');
-            switch(tabName) {
-                case 'basic':
-                    content.innerHTML = getBasicTabContent();
-                    break;
-                case 'manufacturer':
-                    content.innerHTML = getManufacturerTabContent();
-                    break;
-                case 'materials':
-                    content.innerHTML = getMaterialsTabContent();
-                    break;
-                case 'care':
-                    content.innerHTML = getCareTabContent();
-                    break;
-                case 'sustainability':
-                    content.innerHTML = getSustainabilityTabContent();
-                    break;
-            }
-        }
-
-        function getBasicTabContent() {
-            return `
-                <div class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Nombre del Producto</label>
-                            <input type="text" id="info-product-name" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">URL de Imagen</label>
-                            <input type="url" id="info-product-image" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Color</label>
-                            <input type="text" id="info-product-color" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Material</label>
-                            <input type="text" id="info-product-material" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Tipo</label>
-                            <input type="text" id="info-product-type" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Política de Garantía (URL)</label>
-                        <input type="url" id="info-warranty-policy" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                    </div>
-                </div>
-            `;
-        }
-
-        function getManufacturerTabContent() {
-            return `
-                <div class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Nombre del Fabricante</label>
-                            <input type="text" id="info-manufacturer-name" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">País</label>
-                            <input type="text" id="info-manufacturer-country" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Ciudad</label>
-                            <input type="text" id="info-manufacturer-city" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Año de Fundación</label>
-                            <input type="text" id="info-manufacturer-established" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Empleados</label>
-                            <input type="number" id="info-manufacturer-employees" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Teléfono</label>
-                            <input type="tel" id="info-manufacturer-phone" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                            <input type="email" id="info-manufacturer-email" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-300 mb-2">Sitio Web</label>
-                            <input type="url" id="info-manufacturer-website" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Certificaciones (separadas por coma)</label>
-                        <textarea id="info-manufacturer-certifications" rows="2" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]"></textarea>
-                    </div>
-                </div>
-            `;
-        }
-
-        function getMaterialsTabContent() {
-            return `
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Material Primario</label>
-                        <input type="text" id="info-materials-primary" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Materiales Secundarios (uno por línea)</label>
-                        <textarea id="info-materials-secondary" rows="3" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Certificaciones de Materiales (una por línea)</label>
-                        <textarea id="info-materials-certifications" rows="3" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Origen de Materiales</label>
-                        <input type="text" id="info-materials-origin" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Durabilidad y Características</label>
-                        <input type="text" id="info-materials-durability" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                    </div>
-                </div>
-            `;
-        }
-
-        function getCareTabContent() {
-            return `
-                <div class="space-y-6">
-                    <div>
-                        <h4 class="text-lg font-medium text-white mb-3">Recomendaciones de Uso</h4>
-                        <textarea id="info-care-recommendations" rows="3" placeholder="Una recomendación por línea" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]"></textarea>
-                    </div>
-                    <div>
-                        <h4 class="text-lg font-medium text-white mb-3">Advertencias</h4>
-                        <textarea id="info-care-warnings" rows="3" placeholder="Una advertencia por línea" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]"></textarea>
-                    </div>
-                    <div>
-                        <h4 class="text-lg font-medium text-white mb-3">Mantenimiento</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Cuidado Diario</label>
-                                <textarea id="info-care-daily" rows="2" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]"></textarea>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Cuidado Semanal</label>
-                                <textarea id="info-care-weekly" rows="2" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]"></textarea>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Cuidado Mensual</label>
-                                <textarea id="info-care-monthly" rows="2" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]"></textarea>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-300 mb-2">Almacenamiento</label>
-                                <textarea id="info-care-storage" rows="2" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function getSustainabilityTabContent() {
-            return `
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Impacto Ambiental</label>
-                        <textarea id="info-sustainability-environmental" rows="2" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Impacto Social</label>
-                        <textarea id="info-sustainability-social" rows="2" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Programa de Reciclaje</label>
-                        <textarea id="info-sustainability-recycling" rows="2" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]"></textarea>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Huella de Carbono</label>
-                        <input type="text" id="info-sustainability-carbon" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Empaque Sostenible</label>
-                        <input type="text" id="info-sustainability-packaging" class="w-full px-3 py-2 text-white bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00a1ff]">
-                    </div>
-                </div>
-            `;
-        }
-
-        function populateInfoForm(product) {
-            // This will be called after showing each tab to populate the form
-            setTimeout(() => {
-                // Basic info
-                if (document.getElementById('info-product-name')) {
-                    document.getElementById('info-product-name').value = product.productName || '';
-                    document.getElementById('info-product-image').value = product.productImage || '';
-                    document.getElementById('info-product-color').value = product.details?.color || '';
-                    document.getElementById('info-product-material').value = product.details?.material || '';
-                    document.getElementById('info-product-type').value = product.details?.tipo || '';
-                    document.getElementById('info-warranty-policy').value = product.warrantyPolicy || '';
-                }
-            }, 100);
-        }
-
-        // Setup event listeners for the manage info modal
-        document.addEventListener('DOMContentLoaded', () => {
-            // ... existing code ...
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed top-5 right-5 bg-black text-white py-3 px-6 rounded-xl shadow-lg z-50';
+            toast.textContent = message;
+            document.body.appendChild(toast);
             
-            // Add new event listeners
-            document.getElementById('close-manage-info').addEventListener('click', () => {
-                document.getElementById('manage-info-modal').classList.add('hidden');
-            });
-            
-            document.getElementById('save-product-info').addEventListener('click', () => {
-                showToast('Información del producto actualizada exitosamente');
-                document.getElementById('manage-info-modal').classList.add('hidden');
-            });
-            
-            document.getElementById('cancel-product-info').addEventListener('click', () => {
-                document.getElementById('manage-info-modal').classList.add('hidden');
-            });
-            
-            // Tab switching
-            document.addEventListener('click', (e) => {
-                if (e.target.classList.contains('info-tab')) {
-                    const tabName = e.target.dataset.tab;
-                    showInfoTab(tabName);
-                    if (currentEditingProduct) {
-                        populateInfoForm(currentEditingProduct);
-                    }
-                }
-            });
-        });
+            setTimeout(() => document.body.removeChild(toast), 3000);
+        }
 
         // Make functions global for onclick handlers
-        window.viewProductDetails = viewProductDetails;
-        window.editProduct = editProduct;
+        window.showProductDetail = showProductDetail;
         window.generateQR = generateQR;
-        window.manageProductInfo = manageProductInfo;
+        window.exportProduct = exportProduct;
     </script>
 </body>
 </html>
