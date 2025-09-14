@@ -7,6 +7,7 @@ window.Router = {
         '/clientes': 'customer.html',
         '/productos': 'productos.html',
         '/producto': 'producto.html',  // Public verification page
+        '/buscar': 'buscar.html',      // Static search page
         '/ids': 'ids.html',
         '/negocio': 'business.html',
         '/talleres': 'talleres.html'
