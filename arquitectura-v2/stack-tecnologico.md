@@ -44,7 +44,16 @@ Autentikapp v2 es una **aplicación web full-stack** construida sobre un ecosist
 -   **Rol en Autentikapp:** Será el **entorno de producción** donde la aplicación se alojará y será accesible para los usuarios.
 -   **Justificación:** Es la elección natural al usar Next.js. Ofrece despliegues automáticos desde Git, escalado automático, funciones sin servidor (Serverless Functions) y una red de distribución de contenido (CDN) global, garantizando el máximo rendimiento y una experiencia de desarrollo fluida.
 
-### f. Librería de Gráficos: Chart.js
+### f. Capa de Persistencia y Backend: Supabase
+
+-   **Descripción:** Supabase es una plataforma de "Backend como Servicio" (BaaS) que proporciona una base de datos PostgreSQL, autenticación de usuarios, almacenamiento de archivos y APIs RESTful generadas automáticamente.
+-   **Rol en Autentikapp:** Será la **columna vertebral de todos los datos de la aplicación**.
+    -   **Base de Datos (PostgreSQL):** Almacenará de forma estructurada y relacional toda la información: usuarios, productos, identificadores QR, clientes finales, etc. Reemplaza por completo al archivo `business.json`.
+    -   **Autenticación:** Gestionará el inicio de sesión seguro para los Gerentes de Marca.
+    -   **APIs de Datos:** Las API Routes de Next.js interactuarán con la API de Supabase para realizar operaciones de Crear, Leer, Actualizar y Borrar (CRUD) sobre la base de datos.
+-   **Justificación:** Se elige para acelerar radicalmente el desarrollo. Nos proporciona una base de datos PostgreSQL potente y escalable sin la complejidad de administrar un servidor. Sus APIs automáticas y sistema de autenticación nos permiten enfocarnos en la lógica de negocio y la experiencia de usuario, no en la infraestructura de backend.
+
+### g. Librería de Gráficos: Chart.js
 
 -   **Descripción:** Chart.js es una librería de JavaScript para crear gráficos y visualizaciones de datos interactivas.
 -   **Rol en Autentikapp:** Se utilizará para renderizar todos los gráficos del dashboard (líneas, barras, doughnuts, etc.).
