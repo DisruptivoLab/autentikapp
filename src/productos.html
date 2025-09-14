@@ -65,8 +65,8 @@
                 <h1 class="text-4xl font-light text-gray-900 mb-2">Productos</h1>
                 <p class="text-lg text-gray-500 font-light">Inventario y gestión de productos</p>
             </div>
-            <button id="assign-qr-btn" class="luxury-button mt-4 md:mt-0 px-6 py-3 text-white rounded-xl font-medium">
-                Generar QR
+            <button id="add-product-btn" class="luxury-button mt-4 md:mt-0 px-6 py-3 text-white rounded-xl font-medium">
+                Añadir Producto
             </button>
         </div>
 
@@ -86,6 +86,8 @@
                         <option value="all">Todos los estados</option>
                         <option value="claimed">Con verificaciones</option>
                         <option value="unclaimed">Sin verificaciones</option>
+                        <option value="in-stock">En stock</option>
+                        <option value="out-of-stock">Sin stock</option>
                     </select>
                     <select id="filter-color" class="filter-input px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
                         <option value="all">Todos los colores</option>
@@ -130,7 +132,7 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
-                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unidades</th>
+                            <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
                             <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Verificadas</th>
                             <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tasa Verificación</th>
                             <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha Registro</th>
@@ -163,6 +165,101 @@
             
             <div id="product-detail-content" class="space-y-8">
                 <!-- Product detail content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="add-product-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="glass-card rounded-3xl p-8 w-full max-w-2xl">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-3xl font-light text-gray-900">Añadir Nuevo Producto</h2>
+                    <p class="text-gray-500 font-light">Crear un nuevo producto en el inventario</p>
+                </div>
+                <button id="close-add-product-modal" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="add-product-form" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Nombre del Producto *</label>
+                        <input type="text" id="new-product-name" required class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">URL de Imagen *</label>
+                        <input type="url" id="new-product-image" required class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Color</label>
+                        <input type="text" id="new-product-color" class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Material</label>
+                        <input type="text" id="new-product-material" class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
+                        <input type="text" id="new-product-type" class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Cantidad Inicial *</label>
+                        <input type="number" id="new-product-quantity" min="1" required class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none">
+                    </div>
+                </div>
+                
+                <div class="flex space-x-4 pt-6">
+                    <button type="submit" class="flex-1 luxury-button text-white px-6 py-3 rounded-xl font-medium">
+                        Crear Producto
+                    </button>
+                    <button type="button" id="cancel-add-product" class="flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-medium transition-colors">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Stock Management Modal -->
+    <div id="stock-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="glass-card rounded-3xl p-8 w-full max-w-md">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-2xl font-light text-gray-900">Gestionar Stock</h2>
+                    <p class="text-gray-500 font-light" id="stock-product-name">Producto</p>
+                </div>
+                <button id="close-stock-modal" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="text-center">
+                    <div class="text-3xl font-light text-gray-900 mb-2" id="current-stock">0</div>
+                    <div class="text-gray-500 font-light">Unidades disponibles</div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Añadir al Stock</label>
+                        <input type="number" id="add-stock-quantity" min="1" class="filter-input w-full px-4 py-3 text-gray-900 rounded-xl focus:outline-none" placeholder="Cantidad a añadir">
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button id="add-stock-btn" class="flex-1 luxury-button text-white px-4 py-3 rounded-xl text-sm">
+                            Añadir Stock
+                        </button>
+                        <button id="generate-qr-stock" class="flex-1 px-4 py-3 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-xl text-sm transition-colors">
+                            Generar QRs
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -218,8 +315,35 @@
                 document.getElementById('product-detail-modal').classList.add('hidden');
             });
             
-            document.getElementById('assign-qr-btn').addEventListener('click', () => {
-                showToast('Función de generación de QR');
+            document.getElementById('add-product-btn').addEventListener('click', () => {
+                document.getElementById('add-product-modal').classList.remove('hidden');
+            });
+            
+            // Add product modal listeners
+            document.getElementById('close-add-product-modal').addEventListener('click', () => {
+                document.getElementById('add-product-modal').classList.add('hidden');
+            });
+            
+            document.getElementById('cancel-add-product').addEventListener('click', () => {
+                document.getElementById('add-product-modal').classList.add('hidden');
+            });
+            
+            document.getElementById('add-product-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                createNewProduct();
+            });
+            
+            // Stock modal listeners
+            document.getElementById('close-stock-modal').addEventListener('click', () => {
+                document.getElementById('stock-modal').classList.add('hidden');
+            });
+            
+            document.getElementById('add-stock-btn').addEventListener('click', () => {
+                addStock();
+            });
+            
+            document.getElementById('generate-qr-stock').addEventListener('click', () => {
+                generateQRsForStock();
             });
         }
 
@@ -257,7 +381,16 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${totalUnits}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <span class="text-sm font-medium text-gray-900 mr-2">${totalUnits - claimedUnits}</span>
+                                <span class="px-2 py-1 text-xs rounded-full ${
+                                    (totalUnits - claimedUnits) > 0 ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'
+                                }">
+                                    ${(totalUnits - claimedUnits) > 0 ? 'En Stock' : 'Sin Stock'}
+                                </span>
+                            </div>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium ${claimedUnits > 0 ? 'text-green-600' : 'text-gray-400'}">${claimedUnits}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${claimRate}%</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${registrationDate}</td>
@@ -288,6 +421,12 @@
                     matchesStatus = productGroup.items.some(item => item.status === 'Claimed');
                 } else if (statusFilter === 'unclaimed') {
                     matchesStatus = productGroup.items.some(item => item.status !== 'Claimed');
+                } else if (statusFilter === 'in-stock') {
+                    const availableUnits = productGroup.items.filter(item => item.status !== 'Claimed').length;
+                    matchesStatus = availableUnits > 0;
+                } else if (statusFilter === 'out-of-stock') {
+                    const availableUnits = productGroup.items.filter(item => item.status !== 'Claimed').length;
+                    matchesStatus = availableUnits === 0;
                 }
 
                 let matchesColor = true;
@@ -427,8 +566,8 @@
                             <h3 class="text-lg font-medium text-gray-900 mb-4">Estadísticas</h3>
                             <div class="space-y-4">
                                 <div class="flex justify-between items-center">
-                                    <span class="text-gray-500 font-light">Disponibles:</span>
-                                    <span class="font-medium text-gray-900">${totalUnits - claimedUnits}</span>
+                                    <span class="text-gray-500 font-light">Stock Disponible:</span>
+                                    <span class="font-medium ${(totalUnits - claimedUnits) > 0 ? 'text-green-600' : 'text-red-600'}">${totalUnits - claimedUnits}</span>
                                 </div>
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-500 font-light">Verificadas:</span>
@@ -449,7 +588,10 @@
                             <h3 class="text-lg font-medium text-gray-900 mb-4">Acciones</h3>
                             <div class="space-y-3">
                                 <button onclick="generateQR('${product.productName}')" class="w-full luxury-button text-white px-4 py-3 rounded-xl text-sm">
-                                    Generar QR
+                                    Generar Nuevo QR
+                                </button>
+                                <button onclick="manageStock('${product.productName}')" class="w-full px-4 py-3 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-xl text-sm transition-colors">
+                                    Gestionar Stock
                                 </button>
                                 <button onclick="exportProduct('${product.productName}')" class="w-full px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm transition-colors">
                                     Exportar Datos
@@ -471,6 +613,101 @@
             showToast('Datos exportados para ' + productName);
         }
 
+        function createNewProduct() {
+            const newProduct = {
+                productName: document.getElementById('new-product-name').value,
+                productImage: document.getElementById('new-product-image').value,
+                registrationDate: new Date().toISOString().split('T')[0],
+                details: {
+                    color: document.getElementById('new-product-color').value || 'N/A',
+                    material: document.getElementById('new-product-material').value || 'N/A',
+                    tipo: document.getElementById('new-product-type').value || 'N/A'
+                },
+                items: []
+            };
+            
+            const quantity = parseInt(document.getElementById('new-product-quantity').value);
+            
+            // Generate items for the product
+            for (let i = 1; i <= quantity; i++) {
+                const itemId = `${newProduct.productName.substring(0, 3).toUpperCase()}${String(i).padStart(3, '0')}`;
+                newProduct.items.push({
+                    id: itemId,
+                    status: 'Available',
+                    creationDate: new Date().toISOString().split('T')[0],
+                    ownerId: null,
+                    claimedDate: null
+                });
+            }
+            
+            allProductsData.push(newProduct);
+            document.getElementById('add-product-modal').classList.add('hidden');
+            document.getElementById('add-product-form').reset();
+            
+            renderProductsTable(allProductsData);
+            populateColorFilter(allProductsData);
+            showToast(`Producto "${newProduct.productName}" creado con ${quantity} unidades`);
+        }
+        
+        function manageStock(productName) {
+            const product = allProductsData.find(p => p.productName === productName);
+            if (!product) return;
+            
+            const { totalUnits, claimedUnits } = calculateProductStats(product);
+            const availableStock = totalUnits - claimedUnits;
+            
+            document.getElementById('stock-product-name').textContent = productName;
+            document.getElementById('current-stock').textContent = availableStock;
+            document.getElementById('stock-modal').classList.remove('hidden');
+            
+            // Store current product for stock operations
+            window.currentStockProduct = product;
+        }
+        
+        function addStock() {
+            const quantity = parseInt(document.getElementById('add-stock-quantity').value);
+            if (!quantity || quantity < 1) {
+                showToast('Ingresa una cantidad válida');
+                return;
+            }
+            
+            const product = window.currentStockProduct;
+            if (!product) return;
+            
+            const currentItemCount = product.items.length;
+            
+            // Add new items to the product
+            for (let i = 1; i <= quantity; i++) {
+                const itemId = `${product.productName.substring(0, 3).toUpperCase()}${String(currentItemCount + i).padStart(3, '0')}`;
+                product.items.push({
+                    id: itemId,
+                    status: 'Available',
+                    creationDate: new Date().toISOString().split('T')[0],
+                    ownerId: null,
+                    claimedDate: null
+                });
+            }
+            
+            document.getElementById('add-stock-quantity').value = '';
+            
+            // Update display
+            const { totalUnits, claimedUnits } = calculateProductStats(product);
+            const newStock = totalUnits - claimedUnits;
+            document.getElementById('current-stock').textContent = newStock;
+            
+            renderProductsTable(allProductsData);
+            showToast(`${quantity} unidades añadidas al stock`);
+        }
+        
+        function generateQRsForStock() {
+            const product = window.currentStockProduct;
+            if (!product) return;
+            
+            const availableItems = product.items.filter(item => item.status !== 'Claimed');
+            showToast(`${availableItems.length} códigos QR generados para ${product.productName}`);
+            document.getElementById('stock-modal').classList.add('hidden');
+        }
+        
         function showToast(message) {
             const toast = document.createElement('div');
             toast.className = 'fixed top-5 right-5 bg-black text-white py-3 px-6 rounded-xl shadow-lg z-50';
@@ -484,6 +721,7 @@
         window.showProductDetail = showProductDetail;
         window.generateQR = generateQR;
         window.exportProduct = exportProduct;
+        window.manageStock = manageStock;
     </script>
 </body>
 </html>
