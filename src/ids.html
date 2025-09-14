@@ -686,7 +686,10 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <img src="${id.productImage}" alt="${id.productName}" class="w-8 h-8 rounded mr-3">
-                                <span class="text-sm">${id.productName}</span>
+                                <a href="product.html?product=${encodeURIComponent(id.productName)}" 
+                                   class="text-sm text-blue-600 hover:text-blue-800 hover:underline">
+                                    ${id.productName}
+                                </a>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -700,10 +703,10 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             ${id.client ? `
-                                <button onclick="showClientProfile('${id.client.id}')" 
-                                        class="text-blue-600 hover:text-blue-700 hover:underline text-sm">
+                                <a href="customer.html?client=${id.client.id}" 
+                                   class="text-blue-600 hover:text-blue-800 hover:underline text-sm">
                                     ${clientInfo}
-                                </button>
+                                </a>
                             ` : '<span class="text-gray-500 text-sm">-</span>'}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${location}</td>

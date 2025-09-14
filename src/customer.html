@@ -235,6 +235,13 @@
                 renderClientsTable(allClientsData);
                 populateFilters();
                 setupEventListeners();
+                
+                // Check if specific client should be shown
+                const urlParams = new URLSearchParams(window.location.search);
+                const clientId = urlParams.get('client');
+                if (clientId) {
+                    setTimeout(() => showClientDetail(clientId), 500);
+                }
             } catch (error) {
                 console.error("Error al cargar los datos:", error);
                 document.getElementById('no-clients-message').classList.remove('hidden');

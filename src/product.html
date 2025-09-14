@@ -281,7 +281,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const productName = urlParams.get('name');
+            const productName = urlParams.get('name') || urlParams.get('product');
 
             if (!productName) {
                 document.getElementById('product-title').textContent = 'Producto no encontrado';
