@@ -807,6 +807,15 @@
             document.getElementById('edit-product-btn').addEventListener('click', toggleEditMode);
             document.getElementById('save-changes-btn').addEventListener('click', saveProductChanges);
             document.getElementById('cancel-edit-btn').addEventListener('click', cancelEdit);
+            
+            // Search and filters
+            document.getElementById('search-ids').addEventListener('input', applyFilters);
+            document.getElementById('filter-status').addEventListener('change', applyFilters);
+            document.getElementById('filter-time').addEventListener('change', applyFilters);
+            document.getElementById('date-from').addEventListener('change', applyFilters);
+            document.getElementById('sort-ids').addEventListener('change', applyFilters);
+            document.getElementById('clear-filters').addEventListener('click', clearFilters);
+            document.getElementById('apply-filters').addEventListener('click', applyFilters);
         }
 
         function openBatchModal() {
@@ -926,6 +935,96 @@
             cancelEdit();
             showToast('Producto actualizado correctamente', 'success');
         }
+        
+        function applyFilters() {
+            const searchTerm = document.getElementById('search-ids').value.toLowerCase();
+            const statusFilter = document.getElementById('filter-status').value;
+            const timeFilter = document.getElementById('filter-time').value;
+            const dateFrom = document.getElementById('date-from').value;
+            const sortBy = document.getElementById('sort-ids').value;
+
+            let filteredItems = [...allItems];
+
+            // Apply search filter
+            if (searchTerm) {
+                filteredItems = filteredItems.filter(item => 
+                    item.id.toLowerCase().includes(searchTerm) ||
+                    (item.client && item.client.name.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            // Apply status filter
+            if (statusFilter !== 'all') {
+                filteredItems = filteredItems.filter(item => {
+                    if (statusFilter === 'claimed') return item.ownerId;
+                    if (statusFilter === 'unclaimed') return !item.ownerId;
+                    return true;
+                });
+            }
+
+            // Apply time filter
+            if (timeFilter !== 'all') {
+                const now = new Date();
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+                const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+                filteredItems = filteredItems.filter(item => {
+                    const itemDate = new Date(item.createdAt || new Date());
+                    if (timeFilter === 'today') return itemDate >= today;
+                    if (timeFilter === 'week') return itemDate >= weekAgo;
+                    if (timeFilter === 'month') return itemDate >= monthAgo;
+                    return true;
+                });
+            }
+
+            // Apply date from filter
+            if (dateFrom) {
+                const fromDate = new Date(dateFrom);
+                filteredItems = filteredItems.filter(item => {
+                    const itemDate = new Date(item.createdAt || new Date());
+                    return itemDate >= fromDate;
+                });
+            }
+
+            // Apply sorting
+            filteredItems.sort((a, b) => {
+                switch (sortBy) {
+                    case 'id':
+                        return a.id.localeCompare(b.id);
+                    case 'date':
+                        return new Date(b.createdAt || new Date()) - new Date(a.createdAt || new Date());
+                    case 'claimed':
+                        return new Date(b.claimedAt || 0) - new Date(a.claimedAt || 0);
+                    case 'status':
+                        return (b.ownerId ? 1 : 0) - (a.ownerId ? 1 : 0);
+                    default:
+                        return 0;
+                }
+            });
+
+            renderItemsTable(filteredItems);
+            updateFilterSummary(filteredItems.length, allItems.length);
+        }
+        
+        function clearFilters() {
+            document.getElementById('search-ids').value = '';
+            document.getElementById('filter-status').value = 'all';
+            document.getElementById('filter-time').value = 'all';
+            document.getElementById('date-from').value = '';
+            document.getElementById('sort-ids').value = 'id';
+            renderItemsTable(allItems);
+            updateFilterSummary(allItems.length, allItems.length);
+        }
+        
+        function updateFilterSummary(filtered, total) {
+            const summary = document.getElementById('filter-summary');
+            if (filtered === total) {
+                summary.textContent = `Mostrando todos los ${total} IDs`;
+            } else {
+                summary.textContent = `Mostrando ${filtered} de ${total} IDs`;
+            }
+        }
 
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
@@ -963,6 +1062,8 @@
         // Make functions globally available
         window.copyToClipboard = copyToClipboard;
         window.goBack = goBack;
+        window.applyFilters = applyFilters;
+        window.clearFilters = clearFilters;
     </script>
 </body>
 </html>
