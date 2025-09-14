@@ -3,107 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Producto | Autentikapp</title>
+    <title>Verificar Producto | WMerch</title>
+    <link rel="icon" type="image/webp" href="/identidad/logotipo-oficial.webp">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; }
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         }
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        .search-input {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            background: rgba(255, 255, 255, 1);
+            border-color: rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+        }
+        .luxury-button {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            transition: all 0.3s ease;
+        }
+        .luxury-button:hover {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 1; }
+            80%, 100% { transform: scale(1.2); opacity: 0; }
         }
     </style>
 </head>
-<body class="min-h-screen gradient-bg">
+<body class="min-h-screen">
     
     <!-- Header -->
-    <header class="p-6">
-        <div class="max-w-2xl mx-auto flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <img src="./identidad/logotipo-oficial.webp" alt="Autentikapp" class="w-8 h-8">
-                <div class="text-white">
-                    <span class="text-xl font-bold">autentik</span><span class="text-xl font-light">app</span>
+    <header class="py-6 px-4">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-black rounded-2xl pulse-ring"></div>
+                    <div class="relative w-12 h-12 bg-black rounded-2xl flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">W</span>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">WMerch</h1>
+                    <p class="text-sm text-gray-500 font-light">Productos Auténticos</p>
                 </div>
             </div>
-            <div class="text-white text-sm">
-                Búsqueda de Productos
+            <div class="hidden md:flex items-center space-x-2 text-gray-600">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.25-4.5a12.002 12.002 0 01-.1 5.75m-.65 5.25a12.002 12.002 0 01-5.75-.1m-5.25-.65a12.002 12.002 0 01-.1-5.75m.65-5.25a12.002 12.002 0 015.75.1"></path>
+                </svg>
+                <span class="text-sm font-medium">Verificación Segura</span>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-2xl mx-auto px-6 py-12">
+    <main class="max-w-2xl mx-auto px-4 py-12">
         
-        <div class="glass-effect rounded-2xl p-8 text-center">
-            <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
+        <!-- Hero Section -->
+        <div class="text-center mb-12">
+            <div class="floating-animation inline-block mb-6">
+                <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl flex items-center justify-center mx-auto shadow-2xl">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.25-4.5a12.002 12.002 0 01-.1 5.75m-.65 5.25a12.002 12.002 0 01-5.75-.1m-5.25-.65a12.002 12.002 0 01-.1-5.75m.65-5.25a12.002 12.002 0 015.75.1"></path>
+                    </svg>
+                </div>
             </div>
-            
-            <h1 class="text-3xl font-bold text-white mb-4">Verificar Autenticidad</h1>
-            <p class="text-white/80 mb-8">Ingresa el código ID que aparece en la etiqueta de tu producto</p>
-            
-            <!-- Search Form -->
+            <h2 class="text-4xl font-light text-gray-900 mb-4">Verificar Autenticidad</h2>
+            <p class="text-lg text-gray-600 font-light max-w-md mx-auto">Confirma que tu producto WMerch es 100% auténtico ingresando su código único</p>
+        </div>
+
+        <!-- Search Card -->
+        <div class="glass-card rounded-3xl p-8 mb-8">
             <div class="space-y-6">
-                <div>
-                    <input type="text" id="product-id" placeholder="Ej: AUT-2025-WM-A7B9C2D1" 
-                           class="w-full px-6 py-4 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 font-mono text-lg text-center">
-                    <p class="text-white/60 text-sm mt-2">El código debe tener el formato: AUT-YYYY-XX-XXXXXXXX</p>
+                <!-- Search Input -->
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Código del Producto</label>
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="product-id" 
+                            placeholder="AUT-2025-WM-A7B9C2D1" 
+                            class="search-input w-full px-6 py-4 rounded-2xl text-gray-900 placeholder-gray-400 font-mono text-lg text-center focus:outline-none"
+                            maxlength="20"
+                        >
+                        <div class="absolute right-4 top-1/2 transform -translate-y-1/2">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 text-sm mt-2 text-center">Formato: AUT-YYYY-WM-XXXXXXXX</p>
                 </div>
                 
-                <button onclick="searchProduct()" class="w-full bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-105">
-                    🔍 Verificar Producto
+                <!-- Search Button -->
+                <button 
+                    onclick="searchProduct()" 
+                    class="luxury-button w-full text-white px-8 py-4 rounded-2xl font-medium text-lg focus:outline-none"
+                >
+                    <span class="flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.25-4.5a12.002 12.002 0 01-.1 5.75m-.65 5.25a12.002 12.002 0 01-5.75-.1m-5.25-.65a12.002 12.002 0 01-.1-5.75m.65-5.25a12.002 12.002 0 015.75.1"></path>
+                        </svg>
+                        <span>Verificar Producto</span>
+                    </span>
                 </button>
             </div>
-            
-            <!-- Instructions -->
-            <div class="mt-8 p-6 bg-white/10 rounded-xl text-left">
-                <h3 class="text-white font-semibold mb-3">¿Dónde encontrar el código?</h3>
-                <div class="space-y-2 text-white/80 text-sm">
-                    <div class="flex items-start">
-                        <span class="text-blue-300 mr-2">•</span>
-                        <span>En la etiqueta interior del producto</span>
+        </div>
+
+        <!-- Instructions -->
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-100">
+                <div class="flex items-start space-x-3">
+                    <div class="w-8 h-8 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                        </svg>
                     </div>
-                    <div class="flex items-start">
-                        <span class="text-blue-300 mr-2">•</span>
-                        <span>En el empaque original</span>
-                    </div>
-                    <div class="flex items-start">
-                        <span class="text-blue-300 mr-2">•</span>
-                        <span>Junto al código QR (si está disponible)</span>
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-2">¿Dónde encontrar el código?</h3>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Etiqueta interior del producto</li>
+                            <li>• Empaque original</li>
+                            <li>• Certificado de autenticidad</li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            
-            <!-- QR Alternative -->
-            <div class="mt-6 p-4 bg-green-500/20 border border-green-500/30 rounded-xl">
-                <div class="flex items-center justify-center">
-                    <svg class="w-5 h-5 text-green-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <span class="text-green-300 text-sm">
-                        <strong>¿Tienes código QR?</strong> Escanéalo directamente con tu cámara
-                    </span>
+
+            <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-100">
+                <div class="flex items-start space-x-3">
+                    <div class="w-8 h-8 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-gray-900 mb-2">¿Tienes código QR?</h3>
+                        <p class="text-sm text-gray-600">Escanéalo directamente con la cámara de tu teléfono para verificación instantánea</p>
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Security Badge -->
+        <div class="text-center">
+            <div class="inline-flex items-center space-x-2 bg-gray-900 text-white px-4 py-2 rounded-full text-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+                <span>Verificación Segura SSL</span>
             </div>
         </div>
 
     </main>
 
     <!-- Footer -->
-    <footer class="text-center py-8">
-        <div class="max-w-2xl mx-auto px-6">
-            <p class="text-white/60 text-sm">
-                Powered by <strong>Autentikapp</strong> - Sistema de Verificación de Autenticidad
-            </p>
-            <p class="text-white/40 text-xs mt-2">
-                © 2025 Todos los derechos reservados
-            </p>
+    <footer class="py-12 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center border-t border-gray-200 pt-8">
+                <div class="flex items-center justify-center space-x-2 mb-4">
+                    <img src="/identidad/logotipo-oficial.webp" alt="Autentikapp" class="w-6 h-6">
+                    <span class="text-gray-600 font-medium">Powered by Autentikapp</span>
+                </div>
+                <p class="text-gray-500 text-sm font-light mb-2">
+                    Sistema de Verificación de Autenticidad
+                </p>
+                <p class="text-gray-400 text-xs">
+                    © 2025 Autentikapp. Todos los derechos reservados.
+                </p>
+            </div>
         </div>
     </footer>
 
@@ -112,19 +203,41 @@
             const productId = document.getElementById('product-id').value.trim();
             
             if (!productId) {
-                alert('Por favor ingresa un código de producto');
+                showNotification('Por favor ingresa un código de producto', 'error');
                 return;
             }
             
-            // Validate format (basic)
-            const formatRegex = /^AUT-\d{4}-[A-Z]{2}-[A-Z0-9]{8}$/;
+            // Validate format
+            const formatRegex = /^AUT-\d{4}-WM-[A-Z0-9]{8}$/;
             if (!formatRegex.test(productId)) {
-                alert('El formato del código no es válido. Debe ser: AUT-YYYY-XX-XXXXXXXX');
+                showNotification('Formato inválido. Debe ser: AUT-YYYY-WM-XXXXXXXX', 'error');
                 return;
             }
             
-            // Redirect to verification page
-            window.location.href = `/producto?id=${productId}`;
+            // Show loading state
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span class="flex items-center justify-center space-x-2"><svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Verificando...</span></span>';
+            button.disabled = true;
+            
+            // Simulate verification process
+            setTimeout(() => {
+                window.location.href = `/verify?id=${productId}`;
+            }, 1500);
+        }
+        
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-xl text-white font-medium z-50 transform transition-all duration-300 ${
+                type === 'error' ? 'bg-red-500' : 'bg-green-500'
+            }`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
         }
         
         // Handle Enter key
@@ -137,9 +250,17 @@
         // Auto-format input
         document.getElementById('product-id').addEventListener('input', function(e) {
             let value = e.target.value.toUpperCase();
-            // Remove any characters that aren't letters, numbers, or hyphens
             value = value.replace(/[^A-Z0-9-]/g, '');
             e.target.value = value;
+        });
+        
+        // Add focus animation
+        document.getElementById('product-id').addEventListener('focus', function() {
+            this.parentElement.style.transform = 'scale(1.02)';
+        });
+        
+        document.getElementById('product-id').addEventListener('blur', function() {
+            this.parentElement.style.transform = 'scale(1)';
         });
     </script>
 </body>
