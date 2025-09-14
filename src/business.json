@@ -641,7 +641,10 @@
         {"id": "WMB-N1-014", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-06"},
         {"id": "WMB-N1-015", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-10"},
         {"id": "WMB-N1-016", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-14"},
-        {"id": "WMB-N1-017", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-18"}
+        {"id": "WMB-N1-017", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-18"},
+        {"id": "AUT-2025-WM-A7B9C2D1", "status": "Claimed", "ownerId": "C001", "claimedDate": "2025-01-20", "creationDate": "2025-01-15", "batchId": "BATCH-1737123456789", "batchDescription": "Lote Premium Enero 2025", "batchCreationDate": "2025-01-15"},
+        {"id": "AUT-2025-WM-E4F6G8H2", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-01-15", "batchId": "BATCH-1737123456789", "batchDescription": "Lote Premium Enero 2025", "batchCreationDate": "2025-01-15"},
+        {"id": "AUT-2025-WM-K9L3M5N7", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-01-15", "batchId": "BATCH-1737123456789", "batchDescription": "Lote Premium Enero 2025", "batchCreationDate": "2025-01-15"}
       ]
     },
     {
@@ -735,7 +738,9 @@
         {"id": "WMG-L1-013", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-03"},
         {"id": "WMG-L1-014", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-07"},
         {"id": "WMG-L1-015", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-11"},
-        {"id": "WMG-L1-016", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-15"}
+        {"id": "WMG-L1-016", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-08-15"},
+        {"id": "AUT-2025-WM-P8Q2R4S6", "status": "Claimed", "ownerId": "C004", "claimedDate": "2025-01-18", "creationDate": "2025-01-16", "batchId": "BATCH-1737209876543", "batchDescription": "Lote Gorras Especiales", "batchCreationDate": "2025-01-16"},
+        {"id": "AUT-2025-WM-T7U9V1W3", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-01-16", "batchId": "BATCH-1737209876543", "batchDescription": "Lote Gorras Especiales", "batchCreationDate": "2025-01-16"}
       ]
     },
     {
@@ -830,7 +835,9 @@
         {"id": "WMB-B1-014", "status": "Claimed", "ownerId": "C020", "claimedDate": "2025-09-23", "creationDate": "2025-08-23"},
         {"id": "WMB-B1-015", "status": "Claimed", "ownerId": "C030", "claimedDate": "2025-09-24", "creationDate": "2025-08-25"},
         {"id": "WMB-B1-016", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-07-26"},
-        {"id": "WMB-B1-017", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-07-31"}
+        {"id": "WMB-B1-017", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-07-31"},
+        {"id": "AUT-2025-WM-X5Y7Z9A1", "status": "Claimed", "ownerId": "C007", "claimedDate": "2025-01-19", "creationDate": "2025-01-17", "batchId": "BATCH-1737296543210", "batchDescription": "Lote Eco Sostenible", "batchCreationDate": "2025-01-17"},
+        {"id": "AUT-2025-WM-B3C5D7E9", "status": "Unclaimed", "ownerId": null, "claimedDate": null, "creationDate": "2025-01-17", "batchId": "BATCH-1737296543210", "batchDescription": "Lote Eco Sostenible", "batchCreationDate": "2025-01-17"}
       ]
     }
   ]

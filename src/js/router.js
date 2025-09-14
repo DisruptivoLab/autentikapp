@@ -6,6 +6,7 @@ window.Router = {
         '/dashboard': 'dashboard.html',
         '/clientes': 'customer.html',
         '/productos': 'productos.html',
+        '/producto': 'producto.html',  // Public verification page
         '/ids': 'ids.html',
         '/negocio': 'business.html',
         '/talleres': 'talleres.html'

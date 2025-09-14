@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Autenticidad | Autentikapp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .authentic-badge {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg">
+    
+    <!-- Header -->
+    <header class="p-6">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="./identidad/autentikapp-icon.svg" alt="Autentikapp" class="w-8 h-8">
+                <div class="text-white">
+                    <span class="text-xl font-bold">autentik</span><span class="text-xl font-light">app</span>
+                </div>
+            </div>
+            <div class="text-white text-sm">
+                Verificación de Autenticidad
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-6 py-12">
+        
+        <!-- Loading State -->
+        <div id="loading-state" class="text-center">
+            <div class="glass-effect rounded-2xl p-8 mb-8">
+                <div class="animate-spin w-12 h-12 border-4 border-white border-t-transparent rounded-full mx-auto mb-4"></div>
+                <h2 class="text-2xl font-semibold text-white mb-2">Verificando Autenticidad</h2>
+                <p class="text-white/80">Validando código de producto...</p>
+            </div>
+        </div>
+
+        <!-- Product Not Found -->
+        <div id="not-found-state" class="text-center hidden">
+            <div class="glass-effect rounded-2xl p-8 mb-8">
+                <div class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-semibold text-white mb-2">Producto No Encontrado</h2>
+                <p class="text-white/80 mb-6">El código proporcionado no corresponde a un producto auténtico registrado.</p>
+                
+                <div class="bg-red-500/20 border border-red-500/30 rounded-lg p-4 mb-6">
+                    <div class="flex items-start">
+                        <svg class="w-5 h-5 text-red-400 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                        </svg>
+                        <div class="text-left">
+                            <p class="text-red-300 font-medium">⚠️ Posible Falsificación</p>
+                            <p class="text-red-200 text-sm mt-1">Este producto podría no ser auténtico. Contacta al fabricante para verificación adicional.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="searchManually()" class="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-lg font-medium transition-all">
+                    Buscar Manualmente
+                </button>
+            </div>
+        </div>
+
+        <!-- Authentic Product -->
+        <div id="authentic-state" class="hidden">
+            <div class="glass-effect rounded-2xl p-8 mb-8">
+                <div class="text-center mb-8">
+                    <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 authentic-badge">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold text-white mb-2">✅ Producto Auténtico</h2>
+                    <p class="text-white/80">Este producto ha sido verificado como genuino</p>
+                </div>
+
+                <!-- Product Info -->
+                <div id="product-details" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Product Image and Basic Info -->
+                    <div class="text-center md:text-left">
+                        <img id="product-image" src="" alt="Producto" class="w-48 h-48 object-cover rounded-lg mx-auto md:mx-0 mb-4">
+                        <h3 id="product-name" class="text-2xl font-bold text-white mb-2"></h3>
+                        <div id="product-basic-info" class="space-y-2 text-white/80">
+                            <!-- Basic info will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Verification Details -->
+                    <div class="space-y-4">
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <h4 class="text-white font-semibold mb-2">Información de Verificación</h4>
+                            <div class="space-y-2 text-sm text-white/80">
+                                <div class="flex justify-between">
+                                    <span>ID Seguro:</span>
+                                    <span id="secure-id" class="font-mono"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Estado:</span>
+                                    <span id="product-status" class="font-semibold"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Fecha de Creación:</span>
+                                    <span id="creation-date"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Verificaciones:</span>
+                                    <span id="verification-count">1</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <h4 class="text-white font-semibold mb-2">Fabricante</h4>
+                            <div id="manufacturer-info" class="text-sm text-white/80">
+                                <!-- Manufacturer info will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="showCareInstructions()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition-all">
+                        Ver Cuidados
+                    </button>
+                    <button onclick="findAuthorizedShops()" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg font-medium transition-all">
+                        Talleres Autorizados
+                    </button>
+                    <button onclick="reportIssue()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-all">
+                        Reportar Problema
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manual Search -->
+        <div id="manual-search" class="text-center hidden">
+            <div class="glass-effect rounded-2xl p-8">
+                <h2 class="text-2xl font-semibold text-white mb-6">Búsqueda Manual</h2>
+                <p class="text-white/80 mb-6">Ingresa el código ID que aparece en tu producto:</p>
+                
+                <div class="max-w-md mx-auto">
+                    <input type="text" id="manual-id-input" placeholder="Ej: AUT-2025-WM-A7B9C2D1" 
+                           class="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 font-mono">
+                    <button onclick="searchById()" class="w-full mt-4 bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-lg font-medium transition-all">
+                        Verificar Producto
+                    </button>
+                </div>
+                
+                <button onclick="goBack()" class="mt-6 text-white/60 hover:text-white text-sm">
+                    ← Volver
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-8">
+        <div class="max-w-4xl mx-auto px-6">
+            <p class="text-white/60 text-sm">
+                Powered by <strong>Autentikapp</strong> - Sistema de Verificación de Autenticidad
+            </p>
+            <p class="text-white/40 text-xs mt-2">
+                © 2025 Todos los derechos reservados
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        let businessData = null;
+        let currentProductId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (productId) {
+                currentProductId = productId;
+                verifyProduct(productId);
+            } else {
+                showManualSearch();
+            }
+        });
+
+        async function verifyProduct(productId) {
+            try {
+                showLoadingState();
+                
+                // Load business data
+                const response = await fetch('./business.json');
+                businessData = await response.json();
+                
+                // Find product by ID
+                let foundProduct = null;
+                let foundItem = null;
+                
+                for (const product of businessData.products) {
+                    const item = product.items.find(item => item.id === productId);
+                    if (item) {
+                        foundProduct = product;
+                        foundItem = item;
+                        break;
+                    }
+                }
+                
+                if (foundProduct && foundItem) {
+                    showAuthenticProduct(foundProduct, foundItem);
+                } else {
+                    showNotFoundState();
+                }
+                
+            } catch (error) {
+                console.error('Error verifying product:', error);
+                showNotFoundState();
+            }
+        }
+
+        function showLoadingState() {
+            document.getElementById('loading-state').classList.remove('hidden');
+            document.getElementById('not-found-state').classList.add('hidden');
+            document.getElementById('authentic-state').classList.add('hidden');
+            document.getElementById('manual-search').classList.add('hidden');
+        }
+
+        function showNotFoundState() {
+            document.getElementById('loading-state').classList.add('hidden');
+            document.getElementById('not-found-state').classList.remove('hidden');
+            document.getElementById('authentic-state').classList.add('hidden');
+            document.getElementById('manual-search').classList.add('hidden');
+        }
+
+        function showAuthenticProduct(product, item) {
+            document.getElementById('loading-state').classList.add('hidden');
+            document.getElementById('not-found-state').classList.add('hidden');
+            document.getElementById('authentic-state').classList.remove('hidden');
+            document.getElementById('manual-search').classList.add('hidden');
+
+            // Update product details
+            document.getElementById('product-image').src = product.productImage;
+            document.getElementById('product-name').textContent = product.productName;
+            document.getElementById('secure-id').textContent = item.id;
+            document.getElementById('creation-date').textContent = new Date(item.creationDate).toLocaleDateString();
+            
+            // Product status
+            const statusElement = document.getElementById('product-status');
+            if (item.status === 'Claimed') {
+                statusElement.textContent = 'Reclamado';
+                statusElement.className = 'font-semibold text-green-300';
+            } else {
+                statusElement.textContent = 'Disponible';
+                statusElement.className = 'font-semibold text-blue-300';
+            }
+
+            // Basic product info
+            const basicInfoElement = document.getElementById('product-basic-info');
+            basicInfoElement.innerHTML = `
+                <div><strong>Color:</strong> ${product.details?.color || 'N/A'}</div>
+                <div><strong>Material:</strong> ${product.details?.material || 'N/A'}</div>
+                <div><strong>Tipo:</strong> ${product.details?.tipo || 'N/A'}</div>
+            `;
+
+            // Manufacturer info
+            const manufacturerElement = document.getElementById('manufacturer-info');
+            const manufacturer = product.manufacturer || {};
+            manufacturerElement.innerHTML = `
+                <div><strong>${manufacturer.name || 'N/A'}</strong></div>
+                <div>${manufacturer.city || 'N/A'}, ${manufacturer.country || 'N/A'}</div>
+                ${manufacturer.contact?.website ? `<div><a href="${manufacturer.contact.website}" target="_blank" class="text-blue-300 hover:text-blue-200">Sitio web</a></div>` : ''}
+            `;
+
+            // Update page title
+            document.title = `${product.productName} - Verificación | Autentikapp`;
+        }
+
+        function showManualSearch() {
+            document.getElementById('loading-state').classList.add('hidden');
+            document.getElementById('not-found-state').classList.add('hidden');
+            document.getElementById('authentic-state').classList.add('hidden');
+            document.getElementById('manual-search').classList.remove('hidden');
+        }
+
+        function searchManually() {
+            showManualSearch();
+        }
+
+        function searchById() {
+            const inputId = document.getElementById('manual-id-input').value.trim();
+            if (inputId) {
+                currentProductId = inputId;
+                verifyProduct(inputId);
+            }
+        }
+
+        function goBack() {
+            if (currentProductId) {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('id')) {
+                    showNotFoundState();
+                } else {
+                    showManualSearch();
+                }
+            } else {
+                showManualSearch();
+            }
+        }
+
+        function showCareInstructions() {
+            alert('Función de cuidados en desarrollo. Próximamente disponible.');
+        }
+
+        function findAuthorizedShops() {
+            alert('Función de talleres autorizados en desarrollo. Próximamente disponible.');
+        }
+
+        function reportIssue() {
+            alert('Función de reporte en desarrollo. Próximamente disponible.');
+        }
+
+        // Handle Enter key in manual search
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !document.getElementById('manual-search').classList.contains('hidden')) {
+                searchById();
+            }
+        });
+    </script>
+</body>
+</html>
