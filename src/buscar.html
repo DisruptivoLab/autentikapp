@@ -1,58 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verificar Producto | WMerch</title>
-    <link rel="icon" type="image/webp" href="/identidad/logotipo-oficial.webp">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-        .search-input {
-            background: rgba(255, 255, 255, 0.8);
-            border: 2px solid rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        .search-input:focus {
-            background: rgba(255, 255, 255, 1);
-            border-color: rgba(0, 0, 0, 0.2);
-            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
-        }
-        .luxury-button {
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-            transition: all 0.3s ease;
-        }
-        .luxury-button:hover {
-            background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-        .floating-animation {
-            animation: float 6s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        .pulse-ring {
-            animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
-        }
-        @keyframes pulse-ring {
-            0% { transform: scale(0.8); opacity: 1; }
-            80%, 100% { transform: scale(1.2); opacity: 0; }
-        }
-    </style>
-</head>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+.glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(0, 0, 0, 0.05); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); }
+.search-input { background: rgba(255, 255, 255, 0.8); border: 2px solid rgba(0, 0, 0, 0.1); transition: all 0.3s ease; }
+.search-input:focus { background: rgba(255, 255, 255, 1); border-color: rgba(0, 0, 0, 0.2); box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05); }
+.luxury-button { background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%); transition: all 0.3s ease; }
+.luxury-button:hover { background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
+.floating-animation { animation: float 6s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+</style>
 <body class="min-h-screen">
     
     <!-- Header -->
@@ -85,14 +42,11 @@
         <!-- Hero Section -->
         <div class="text-center mb-12">
             <div class="floating-animation inline-block mb-6">
-                <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl flex items-center justify-center mx-auto shadow-2xl">
-                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.25-4.5a12.002 12.002 0 01-.1 5.75m-.65 5.25a12.002 12.002 0 01-5.75-.1m-5.25-.65a12.002 12.002 0 01-.1-5.75m.65-5.25a12.002 12.002 0 015.75.1"></path>
-                    </svg>
-                </div>
+                <img src="/w-merch/logo.webp" alt="W Merch" class="w-20 h-20 mx-auto">
+                <p class="text-xl font-bold text-gray-900 mt-2">W Merch</p>
             </div>
             <h2 class="text-4xl font-light text-gray-900 mb-4">Verificar Autenticidad</h2>
-            <p class="text-lg text-gray-600 font-light max-w-md mx-auto">Confirma que tu producto WMerch es 100% auténtico ingresando su código único</p>
+            <p class="text-lg text-gray-600 font-light max-w-md mx-auto">Confirma que tu producto es 100% auténtico ingresando su código único</p>
         </div>
 
         <!-- Search Card -->
