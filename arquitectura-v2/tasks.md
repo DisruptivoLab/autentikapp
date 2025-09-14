@@ -1,41 +1,53 @@
-# Tareas de Migración a v2 (Next.js)
+# Plan de Tareas de Alto Nivel (v2)
 
-Este documento describe un plan de alto nivel para la migración de Autentikapp v1 a la arquitectura v2 con Next.js. Se asume que se iniciará un proyecto nuevo y se migrará la lógica y los estilos.
+Este documento describe las fases y tareas principales para la construcción de Autentikapp v2 desde cero.
 
-## Fase 1: Inicialización y Configuración del Proyecto
+## Fase 1: Fundación y Backend (Supabase)
 
--   **[ ] Tarea 1: Crear el nuevo proyecto Next.js.**
-    -   **Acción:** Ejecutar el comando `npx create-next-app@latest --typescript --tailwind --eslint autentikapp-v2`.
-    -   **Resultado:** Un nuevo proyecto Next.js con TypeScript y Tailwind CSS configurados.
+-   **[ ] Tarea 1: Configurar el proyecto en Supabase.**
+    -   **Acción:** Crear un nuevo proyecto en Supabase.
+    -   **Acción:** Diseñar e implementar el esquema de la base de datos (`productos`, `identificadores`, `verificaciones`) usando el editor de tablas o scripts SQL.
 
--   **[ ] Tarea 2: Limpiar el proyecto inicial.**
-    -   **Acción:** Eliminar las páginas y componentes de ejemplo del nuevo proyecto para empezar con una base limpia.
+-   **[ ] Tarea 2: Configurar la Autenticación.**
+    -   **Acción:** Habilitar la autenticación por correo y contraseña en Supabase Auth.
+    -   **Acción:** Configurar las plantillas de correo electrónico si es necesario.
 
-## Fase 2: Migración de la Interfaz de Usuario (UI)
+-   **[ ] Tarea 3: Implementar la Seguridad de Datos (RLS).**
+    -   **Acción:** Escribir y activar las políticas de Row Level Security para asegurar que un gerente solo pueda ver y modificar sus propios productos e identificadores.
 
--   **[ ] Tarea 3: Crear el Layout principal.**
-    -   **Acción:** Migrar la estructura base del HTML (incluyendo la barra lateral) al archivo `src/app/layout.tsx`. Convertir la barra lateral en un componente de React (`Sidebar.tsx`).
+## Fase 2: Desarrollo Frontend (Next.js)
 
--   **[ ] Tarea 4: Migrar las páginas estáticas.**
-    -   **Acción:** Por cada archivo `.html` (ej. `login.html`, `customer.html`), crear su correspondiente página en Next.js (ej. `src/app/login/page.tsx`).
-    -   **Implementación:** Convertir el contenido HTML en JSX dentro del componente de la página. Reemplazar las clases de Tailwind directamente.
+-   **[ ] Tarea 4: Inicializar el proyecto Next.js.**
+    -   **Acción:** Ejecutar `npx create-next-app` con las opciones de TypeScript y Tailwind CSS.
+    -   **Acción:** Conectar el proyecto a Supabase utilizando las claves de API en variables de entorno.
 
-## Fase 3: Migración del Backend y Lógica de Datos
+-   **[ ] Tarea 5: Construir el sistema de autenticación.**
+    -   **Acción:** Crear las páginas de Login, Registro y Olvido de Contraseña.
+    -   **Acción:** Implementar la lógica para interactuar con Supabase Auth.
 
--   **[ ] Tarea 5: Implementar la nueva API Route.**
-    -   **Acción:** Crear el archivo `src/app/api/data/route.ts`.
-    -   **Implementación:** Replicar la lógica de negocio (leer `business.json`, añadir metadatos) usando Node.js APIs dentro de una función `GET` exportada. La validación de la clave de API se hará contra `process.env.API_KEY`.
+-   **[ ] Tarea 6: Desarrollar el Layout del Dashboard.**
+    -   **Acción:** Crear el layout principal que incluya la `Sidebar` y la navegación.
+    -   **Acción:** Implementar la lógica para proteger las rutas del dashboard.
 
--   **[ ] Tarea 6: Conectar la UI con la API.**
-    -   **Acción:** En las páginas que necesiten los datos (ej. `dashboard`), usar `fetch` (en el cliente) o una llamada directa en el servidor para obtener los datos desde el endpoint `/api/data`.
+-   **[ ] Tarea 7: Implementar los módulos de gestión (CRUD).**
+    -   **Acción:** Desarrollar la interfaz para listar, crear, editar y eliminar productos.
+    -   **Acción:** Crear la funcionalidad para generar lotes de identificadores para un producto.
 
-## Fase 4: Despliegue y Configuración Final
+-   **[ ] Tarea 8: Desarrollar el Dashboard de Analíticas.**
+    -   **Acción:** Crear las API Routes en Next.js para obtener los datos agregados desde Supabase.
+    -   **Acción:** Implementar los componentes de gráficos (Chart.js) y las tarjetas de KPIs.
 
--   **[ ] Tarea 7: Configurar el nuevo proyecto en Vercel.**
-    -   **Acción (Diego):** Crear un nuevo proyecto en Vercel y conectarlo al repositorio que contiene la nueva aplicación Next.js.
+## Fase 3: Experiencia del Consumidor Final
 
--   **[ ] Tarea 8: Configurar las Variables de Entorno.**
-    -   **Acción (Diego):** En el nuevo proyecto de Vercel, añadir la variable de entorno `API_KEY` con el valor correspondiente.
+-   **[ ] Tarea 9: Crear la página de verificación.**
+    -   **Acción:** Desarrollar la página pública que recibirá el `codigo_unico` del QR.
+    -   **Acción:** Implementar la lógica que busca el código en la base de datos y muestra el resultado (éxito, ya verificado, no encontrado).
 
--   **[ ] Tarea 9: Desplegar y verificar.**
-    -   **Acción:** Hacer push del código al repositorio para que Vercel lo despliegue. Verificar que todas las páginas y la lógica de la API funcionan correctamente en producción.
+## Fase 4: Despliegue y Pruebas
+
+-   **[ ] Tarea 10: Configurar el proyecto en Vercel.**
+    -   **Acción:** Conectar el repositorio de Git al proyecto de Vercel.
+    -   **Acción:** Configurar todas las variables de entorno necesarias (claves de Supabase).
+
+-   **[ ] Tarea 11: Desplegar y probar.**
+    -   **Acción:** Realizar el despliegue en producción y llevar a cabo pruebas de extremo a extremo.
