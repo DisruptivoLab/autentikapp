@@ -395,7 +395,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${claimRate}%</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${registrationDate}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button onclick="showProductDetail('${productGroup.productName}')" 
+                            <button onclick="goToProductDetail('${productGroup.productName}')" 
                                     class="luxury-button text-white px-4 py-2 rounded-lg text-xs">
                                 Ver Detalles
                             </button>
@@ -717,8 +717,14 @@
             setTimeout(() => document.body.removeChild(toast), 3000);
         }
 
+        // Navigation function to product detail page
+        function goToProductDetail(productName) {
+            window.location.href = `product.html?name=${encodeURIComponent(productName)}`;
+        }
+        
         // Make functions global for onclick handlers
         window.showProductDetail = showProductDetail;
+        window.goToProductDetail = goToProductDetail;
         window.generateQR = generateQR;
         window.exportProduct = exportProduct;
         window.manageStock = manageStock;

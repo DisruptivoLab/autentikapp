@@ -41,9 +41,11 @@ Autentikapp v2 se construirá como una aplicación **Next.js**. Esta arquitectur
 
 ## 4. Flujo de Autenticación y Datos
 
-1.  El usuario navega a una página protegida (ej. `/dashboard`).
-2.  Next.js, a través de un componente de layout o middleware, verifica si el usuario está autenticado (ej. buscando un token en las cookies).
-3.  Si no está autenticado, lo redirige a `/login`.
-4.  Si está autenticado, la página del dashboard puede obtener los datos necesarios de dos maneras:
-    - **SSR:** La página se renderiza en el servidor, llama a la función de la API internamente, y se envía al cliente como HTML completo.
-    - **CSR:** La página se renderiza en el cliente y hace una llamada `fetch` al endpoint `/api/data`, que es manejado por la API Route de Next.js.
+1.  El **Gerente de Marca** inicia sesión a través de la página `/login`. El sistema de Autenticación de Supabase gestiona este proceso.
+2.  Una vez autenticado, navega a una página protegida como `/dashboard`.
+3.  La página del dashboard, ya sea en el servidor (SSR) o en el cliente (CSR), necesita cargar datos (ej. la lista de productos).
+4.  Realiza una llamada a una API Route de Next.js (ej. `/api/products`).
+5.  La función de la API Route en Next.js recibe la petición. Utiliza el SDK de Supabase para realizar una consulta segura a la base de datos PostgreSQL (ej. `supabase.from('productos').select('*')`).
+6.  Supabase procesa la consulta, verifica los permisos del usuario (Row Level Security) y devuelve solo los datos que le pertenecen a ese gerente.
+7.  La función de Next.js reenvía los datos como respuesta al frontend.
+8.  El frontend recibe el JSON y renderiza los datos en la interfaz (tablas, gráficos, etc.).
