@@ -706,6 +706,675 @@
                             <p class="text-sm text-gray-300">${sustainability.packaging || 'N/A'}</p>
                         </div>
                     </div>
+                    
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Certificaciones Ambientales</h3>
+                        <div class="space-y-2">
+                            ${(sustainability.certifications || []).map(cert => `
+                                <div class="flex items-center">
+                                    <svg class="w-4 h-4 text-green-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span class="text-sm">${cert}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProductStats() {
+            const totalItems = allItems.length;
+            const claimedItems = allItems.filter(item => item.ownerId).length;
+            const availableItems = totalItems - claimedItems;
+            const claimedPercentage = totalItems > 0 ? Math.round((claimedItems / totalItems) * 100) : 0;
+
+            document.getElementById('product-stats').innerHTML = `
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Total IDs</p>
+                            <p class="text-3xl font-light text-gray-900">${totalItems}</p>
+                        </div>
+                        <div class="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Verificados</p>
+                            <p class="text-3xl font-light text-gray-900">${claimedItems}</p>
+                        </div>
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Disponibles</p>
+                            <p class="text-3xl font-light text-gray-900">${availableItems}</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Tasa Verificación</p>
+                            <p class="text-3xl font-light text-gray-900">${claimedPercentage}%</p>
+                        </div>
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function groupItemsIntoBatches(items) {
+            const batchMap = {};
+            items.forEach(item => {
+                const batchId = item.batchId || 'default';
+                if (!batchMap[batchId]) {
+                    batchMap[batchId] = {
+                        id: batchId,
+                        items: [],
+                        createdAt: item.createdAt || new Date().toISOString(),
+                        description: item.batchDescription || 'Lote sin descripción'
+                    };
+                }
+                batchMap[batchId].items.push(item);
+            });
+            return Object.values(batchMap);
+        }
+
+        function renderBatchesView() {
+            const container = document.getElementById('batches-container');
+            if (batches.length === 0) {
+                container.innerHTML = `
+                    <div class="p-8 text-center text-gray-500">
+                        <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 009.586 13H7"></path>
+                        </svg>
+                        <p class="font-light">No hay lotes generados para este producto</p>
+                        <button onclick="openBatchModal()" class="mt-4 luxury-button px-6 py-3 text-white rounded-xl font-medium">
+                            Generar Primer Lote
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = batches.map(batch => {
+                const claimedCount = batch.items.filter(item => item.ownerId).length;
+                const availableCount = batch.items.length - claimedCount;
+                const claimedPercentage = Math.round((claimedCount / batch.items.length) * 100);
+                
+                return `
+                    <div class="border-b border-gray-100 last:border-b-0">
+                        <div class="px-8 py-6 hover:bg-gray-50 transition-colors cursor-pointer" onclick="toggleBatchDetails('${batch.id}')">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 009.586 13H7"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-lg font-medium text-gray-900">Lote ${batch.id}</h4>
+                                            <p class="text-sm text-gray-500">${batch.description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-6">
+                                    <div class="text-center">
+                                        <p class="text-2xl font-light text-gray-900">${batch.items.length}</p>
+                                        <p class="text-xs text-gray-500">Total IDs</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-2xl font-light text-green-600">${claimedCount}</p>
+                                        <p class="text-xs text-gray-500">Verificados</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-2xl font-light text-blue-600">${availableCount}</p>
+                                        <p class="text-xs text-gray-500">Disponibles</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-2xl font-light text-purple-600">${claimedPercentage}%</p>
+                                        <p class="text-xs text-gray-500">Tasa</p>
+                                    </div>
+                                    <svg class="w-5 h-5 text-gray-400 transform transition-transform batch-chevron-${batch.id}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="batch-details-${batch.id}" class="hidden px-8 pb-6">
+                            <div class="bg-gray-50 rounded-xl p-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h5 class="font-medium text-gray-900 mb-3">Información del Lote</h5>
+                                        <div class="space-y-2 text-sm">
+                                            <div class="flex justify-between">
+                                                <span class="text-gray-500">Fecha de creación:</span>
+                                                <span class="text-gray-900">${format(parseISO(batch.createdAt), 'dd/MM/yyyy HH:mm')}</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-gray-500">Nivel de seguridad:</span>
+                                                <span class="text-gray-900">Nivel 3 (SHA-256)</span>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-gray-500">Estado del lote:</span>
+                                                <span class="text-gray-900">${availableCount > 0 ? 'Activo' : 'Completado'}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-medium text-gray-900 mb-3">IDs del Lote</h5>
+                                        <div class="max-h-32 overflow-y-auto space-y-1">
+                                            ${batch.items.slice(0, 5).map(item => `
+                                                <div class="flex items-center justify-between text-sm">
+                                                    <span class="font-mono text-gray-600">${item.id}</span>
+                                                    <span class="px-2 py-1 rounded-full text-xs ${
+                                                        item.ownerId ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                                                    }">
+                                                        ${item.ownerId ? 'Verificado' : 'Disponible'}
+                                                    </span>
+                                                </div>
+                                            `).join('')}
+                                            ${batch.items.length > 5 ? `
+                                                <div class="text-xs text-gray-500 text-center pt-2">
+                                                    ... y ${batch.items.length - 5} IDs más
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleBatchDetails(batchId) {
+            const details = document.getElementById(`batch-details-${batchId}`);
+            const chevron = document.querySelector(`.batch-chevron-${batchId}`);
+            
+            if (details.classList.contains('hidden')) {
+                details.classList.remove('hidden');
+                chevron.style.transform = 'rotate(180deg)';
+            } else {
+                details.classList.add('hidden');
+                chevron.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function renderItemsTable(items) {
+            const tbody = document.getElementById('ids-table-body');
+            const noItemsMessage = document.getElementById('no-ids-message');
+            
+            if (items.length === 0) {
+                tbody.innerHTML = '';
+                noItemsMessage.classList.remove('hidden');
+                return;
+            }
+            
+            noItemsMessage.classList.add('hidden');
+            tbody.innerHTML = items.map(item => {
+                const client = item.client;
+                const statusClass = item.ownerId ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800';
+                const statusText = item.ownerId ? 'Verificado' : 'Disponible';
+                
+                return `
+                    <tr class="hover:bg-gray-50 cursor-pointer transition-colors" onclick="showItemDetails('${item.id}')">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="font-mono text-sm text-gray-900">${item.id}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">${item.batchId || 'default'}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">
+                                ${statusText}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">
+                                ${client ? client.name : 'Sin asignar'}
+                            </div>
+                            ${client ? `<div class="text-sm text-gray-500">${client.email}</div>` : ''}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            ${format(parseISO(item.createdAt || new Date().toISOString()), 'dd/MM/yyyy')}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button onclick="event.stopPropagation(); copyToClipboard('${item.id}')" 
+                                    class="text-gray-400 hover:text-gray-600 mr-3">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                            </button>
+                            <button onclick="event.stopPropagation(); window.open('https://autentikapp.vercel.app/producto?id=${item.id}', '_blank')" 
+                                    class="text-gray-400 hover:text-gray-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function showItemDetails(itemId) {
+            const item = allItems.find(i => i.id === itemId);
+            if (!item) return;
+            
+            const client = item.client;
+            const batch = batches.find(b => b.id === item.batchId);
+            
+            const modalContent = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-medium text-gray-900 mb-6">Información del ID</h3>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <p class="text-sm text-gray-500 mb-1">ID Seguro</p>
+                                <p class="font-mono text-lg text-gray-900">${item.id}</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">Estado</p>
+                                    <span class="px-3 py-1 rounded-full text-sm ${
+                                        item.ownerId ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                                    }">
+                                        ${item.ownerId ? 'Verificado' : 'Disponible'}
+                                    </span>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">Lote</p>
+                                    <p class="text-gray-900">${item.batchId || 'default'}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">Fecha de Creación</p>
+                                <p class="text-gray-900">${format(parseISO(item.createdAt || new Date().toISOString()), 'dd/MM/yyyy HH:mm')}</p>
+                            </div>
+                            ${item.claimedAt ? `
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">Fecha de Verificación</p>
+                                    <p class="text-gray-900">${format(parseISO(item.claimedAt), 'dd/MM/yyyy HH:mm')}</p>
+                                </div>
+                            ` : ''}
+                            <div class="pt-4 border-t border-gray-200">
+                                <p class="text-sm text-gray-500 mb-2">URL de Verificación</p>
+                                <div class="flex items-center space-x-2">
+                                    <input type="text" value="https://autentikapp.vercel.app/producto?id=${item.id}" 
+                                           class="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-mono" readonly>
+                                    <button onclick="copyToClipboard('https://autentikapp.vercel.app/producto?id=${item.id}')" 
+                                            class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        ${client ? `
+                            <h3 class="text-xl font-medium text-gray-900 mb-6">Cliente Propietario</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                                        <span class="text-white font-semibold text-lg">${client.name.charAt(0)}</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-medium text-gray-900">${client.name}</h4>
+                                        <p class="text-gray-500">${client.email}</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 gap-4">
+                                    <div>
+                                        <p class="text-sm text-gray-500 mb-1">Teléfono</p>
+                                        <p class="text-gray-900">${client.phone || 'No disponible'}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500 mb-1">Ubicación</p>
+                                        <p class="text-gray-900">${client.location || 'No disponible'}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500 mb-1">Segmento</p>
+                                        <span class="px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-800">
+                                            ${client.segment || 'General'}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-500 mb-1">Cliente desde</p>
+                                        <p class="text-gray-900">${format(parseISO(client.registrationDate || new Date().toISOString()), 'dd/MM/yyyy')}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : `
+                            <div class="text-center py-12">
+                                <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                                <h3 class="text-lg font-medium text-gray-900 mb-2">ID Disponible</h3>
+                                <p class="text-gray-500">Este ID aún no ha sido verificado por ningún cliente.</p>
+                            </div>
+                        `}
+                    </div>
+                </div>
+                
+                ${batch ? `
+                    <div class="mt-8 pt-8 border-t border-gray-200">
+                        <h3 class="text-xl font-medium text-gray-900 mb-4">Información del Lote</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <p class="text-sm text-gray-500 mb-1">Lote ID</p>
+                                <p class="font-semibold text-gray-900">${batch.id}</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <p class="text-sm text-gray-500 mb-1">Total IDs en Lote</p>
+                                <p class="font-semibold text-gray-900">${batch.items.length}</p>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-xl">
+                                <p class="text-sm text-gray-500 mb-1">IDs Verificados</p>
+                                <p class="font-semibold text-gray-900">${batch.items.filter(i => i.ownerId).length}</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <p class="text-sm text-gray-500 mb-1">Descripción del Lote</p>
+                            <p class="text-gray-900">${batch.description}</p>
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+            
+            document.getElementById('client-profile-content').innerHTML = modalContent;
+            document.getElementById('client-modal').classList.remove('hidden');
+        }
+
+        function setupEventListeners() {
+            // View mode toggle
+            document.getElementById('view-mode').addEventListener('change', (e) => {
+                currentViewMode = e.target.value;
+                if (currentViewMode === 'batches') {
+                    document.getElementById('batches-view').classList.remove('hidden');
+                    document.getElementById('ids-view').classList.add('hidden');
+                } else {
+                    document.getElementById('batches-view').classList.add('hidden');
+                    document.getElementById('ids-view').classList.remove('hidden');
+                }
+            });
+
+            // Filter toggle
+            document.getElementById('toggle-filters').addEventListener('click', () => {
+                const content = document.getElementById('filters-content');
+                const button = document.getElementById('toggle-filters');
+                if (content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
+                    button.textContent = 'Ocultar';
+                } else {
+                    content.classList.add('hidden');
+                    button.textContent = 'Mostrar';
+                }
+            });
+
+            // Search and filter functionality
+            document.getElementById('search-ids').addEventListener('input', applyFilters);
+            document.getElementById('filter-status').addEventListener('change', applyFilters);
+            document.getElementById('filter-time').addEventListener('change', applyFilters);
+            document.getElementById('date-from').addEventListener('change', applyFilters);
+            document.getElementById('sort-ids').addEventListener('change', applyFilters);
+            
+            document.getElementById('clear-filters').addEventListener('click', clearFilters);
+            document.getElementById('apply-filters').addEventListener('click', applyFilters);
+
+            // Modal close buttons
+            document.getElementById('close-client-modal').addEventListener('click', () => {
+                document.getElementById('client-modal').classList.add('hidden');
+            });
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('search-ids').value.toLowerCase();
+            const statusFilter = document.getElementById('filter-status').value;
+            const timeFilter = document.getElementById('filter-time').value;
+            const dateFrom = document.getElementById('date-from').value;
+            const sortBy = document.getElementById('sort-ids').value;
+
+            let filteredItems = [...allItems];
+
+            // Apply search filter
+            if (searchTerm) {
+                filteredItems = filteredItems.filter(item => 
+                    item.id.toLowerCase().includes(searchTerm) ||
+                    (item.client && item.client.name.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            // Apply status filter
+            if (statusFilter !== 'all') {
+                filteredItems = filteredItems.filter(item => {
+                    if (statusFilter === 'claimed') return item.ownerId;
+                    if (statusFilter === 'unclaimed') return !item.ownerId;
+                    return true;
+                });
+            }
+
+            // Apply time filter
+            if (timeFilter !== 'all') {
+                const now = new Date();
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+                const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+                filteredItems = filteredItems.filter(item => {
+                    const itemDate = new Date(item.createdAt || new Date());
+                    if (timeFilter === 'today') return itemDate >= today;
+                    if (timeFilter === 'week') return itemDate >= weekAgo;
+                    if (timeFilter === 'month') return itemDate >= monthAgo;
+                    return true;
+                });
+            }
+
+            // Apply date from filter
+            if (dateFrom) {
+                const fromDate = new Date(dateFrom);
+                filteredItems = filteredItems.filter(item => {
+                    const itemDate = new Date(item.createdAt || new Date());
+                    return itemDate >= fromDate;
+                });
+            }
+
+            // Apply sorting
+            filteredItems.sort((a, b) => {
+                switch (sortBy) {
+                    case 'id':
+                        return a.id.localeCompare(b.id);
+                    case 'date':
+                        return new Date(b.createdAt || new Date()) - new Date(a.createdAt || new Date());
+                    case 'claimed':
+                        return new Date(b.claimedAt || 0) - new Date(a.claimedAt || 0);
+                    case 'status':
+                        return (b.ownerId ? 1 : 0) - (a.ownerId ? 1 : 0);
+                    default:
+                        return 0;
+                }
+            });
+
+            renderItemsTable(filteredItems);
+            updateFilterSummary(filteredItems.length, allItems.length);
+        }
+
+        function clearFilters() {
+            document.getElementById('search-ids').value = '';
+            document.getElementById('filter-status').value = 'all';
+            document.getElementById('filter-time').value = 'all';
+            document.getElementById('date-from').value = '';
+            document.getElementById('sort-ids').value = 'id';
+            renderItemsTable(allItems);
+            updateFilterSummary(allItems.length, allItems.length);
+        }
+
+        function updateFilterSummary(filtered, total) {
+            const summary = document.getElementById('filter-summary');
+            if (filtered === total) {
+                summary.textContent = `Mostrando todos los ${total} IDs`;
+            } else {
+                summary.textContent = `Mostrando ${filtered} de ${total} IDs`;
+            }
+        }
+
+        function setupEditFunctionality() {
+            document.getElementById('edit-product-btn').addEventListener('click', () => {
+                document.getElementById('product-info').classList.add('hidden');
+                document.getElementById('product-edit-form').classList.remove('hidden');
+                
+                // Populate form with current data
+                document.getElementById('edit-name').value = productData.productName;
+                document.getElementById('edit-color').value = productData.details?.color || '';
+                document.getElementById('edit-material').value = productData.details?.material || '';
+                document.getElementById('edit-type').value = productData.details?.tipo || '';
+            });
+
+            document.getElementById('cancel-edit-btn').addEventListener('click', () => {
+                document.getElementById('product-info').classList.remove('hidden');
+                document.getElementById('product-edit-form').classList.add('hidden');
+            });
+
+            document.getElementById('save-changes-btn').addEventListener('click', () => {
+                // Here you would normally save to backend
+                showToast('Cambios guardados correctamente');
+                document.getElementById('product-info').classList.remove('hidden');
+                document.getElementById('product-edit-form').classList.add('hidden');
+            });
+        }
+
+        function setupBatchSystem() {
+            document.getElementById('generate-batch-btn').addEventListener('click', openBatchModal);
+            document.getElementById('close-batch-modal').addEventListener('click', closeBatchModal);
+            document.getElementById('confirm-batch-btn').addEventListener('click', generateBatch);
+        }
+
+        function openBatchModal() {
+            document.getElementById('batch-product-name').textContent = productData.productName;
+            document.getElementById('batch-modal').classList.remove('hidden');
+        }
+
+        function closeBatchModal() {
+            document.getElementById('batch-modal').classList.add('hidden');
+            document.getElementById('batch-quantity').value = '10';
+            document.getElementById('batch-description').value = '';
+        }
+
+        async function generateBatch() {
+            const quantity = parseInt(document.getElementById('batch-quantity').value);
+            const description = document.getElementById('batch-description').value || `Lote generado el ${format(new Date(), 'dd/MM/yyyy')}`;
+            
+            if (quantity < 1 || quantity > 100) {
+                showToast('La cantidad debe estar entre 1 y 100 IDs', 'error');
+                return;
+            }
+
+            const batchId = `BATCH-${Date.now()}`;
+            const newItems = [];
+            
+            showToast('Generando lote seguro...', 'info');
+            
+            for (let i = 0; i < quantity; i++) {
+                const secureId = await generateSecureID(productData.productName);
+                newItems.push({
+                    id: secureId,
+                    batchId: batchId,
+                    batchDescription: description,
+                    createdAt: new Date().toISOString(),
+                    ownerId: null,
+                    claimedAt: null,
+                    client: null
+                });
+            }
+            
+            // Add to allItems and update batches
+            allItems.push(...newItems);
+            batches = groupItemsIntoBatches(allItems);
+            
+            // Re-render everything
+            renderProductStats();
+            renderBatchesView();
+            renderItemsTable(allItems);
+            
+            closeBatchModal();
+            showToast(`Lote de ${quantity} IDs generado correctamente`, 'success');
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copiado al portapapeles');
+            });
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            
+            // Update toast styling based on type
+            toast.className = 'fixed top-5 right-5 py-3 px-6 rounded-xl shadow-lg z-50';
+            if (type === 'success') {
+                toast.classList.add('bg-green-600', 'text-white');
+            } else if (type === 'error') {
+                toast.classList.add('bg-red-600', 'text-white');
+            } else if (type === 'info') {
+                toast.classList.add('bg-blue-600', 'text-white');
+            } else {
+                toast.classList.add('bg-gray-900', 'text-white');
+            }
+            
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        // Make functions globally available
+        window.toggleBatchDetails = toggleBatchDetails;
+        window.showItemDetails = showItemDetails;
+        window.copyToClipboard = copyToClipboard;
+        window.openBatchModal = openBatchModal;
+        window.goBack = goBack;
+    </script>
+</body>
+</html>
+                            <p class="text-sm text-gray-300">${sustainability.packaging || 'N/A'}</p>
+                        </div>
+                    </div>
                 </div>
             `;
         }
