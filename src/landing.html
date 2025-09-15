@@ -7,6 +7,7 @@
     <link rel="icon" type="image/webp" href="/identidad/logotipo-oficial.webp">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/animations.css">
     <style>
         .hero-height {
             height: 100vh;
@@ -121,32 +122,7 @@
             transform: translateY(-1px);
         }
         
-        /* Scroll Animations */
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(60px);
-            transition: all 0.8s ease-out;
-        }
-        
-        .fade-in-up.animate {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .stagger-1 { transition-delay: 0.1s; }
-        .stagger-2 { transition-delay: 0.2s; }
-        .stagger-3 { transition-delay: 0.3s; }
-        
-        .scale-in {
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.6s ease-out;
-        }
-        
-        .scale-in.animate {
-            opacity: 1;
-            transform: scale(1);
-        }
+
     </style>
 </head>
 <body class="bg-black text-white">
@@ -286,7 +262,7 @@
     <section id="solution" class="py-32 px-6 bg-white text-black">
         <div class="container mx-auto max-w-6xl">
             <div class="grid lg:grid-cols-2 gap-20 items-center">
-                <div>
+                <div class="fade-in-left" data-animate>
                     <h3 class="text-5xl md:text-6xl font-light mb-12 text-black">
                         La <span class="font-bold">Solución</span> Definitiva
                     </h3>
@@ -294,8 +270,8 @@
                         Cada producto recibe un código QR único e irrepetible. Tus clientes verifican autenticidad al instante y tú obtienes datos valiosos de cada interacción.
                     </p>
                     <div class="space-y-8">
-                        <div class="flex items-start">
-                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-6 flex-shrink-0">
+                        <div class="flex items-start fade-in-up stagger-1" data-animate>
+                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-6 flex-shrink-0 bounce-in" data-animate>
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
@@ -305,8 +281,8 @@
                                 <p class="text-gray-600 text-lg">Un simple escaneo confirma la autenticidad en segundos</p>
                             </div>
                         </div>
-                        <div class="flex items-start">
-                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-6 flex-shrink-0">
+                        <div class="flex items-start fade-in-up stagger-2" data-animate>
+                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-6 flex-shrink-0 bounce-in" data-animate>
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                 </svg>
@@ -316,8 +292,8 @@
                                 <p class="text-gray-600 text-lg">Conoce a tus clientes reales y sus patrones de compra</p>
                             </div>
                         </div>
-                        <div class="flex items-start">
-                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-6 flex-shrink-0">
+                        <div class="flex items-start fade-in-up stagger-3" data-animate>
+                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-6 flex-shrink-0 bounce-in" data-animate>
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                 </svg>
@@ -329,16 +305,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="relative">
-                    <div class="bg-gradient-to-br from-blue-50 to-gray-100 p-12 rounded-3xl shadow-2xl">
+                <div class="relative fade-in-right" data-animate>
+                    <div class="bg-gradient-to-br from-blue-50 to-gray-100 p-12 rounded-3xl shadow-2xl hover-lift">
                         <div class="text-center">
-                            <div class="w-32 h-32 bg-white rounded-2xl shadow-lg mx-auto mb-8 flex items-center justify-center">
-                                <svg class="w-16 h-16 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-32 h-32 bg-white rounded-2xl shadow-lg mx-auto mb-8 flex items-center justify-center scale-in" data-animate>
+                                <svg class="w-16 h-16 text-blue-600 rotate-in" data-animate fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
                                 </svg>
                             </div>
-                            <h5 class="text-2xl font-bold text-gray-800 mb-4">Código QR Único</h5>
-                            <p class="text-gray-600">Cada producto, una identidad digital irrepetible</p>
+                            <h5 class="text-2xl font-bold text-gray-800 mb-4 slide-in-bottom" data-animate>Código QR Único</h5>
+                            <p class="text-gray-600 slide-in-bottom stagger-1" data-animate>Cada producto, una identidad digital irrepetible</p>
                         </div>
                     </div>
                 </div>
