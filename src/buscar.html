@@ -14,6 +14,29 @@
 .luxury-button:hover { background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2); }
 .floating-animation { animation: float 6s ease-in-out infinite; }
 @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+.scrolling-text {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 8rem;
+  font-weight: 900;
+  color: rgba(64, 64, 64, 0.15);
+  animation: scroll 30s linear infinite;
+  user-select: none;
+}
+.scrolling-text span {
+  display: inline-block;
+  padding-right: 2rem;
+}
+@keyframes scroll {
+  0% { transform: translateX(100vw) translateY(-50%); }
+  100% { transform: translateX(-100%) translateY(-50%); }
+}
+@media (max-width: 768px) {
+  .scrolling-text { font-size: 4rem; }
+}
 </style>
 <body class="min-h-screen bg-black relative overflow-x-hidden">
     <!-- Video Background -->
@@ -84,7 +107,32 @@
 
         <!-- Welcome Modal -->
         <div id="welcomeModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[100] flex items-center justify-center p-4">
-            <div class="max-w-2xl w-full text-center relative">
+            <!-- Scrolling Text Background -->
+            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                <div class="scrolling-text">
+                    <span>ÚNICO • ORIGINAL • AUTÉNTICO • EXCLUSIVO • LA PAMPARA • FLOW • EL ESTILO • GRANDES • </span>
+                    <span>ÚNICO • ORIGINAL • AUTÉNTICO • EXCLUSIVO • LA PAMPARA • FLOW • EL ESTILO • GRANDES • </span>
+                </div>
+            </div>
+            
+            <!-- Audio Controls -->
+            <div class="absolute top-6 right-6 z-10">
+                <button onclick="toggleMusic()" class="bg-white/10 hover:bg-white/20 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm border border-white/20">
+                    <svg id="playIcon" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                    <svg id="pauseIcon" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Hidden Audio Element -->
+            <audio id="backgroundMusic" loop>
+                <source src="https://www.youtube.com/watch?v=BzshmDQHEm4" type="audio/mpeg">
+            </audio>
+            
+            <div class="max-w-2xl w-full text-center relative z-10">
                 <!-- Animated Logo -->
                 <div class="floating-animation mb-8">
                     <img src="/w-merch/logo_w_merch.webp" alt="W Merch" class="w-32 h-32 md:w-40 md:h-40 mx-auto mb-6" style="filter: invert(1) brightness(1);">
@@ -114,10 +162,6 @@
                 >
                     ¡VAMOS!
                 </button>
-                
-                <!-- Decorative Elements -->
-                <div class="absolute -top-10 -left-10 w-20 h-20 border border-white/20 rounded-full animate-pulse"></div>
-                <div class="absolute -bottom-10 -right-10 w-16 h-16 border border-white/20 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
             </div>
         </div>
 
@@ -280,11 +324,30 @@
         // Welcome Modal Functions
         function closeWelcomeModal() {
             const modal = document.getElementById('welcomeModal');
+            const music = document.getElementById('backgroundMusic');
+            music.pause();
             modal.style.opacity = '0';
             modal.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 modal.style.display = 'none';
             }, 300);
+        }
+        
+        // Music toggle function
+        function toggleMusic() {
+            const music = document.getElementById('backgroundMusic');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            
+            if (music.paused) {
+                music.play();
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            } else {
+                music.pause();
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            }
         }
         
         // Show welcome modal on page load
