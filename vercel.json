@@ -9,6 +9,7 @@
     { "source": "/producto", "destination": "/producto.html" },
     { "source": "/producto/(.*)", "destination": "/producto.html" },
     { "source": "/buscar", "destination": "/buscar.html" },
+    { "source": "/verify", "destination": "/verify.html" },
     { "source": "/ids", "destination": "/ids.html" },
     { "source": "/negocio", "destination": "/business.html" },
     { "source": "/talleres", "destination": "/talleres.html" }
