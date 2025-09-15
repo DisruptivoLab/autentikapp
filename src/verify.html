@@ -7,372 +7,235 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; }
+        body { 
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
         .verified-check { animation: checkmark 0.6s ease-in-out; }
         @keyframes checkmark {
             0% { transform: scale(0); }
             50% { transform: scale(1.2); }
             100% { transform: scale(1); }
         }
-        .image-carousel::-webkit-scrollbar {
-            height: 1px;
-            width: 1px;
+        .left-scroll::-webkit-scrollbar {
+            width: 6px;
         }
-        .image-carousel::-webkit-scrollbar-track {
-            background: transparent;
+        .left-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
         }
-        .image-carousel::-webkit-scrollbar-thumb {
-            background: #d1d5db;
+        .left-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
         }
-        .image-carousel::-webkit-scrollbar-thumb:hover {
-            background: #9ca3af;
+        .left-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
-        .vertical-carousel::-webkit-scrollbar {
-            width: 4px;
+        .right-scroll::-webkit-scrollbar {
+            width: 6px;
         }
-        .vertical-carousel::-webkit-scrollbar-track {
-            background: #f9fafb;
+        .right-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
         }
-        .vertical-carousel::-webkit-scrollbar-thumb {
-            background: #d1d5db;
-            border-radius: 2px;
+        .right-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
         }
-        .vertical-carousel::-webkit-scrollbar-thumb:hover {
-            background: #9ca3af;
-        }
-        .info-scroll::-webkit-scrollbar {
-            width: 4px;
-        }
-        .info-scroll::-webkit-scrollbar-track {
-            background: #f9fafb;
-        }
-        .info-scroll::-webkit-scrollbar-thumb {
-            background: #d1d5db;
-            border-radius: 2px;
-        }
-        .info-scroll::-webkit-scrollbar-thumb:hover {
-            background: #9ca3af;
+        .right-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
     </style>
 </head>
-<body class="min-h-screen bg-white">
+<body class="bg-white">
     
     <!-- Header -->
-    <header class="sticky top-0 z-50 bg-white/20">
-        <div class="container mx-auto px-6 py-2 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <img src="/w-merch/logo_w_merch.webp" alt="W Merch" class="w-8 h-8">
-                <span class="text-lg font-light text-black">W MERCH</span>
-            </div>
+    <header class="h-16 bg-white border-b border-gray-100 flex items-center px-6">
+        <div class="flex items-center space-x-3">
+            <img src="/w-merch/logo_w_merch.webp" alt="W Merch" class="w-8 h-8">
+            <span class="text-lg font-light text-black">W MERCH</span>
+        </div>
+        <div class="ml-auto">
             <a href="/buscar" class="text-gray-600 hover:text-black font-light text-sm transition-colors">← Verificar otro</a>
         </div>
     </header>
 
-    <!-- Desktop Layout -->
-    <main class="hidden md:block" style="height: calc(100vh - 60px);">
-        <div class="grid grid-cols-2 h-full">
-            <!-- Left Column - Images -->
-            <div class="border-r border-gray-100">
-                <div class="vertical-carousel overflow-y-auto h-full space-y-4 p-6">
-                    <div class="h-[70vh] flex items-center justify-center">
+    <!-- Main Layout -->
+    <div class="flex h-screen" style="height: calc(100vh - 64px);">
+        
+        <!-- Left Column - Images -->
+        <div class="w-1/2 border-r border-gray-100">
+            <div class="left-scroll h-full overflow-y-auto p-6">
+                <div class="space-y-6">
+                    <div class="h-[70vh] flex items-center justify-center bg-gray-50 rounded">
                         <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 1" class="max-h-full max-w-full object-contain">
                     </div>
-                    <div class="h-[70vh] flex items-center justify-center">
+                    <div class="h-[70vh] flex items-center justify-center bg-gray-50 rounded">
                         <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 2" class="max-h-full max-w-full object-contain">
                     </div>
-                    <div class="h-[70vh] flex items-center justify-center">
+                    <div class="h-[70vh] flex items-center justify-center bg-gray-50 rounded">
                         <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 3" class="max-h-full max-w-full object-contain">
                     </div>
+                    <div class="h-[70vh] flex items-center justify-center bg-gray-50 rounded">
+                        <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 4" class="max-h-full max-w-full object-contain">
+                    </div>
                 </div>
             </div>
-            
-            <!-- Right Column - Info with Internal Scroll -->
-            <div class="info-scroll overflow-y-auto h-full">
-                <div class="p-6">
-                    <!-- Verification Status -->
-                    <div class="text-center mb-12">
-                        <div class="verified-check inline-flex items-center justify-center w-16 h-16 border border-black mb-6">
-                            <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                        </div>
-                        <h1 class="text-3xl font-light text-black mb-4">Producto Auténtico</h1>
-                        <p class="text-gray-600 font-light mb-6">Verificación completada</p>
-                        <p class="text-xs text-gray-400 font-mono tracking-wider" id="productCode">AUT-2025-WM-B1A7C9D2</p>
+        </div>
+        
+        <!-- Right Column - Info -->
+        <div class="w-1/2">
+            <div class="right-scroll h-full overflow-y-auto p-8">
+                
+                <!-- Verification Status -->
+                <div class="text-center mb-12">
+                    <div class="verified-check inline-flex items-center justify-center w-16 h-16 border border-black mb-6">
+                        <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-4xl font-light text-black mb-4">Producto Auténtico</h1>
+                    <p class="text-gray-600 font-light mb-6">Verificación completada exitosamente</p>
+                    <p class="text-xs text-gray-400 font-mono tracking-wider" id="productCode">AUT-2025-WM-B1A7C9D2</p>
+                </div>
+                
+                <!-- Product Info -->
+                <div class="max-w-md mx-auto space-y-8">
+                    <div class="text-center border-b border-gray-100 pb-8">
+                        <h2 class="text-3xl font-light text-black mb-2">Bolso Premium</h2>
+                        <p class="text-gray-600 font-light">Colección 2025</p>
                     </div>
                     
-                    <!-- Product Info -->
-                    <div class="space-y-8 max-w-md mx-auto">
-                        <div class="text-center border-b border-gray-100 pb-8">
-                            <h2 class="text-2xl font-light text-black mb-2">Bolso Premium</h2>
-                            <p class="text-gray-600 font-light text-sm">Colección 2025</p>
-                        </div>
-                        
-                        <!-- Info Cards -->
-                        <div class="space-y-2">
-                            <div class="info-card border-b border-gray-100 py-4 cursor-pointer" onclick="toggleCard('basic')">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-600 font-light text-sm">Información Básica</span>
-                                    <svg class="w-4 h-4 text-gray-400 transform transition-transform" id="basic-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
-                                    </svg>
-                                </div>
-                                <div class="info-content hidden mt-4 space-y-3" id="basic-content">
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-500 text-xs">Modelo</span>
-                                        <span class="font-light text-xs">Bolso 1</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-500 text-xs">Fabricación</span>
-                                        <span class="font-light text-xs">Enero 2025</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-500 text-xs">Material</span>
-                                        <span class="font-light text-xs">Cuero Premium</span>
-                                    </div>
-                                </div>
+                    <!-- Info Cards -->
+                    <div class="space-y-4">
+                        <div class="border-b border-gray-100 pb-4">
+                            <div class="flex justify-between items-center cursor-pointer" onclick="toggleCard('basic')">
+                                <span class="text-gray-700 font-medium">Información Básica</span>
+                                <svg class="w-5 h-5 text-gray-400 transform transition-transform" id="basic-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
+                                </svg>
                             </div>
-                            
-                            <div class="info-card border-b border-gray-100 py-4 cursor-pointer" onclick="toggleCard('specs')">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-600 font-light text-sm">Especificaciones</span>
-                                    <svg class="w-4 h-4 text-gray-400 transform transition-transform" id="specs-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
-                                    </svg>
+                            <div class="hidden mt-4 space-y-3" id="basic-content">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 text-sm">Modelo</span>
+                                    <span class="font-light text-sm">Bolso 1</span>
                                 </div>
-                                <div class="info-content hidden mt-4 space-y-3" id="specs-content">
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-500 text-xs">Dimensiones</span>
-                                        <span class="font-light text-xs">30 x 25 x 12 cm</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-500 text-xs">Peso</span>
-                                        <span class="font-light text-xs">850g</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-500 text-xs">Color</span>
-                                        <span class="font-light text-xs">Negro</span>
-                                    </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 text-sm">Fabricación</span>
+                                    <span class="font-light text-sm">Enero 2025</span>
                                 </div>
-                            </div>
-                            
-                            <div class="info-card border-b border-gray-100 py-4 cursor-pointer" onclick="toggleCard('auth')">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-600 font-light text-sm">Autenticación</span>
-                                    <svg class="w-4 h-4 text-gray-400 transform transition-transform" id="auth-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
-                                    </svg>
-                                </div>
-                                <div class="info-content hidden mt-4 space-y-3" id="auth-content">
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-500 text-xs">Estado</span>
-                                        <span class="font-light text-xs">Verificado</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-500 text-xs">Blockchain</span>
-                                        <span class="font-light text-xs">Registrado</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-500 text-xs">Garantía</span>
-                                        <span class="font-light text-xs">2 años</span>
-                                    </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 text-sm">Material</span>
+                                    <span class="font-light text-sm">Cuero Premium</span>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Certificate Info -->
-                        <div class="border-t border-gray-100 pt-8">
-                            <div class="text-center mb-8">
-                                <h3 class="text-xl font-light text-black mb-4">Certificado de Autenticidad</h3>
-                                <p class="text-gray-600 font-light text-sm">Este producto ha sido verificado como 100% auténtico</p>
+                        <div class="border-b border-gray-100 pb-4">
+                            <div class="flex justify-between items-center cursor-pointer" onclick="toggleCard('specs')">
+                                <span class="text-gray-700 font-medium">Especificaciones</span>
+                                <svg class="w-5 h-5 text-gray-400 transform transition-transform" id="specs-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
+                                </svg>
                             </div>
-                            
-                            <div class="space-y-6">
-                                <div class="text-center">
-                                    <p class="text-gray-600 font-light text-xs mb-1">Origen</p>
-                                    <p class="font-light text-sm">W Merch</p>
+                            <div class="hidden mt-4 space-y-3" id="specs-content">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 text-sm">Dimensiones</span>
+                                    <span class="font-light text-sm">30 x 25 x 12 cm</span>
                                 </div>
-                                
-                                <div class="text-center">
-                                    <p class="text-gray-600 font-light text-xs mb-1">Seguridad</p>
-                                    <p class="font-light text-sm">Blockchain</p>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 text-sm">Peso</span>
+                                    <span class="font-light text-sm">850g</span>
                                 </div>
-                                
-                                <div class="text-center">
-                                    <p class="text-gray-600 font-light text-xs mb-1">Garantía</p>
-                                    <p class="font-light text-sm">2 años</p>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 text-sm">Color</span>
+                                    <span class="font-light text-sm">Negro</span>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Actions -->
-                        <div class="text-center space-y-6 pt-8">
-                            <button onclick="downloadCertificate()" class="border border-black text-black px-8 py-3 font-light text-sm hover:bg-black hover:text-white transition-colors">
-                                Descargar Certificado
-                            </button>
-                            <div class="space-y-3">
-                                <div><a href="/buscar" class="text-gray-600 hover:text-black font-light text-sm transition-colors">Verificar otro producto</a></div>
-                                <div><a href="/" class="text-gray-400 hover:text-gray-600 font-light text-xs transition-colors">Volver al inicio</a></div>
+                        <div class="border-b border-gray-100 pb-4">
+                            <div class="flex justify-between items-center cursor-pointer" onclick="toggleCard('auth')">
+                                <span class="text-gray-700 font-medium">Autenticación</span>
+                                <svg class="w-5 h-5 text-gray-400 transform transition-transform" id="auth-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
+                                </svg>
+                            </div>
+                            <div class="hidden mt-4 space-y-3" id="auth-content">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 text-sm">Estado</span>
+                                    <span class="font-light text-sm text-green-600">Verificado</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 text-sm">Blockchain</span>
+                                    <span class="font-light text-sm">Registrado</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500 text-sm">Garantía</span>
+                                    <span class="font-light text-sm">2 años</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Footer inside scrollable column -->
-                <footer class="border-t border-gray-100 py-12">
-                    <div class="container mx-auto px-6 text-center">
-                        <div class="flex items-center justify-center mb-3">
-                            <img src="/identidad/logotipo-oficial.webp" alt="Autentikapp" class="w-4 h-4 mr-2">
-                            <span class="text-gray-600 text-sm font-light"><span class="font-normal">autentik</span>app</span>
+                    
+                    <!-- Certificate Section -->
+                    <div class="border-t border-gray-100 pt-8">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-light text-black mb-4">Certificado de Autenticidad</h3>
+                            <p class="text-gray-600 font-light">Este producto ha sido verificado como 100% auténtico</p>
                         </div>
-                        <p class="text-gray-400 text-xs font-light">Sistema de Verificación</p>
-                    </div>
-                </footer>
-            </div>
-        </div>
-    </main>
-    
-    <!-- Mobile Layout -->
-    <main class="md:hidden container mx-auto pb-16 pt-8 max-w-2xl">
-        <!-- Verification Status -->
-        <div class="text-center mb-8">
-            <div class="verified-check inline-flex items-center justify-center w-16 h-16 border border-black mb-4">
-                <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-            </div>
-            <h1 class="text-3xl font-light text-black mb-2">Producto Auténtico</h1>
-            <p class="text-gray-600 font-light mb-4">Verificación completada</p>
-            <p class="text-xs text-gray-400 font-mono tracking-wider" id="productCodeMobile">AUT-2025-WM-B1A7C9D2</p>
-        </div>
-
-        <!-- Product Images Carousel -->
-        <div class="mb-12">
-            <div class="image-carousel overflow-x-auto flex space-x-4 px-6 pb-2">
-                <div class="flex-shrink-0 w-80">
-                    <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 1" class="w-full">
-                </div>
-                <div class="flex-shrink-0 w-80">
-                    <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 2" class="w-full">
-                </div>
-                <div class="flex-shrink-0 w-80">
-                    <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 3" class="w-full">
-                </div>
-            </div>
-        </div>
-        
-        <!-- Product Info -->
-        <div class="space-y-8">
-            <div class="text-center">
-                <h2 class="text-2xl font-light text-black mb-2">Bolso Premium</h2>
-                <p class="text-gray-600 font-light text-sm">Colección 2025</p>
-            </div>
-            
-            <!-- Info Cards -->
-            <div class="space-y-2 max-w-sm mx-auto">
-                <div class="info-card border-b border-gray-100 py-4 cursor-pointer" onclick="toggleCard('basic-mobile')">
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-600 font-light text-sm">Información Básica</span>
-                        <svg class="w-4 h-4 text-gray-400 transform transition-transform" id="basic-mobile-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
-                        </svg>
-                    </div>
-                    <div class="info-content hidden mt-4 space-y-3" id="basic-mobile-content">
-                        <div class="flex justify-between">
-                            <span class="text-gray-500 text-xs">Modelo</span>
-                            <span class="font-light text-xs">Bolso 1</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-500 text-xs">Fabricación</span>
-                            <span class="font-light text-xs">Enero 2025</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-500 text-xs">Material</span>
-                            <span class="font-light text-xs">Cuero Premium</span>
+                        
+                        <div class="grid grid-cols-3 gap-6 text-center">
+                            <div>
+                                <p class="text-gray-500 text-xs mb-2">Origen</p>
+                                <p class="font-medium">W Merch</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-xs mb-2">Seguridad</p>
+                                <p class="font-medium">Blockchain</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-xs mb-2">Garantía</p>
+                                <p class="font-medium">2 años</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="info-card border-b border-gray-100 py-4 cursor-pointer" onclick="toggleCard('specs-mobile')">
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-600 font-light text-sm">Especificaciones</span>
-                        <svg class="w-4 h-4 text-gray-400 transform transition-transform" id="specs-mobile-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
-                        </svg>
-                    </div>
-                    <div class="info-content hidden mt-4 space-y-3" id="specs-mobile-content">
-                        <div class="flex justify-between">
-                            <span class="text-gray-500 text-xs">Dimensiones</span>
-                            <span class="font-light text-xs">30 x 25 x 12 cm</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-500 text-xs">Peso</span>
-                            <span class="font-light text-xs">850g</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-500 text-xs">Color</span>
-                            <span class="font-light text-xs">Negro</span>
+                    
+                    <!-- Actions -->
+                    <div class="text-center space-y-6 pt-8">
+                        <button onclick="downloadCertificate()" class="border border-black text-black px-8 py-3 font-light hover:bg-black hover:text-white transition-colors">
+                            Descargar Certificado
+                        </button>
+                        <div class="space-y-3">
+                            <div><a href="/buscar" class="text-gray-600 hover:text-black font-light transition-colors">Verificar otro producto</a></div>
+                            <div><a href="/" class="text-gray-400 hover:text-gray-600 font-light text-sm transition-colors">Volver al inicio</a></div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="info-card py-4 cursor-pointer" onclick="toggleCard('auth-mobile')">
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-600 font-light text-sm">Autenticación</span>
-                        <svg class="w-4 h-4 text-gray-400 transform transition-transform" id="auth-mobile-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
-                        </svg>
-                    </div>
-                    <div class="info-content hidden mt-4 space-y-3" id="auth-mobile-content">
-                        <div class="flex justify-between">
-                            <span class="text-gray-500 text-xs">Estado</span>
-                            <span class="font-light text-xs">Verificado</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-500 text-xs">Blockchain</span>
-                            <span class="font-light text-xs">Registrado</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-500 text-xs">Garantía</span>
-                            <span class="font-light text-xs">2 años</span>
+                    
+                    <!-- Extra content to test scroll -->
+                    <div class="pt-16 pb-8">
+                        <div class="text-center text-gray-400 text-sm">
+                            <p>Contenido adicional para probar el scroll</p>
+                            <div class="mt-8 space-y-4">
+                                <p>Línea 1</p>
+                                <p>Línea 2</p>
+                                <p>Línea 3</p>
+                                <p>Línea 4</p>
+                                <p>Línea 5</p>
+                                <p>Final del contenido</p>
+                            </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
-        
-        <!-- Actions -->
-        <div class="text-center space-y-6 mt-12">
-            <button onclick="downloadCertificate()" class="border border-black text-black px-8 py-3 font-light text-sm hover:bg-black hover:text-white transition-colors">
-                Descargar Certificado
-            </button>
-            <div class="space-y-3">
-                <div><a href="/buscar" class="text-gray-600 hover:text-black font-light text-sm transition-colors">Verificar otro producto</a></div>
-                <div><a href="/" class="text-gray-400 hover:text-gray-600 font-light text-xs transition-colors">Volver al inicio</a></div>
-            </div>
-        </div>
-    </main>
-    
-    <!-- Footer for Mobile -->
-    <footer class="md:hidden border-t border-gray-100 py-12 mt-24">
-        <div class="container mx-auto px-6 text-center">
-            <div class="flex items-center justify-center mb-3">
-                <img src="/identidad/logotipo-oficial.webp" alt="Autentikapp" class="w-4 h-4 mr-2">
-                <span class="text-gray-600 text-sm font-light"><span class="font-normal">autentik</span>app</span>
-            </div>
-            <p class="text-gray-400 text-xs font-light">Sistema de Verificación</p>
-        </div>
-    </footer>
+    </div>
 
     <script>
         // Get product code from URL
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('id');
         if (productId) {
-            const desktopCode = document.getElementById('productCode');
-            const mobileCode = document.getElementById('productCodeMobile');
-            if (desktopCode) desktopCode.textContent = productId;
-            if (mobileCode) mobileCode.textContent = productId;
+            document.getElementById('productCode').textContent = productId;
         }
 
         function toggleCard(cardId) {
@@ -389,22 +252,11 @@
         }
         
         function downloadCertificate() {
-            // Simulate certificate download
             const link = document.createElement('a');
             link.href = 'data:text/plain;charset=utf-8,CERTIFICADO DE AUTENTICIDAD\n\nProducto: Bolso Premium W Merch\nCódigo: ' + (productId || 'AUT-2025-WM-B1A7C9D2') + '\nFecha: ' + new Date().toLocaleDateString() + '\n\nEste producto ha sido verificado como 100% auténtico por Autentikapp.';
             link.download = 'certificado-autenticidad-' + (productId || 'AUT-2025-WM-B1A7C9D2') + '.txt';
             link.click();
         }
-
-        // Minimal interactions
-        document.addEventListener('DOMContentLoaded', function() {
-            // Simple fade in
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 0.5s ease';
-                document.body.style.opacity = '1';
-            }, 100);
-        });
     </script>
 </body>
 </html>
