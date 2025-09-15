@@ -46,7 +46,7 @@
                             </svg>
                         </div>
                     </div>
-                    <p class="text-gray-400 text-sm mt-2 text-center">Formato: AUT-YYYY-WM-XXXXXXXX</p>
+
                 </div>
                 
                 <!-- Search Button -->
@@ -64,27 +64,48 @@
             </div>
         </div>
 
-        <!-- Instructions -->
-        <div class="max-w-md mx-auto mb-8">
-            <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                <div class="flex items-start space-x-3">
-                    <div class="w-8 h-8 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-medium text-white mb-2">¿Dónde encontrar el código?</h3>
-                        <ul class="text-sm text-gray-300 space-y-1">
-                            <li>• Etiqueta interior del producto</li>
-                            <li>• Empaque original</li>
-                            <li>• Certificado de autenticidad</li>
+        <!-- Help Link -->
+        <div class="text-center mb-8">
+            <button onclick="openModal()" class="text-gray-300 hover:text-white transition-colors duration-300 text-sm underline">
+                ¿Dónde encontrar el código?
+            </button>
+        </div>
+
+        <!-- Modal -->
+        <div id="helpModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+            <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-8 max-w-lg w-full border border-white/20 relative">
+                <button onclick="closeModal()" class="absolute top-4 right-4 text-white/60 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                
+                <h3 class="text-2xl font-light text-white mb-6 text-center">¿Dónde encontrar el código?</h3>
+                
+                <div class="mb-6">
+                    <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Ubicación del código" class="w-full rounded-2xl mb-4">
+                    <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                        <ul class="text-gray-300 space-y-3">
+                            <li class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-white rounded-full"></div>
+                                <span>Etiqueta interior del producto</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-white rounded-full"></div>
+                                <span>Empaque original</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-white rounded-full"></div>
+                                <span>Certificado de autenticidad</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
+                
+                <div class="text-center">
+                    <p class="text-gray-400 text-sm">Formato: AUT-YYYY-WM-XXXXXXXX</p>
+                </div>
             </div>
-
-
         </div>
 
         <!-- Security Badge -->
@@ -180,6 +201,24 @@
         
         document.getElementById('product-id').addEventListener('blur', function() {
             this.parentElement.style.transform = 'scale(1)';
+        });
+        
+        // Modal functions
+        function openModal() {
+            document.getElementById('helpModal').classList.remove('hidden');
+            document.getElementById('helpModal').classList.add('flex');
+        }
+        
+        function closeModal() {
+            document.getElementById('helpModal').classList.add('hidden');
+            document.getElementById('helpModal').classList.remove('flex');
+        }
+        
+        // Close modal on outside click
+        document.getElementById('helpModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
         });
     </script>
 </body>
