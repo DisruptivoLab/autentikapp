@@ -14,32 +14,6 @@
 .luxury-button:hover { background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2); }
 .floating-animation { animation: float 6s ease-in-out infinite; }
 @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-/* Galaxy Rows */
-.galaxy-row-1, .galaxy-row-2, .galaxy-row-3, .galaxy-row-4 {
-  position: absolute;
-  white-space: nowrap;
-  font-size: 15vh;
-  font-weight: 900;
-  color: rgba(64, 64, 64, 0.12);
-  user-select: none;
-}
-.galaxy-row-1 {
-  top: 10%;
-  animation: scrollRight 40s linear infinite;
-}
-.galaxy-row-2 {
-  top: 30%;
-  animation: scrollLeft 50s linear infinite;
-}
-.galaxy-row-3 {
-  top: 60%;
-  animation: scrollRight 35s linear infinite;
-}
-.galaxy-row-4 {
-  top: 80%;
-  animation: scrollLeft 45s linear infinite;
-}
-
 /* Orbital System */
 .orbit-container {
   position: absolute;
@@ -74,14 +48,6 @@
 .orbit-word-4 { right: 0; top: 50%; transform: translateY(-50%); }
 .orbit-word-5 { left: 0; top: 50%; transform: translateY(-50%); }
 
-@keyframes scrollRight {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100vw); }
-}
-@keyframes scrollLeft {
-  0% { transform: translateX(100vw); }
-  100% { transform: translateX(-100%); }
-}
 @keyframes rotate {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -156,23 +122,8 @@
 
         <!-- Welcome Modal -->
         <div id="welcomeModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-[100] flex items-center justify-center p-4">
-            <!-- Word Universe Background -->
+            <!-- Orbital System Background -->
             <div class="absolute inset-0 overflow-hidden pointer-events-none">
-                <!-- Galaxy Rows -->
-                <div class="galaxy-row-1">
-                    <span>ÚNICO • ORIGINAL • ÚNICO • ORIGINAL • </span>
-                </div>
-                <div class="galaxy-row-2">
-                    <span>AUTÉNTICO • EXCLUSIVO • AUTÉNTICO • EXCLUSIVO • </span>
-                </div>
-                <div class="galaxy-row-3">
-                    <span>LA PAMPARA • FLOW • LA PAMPARA • FLOW • </span>
-                </div>
-                <div class="galaxy-row-4">
-                    <span>EL ESTILO • GRANDES • EL ESTILO • GRANDES • </span>
-                </div>
-                
-                <!-- Orbital Words -->
                 <div class="orbit-container">
                     <div class="orbit-inner">
                         <span class="orbit-word-1">FLOW</span>
