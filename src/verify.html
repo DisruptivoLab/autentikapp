@@ -28,15 +28,29 @@
             background: #9ca3af;
         }
         .vertical-carousel::-webkit-scrollbar {
-            width: 1px;
+            width: 4px;
         }
         .vertical-carousel::-webkit-scrollbar-track {
-            background: transparent;
+            background: #f9fafb;
         }
         .vertical-carousel::-webkit-scrollbar-thumb {
             background: #d1d5db;
+            border-radius: 2px;
         }
         .vertical-carousel::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+        .info-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .info-scroll::-webkit-scrollbar-track {
+            background: #f9fafb;
+        }
+        .info-scroll::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 2px;
+        }
+        .info-scroll::-webkit-scrollbar-thumb:hover {
             background: #9ca3af;
         }
     </style>
@@ -55,7 +69,7 @@
     </header>
 
     <!-- Desktop Layout -->
-    <main class="hidden md:block h-screen">
+    <main class="hidden md:block" style="height: calc(100vh - 60px);">
         <div class="grid grid-cols-2 h-full">
             <!-- Left Column - Images -->
             <div class="border-r border-gray-100">
@@ -73,7 +87,7 @@
             </div>
             
             <!-- Right Column - Info with Internal Scroll -->
-            <div class="overflow-y-auto h-full">
+            <div class="info-scroll overflow-y-auto h-full">
                 <div class="p-6">
                     <!-- Verification Status -->
                     <div class="text-center mb-12">
@@ -337,17 +351,18 @@
                 <div><a href="/" class="text-gray-400 hover:text-gray-600 font-light text-xs transition-colors">Volver al inicio</a></div>
             </div>
         </div>
-        <!-- Footer for Mobile -->
-        <footer class="md:hidden border-t border-gray-100 py-12 mt-24">
-            <div class="container mx-auto px-6 text-center">
-                <div class="flex items-center justify-center mb-3">
-                    <img src="/identidad/logotipo-oficial.webp" alt="Autentikapp" class="w-4 h-4 mr-2">
-                    <span class="text-gray-600 text-sm font-light"><span class="font-normal">autentik</span>app</span>
-                </div>
-                <p class="text-gray-400 text-xs font-light">Sistema de Verificación</p>
-            </div>
-        </footer>
     </main>
+    
+    <!-- Footer for Mobile -->
+    <footer class="md:hidden border-t border-gray-100 py-12 mt-24">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex items-center justify-center mb-3">
+                <img src="/identidad/logotipo-oficial.webp" alt="Autentikapp" class="w-4 h-4 mr-2">
+                <span class="text-gray-600 text-sm font-light"><span class="font-normal">autentik</span>app</span>
+            </div>
+            <p class="text-gray-400 text-xs font-light">Sistema de Verificación</p>
+        </div>
+    </footer>
 
     <script>
         // Get product code from URL
