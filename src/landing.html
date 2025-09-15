@@ -59,9 +59,12 @@
             box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4);
         }
 
-        .navbar-scrolled .nav-link,
+        .navbar-scrolled .nav-link {
+            color: #000 !important;
+        }
         .navbar-scrolled h1 {
             color: #000 !important;
+            opacity: 0 !important;
         }
         .mobile-nav-scrolled .nav-link-mobile {
             color: #000 !important;
@@ -74,7 +77,7 @@
         <div class="container mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
             <div class="flex items-center">
                 <img src="/identidad/logotipo-oficial.webp" alt="Autentikapp" class="h-8 md:h-10 mr-2 md:mr-3">
-                <h1 class="text-lg md:text-2xl text-white font-light">
+                <h1 id="logoText" class="text-lg md:text-2xl text-white font-light transition-opacity duration-300">
                     <span class="font-bold">autentik</span><span class="font-light">app</span>
                 </h1>
             </div>
@@ -92,9 +95,9 @@
     <!-- Mobile Bottom Navigation -->
     <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-transparent">
         <div class="flex justify-around py-3">
-            <a href="#solution" class="text-white font-light text-sm nav-link-mobile">Solución</a>
-            <a href="#benefits" class="text-white font-light text-sm nav-link-mobile">Beneficios</a>
-            <a href="#luxury" class="text-white font-light text-sm nav-link-mobile">Marcas Premium</a>
+            <a href="#solution" class="text-white font-normal text-sm nav-link-mobile">Solución</a>
+            <a href="#benefits" class="text-white font-normal text-sm nav-link-mobile">Beneficios</a>
+            <a href="#luxury" class="text-white font-normal text-sm nav-link-mobile">Marcas Premium</a>
         </div>
     </nav>
 
