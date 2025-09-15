@@ -219,6 +219,18 @@
             </div>
         </div>
 
+        <!-- Floating Music Control -->
+        <div id="floatingMusicControl" class="fixed bottom-6 right-6 z-50 hidden">
+            <button onclick="toggleMusic()" class="bg-white/10 hover:bg-white/20 text-white p-4 rounded-full transition-all duration-300 backdrop-blur-sm border border-white/20 shadow-2xl">
+                <svg id="floatingPlayIcon" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                <svg id="floatingPauseIcon" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                </svg>
+            </button>
+        </div>
+
     </main>
 
     <!-- Footer -->
@@ -358,10 +370,14 @@
         
         function closeWelcomeModal() {
             const modal = document.getElementById('welcomeModal');
+            const floatingControl = document.getElementById('floatingMusicControl');
+            
             modal.style.opacity = '0';
             modal.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 modal.style.display = 'none';
+                // Show floating music control
+                floatingControl.classList.remove('hidden');
             }, 300);
         }
         
@@ -379,15 +395,25 @@
             const music = document.getElementById('backgroundMusic');
             const playIcon = document.getElementById('playIcon');
             const pauseIcon = document.getElementById('pauseIcon');
+            const floatingPlayIcon = document.getElementById('floatingPlayIcon');
+            const floatingPauseIcon = document.getElementById('floatingPauseIcon');
             
             if (music.paused) {
                 music.play().catch(e => console.log('Audio play failed:', e));
-                playIcon.classList.add('hidden');
-                pauseIcon.classList.remove('hidden');
+                // Update modal buttons
+                if (playIcon) playIcon.classList.add('hidden');
+                if (pauseIcon) pauseIcon.classList.remove('hidden');
+                // Update floating button
+                floatingPlayIcon.classList.add('hidden');
+                floatingPauseIcon.classList.remove('hidden');
             } else {
                 music.pause();
-                playIcon.classList.remove('hidden');
-                pauseIcon.classList.add('hidden');
+                // Update modal buttons
+                if (playIcon) playIcon.classList.remove('hidden');
+                if (pauseIcon) pauseIcon.classList.add('hidden');
+                // Update floating button
+                floatingPlayIcon.classList.remove('hidden');
+                floatingPauseIcon.classList.add('hidden');
             }
         }
         
@@ -398,13 +424,19 @@
             const music = document.getElementById('backgroundMusic');
             const playIcon = document.getElementById('playIcon');
             const pauseIcon = document.getElementById('pauseIcon');
+            const floatingPlayIcon = document.getElementById('floatingPlayIcon');
+            const floatingPauseIcon = document.getElementById('floatingPauseIcon');
             const hint = document.getElementById('musicHint');
             
             if (music.paused) {
                 music.volume = 0.7;
                 music.play().then(() => {
+                    // Update modal buttons
                     playIcon.classList.add('hidden');
                     pauseIcon.classList.remove('hidden');
+                    // Update floating button
+                    floatingPlayIcon.classList.add('hidden');
+                    floatingPauseIcon.classList.remove('hidden');
                     if (hint) hint.style.display = 'none';
                 }).catch(e => console.log('Audio play failed:', e));
             }
