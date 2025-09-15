@@ -132,12 +132,14 @@
                     <span class="font-bold">autentik</span><span class="font-light">app</span>
                 </h1>
             </div>
+            <!-- Desktop Navigation Normal -->
             <nav class="hidden md:flex space-x-8" id="desktopNav">
                 <a href="#solution" class="hover:text-blue-400 transition text-white font-light nav-link">Solución</a>
                 <a href="#benefits" class="hover:text-blue-400 transition text-white font-light nav-link">Beneficios</a>
                 <a href="#luxury" class="hover:text-blue-400 transition text-white font-light nav-link">Marcas Premium</a>
             </nav>
-            <nav class="hidden md:hidden" id="desktopNavGlass">
+            <!-- Desktop Navigation Glass -->
+            <nav class="hidden" id="desktopNavGlass">
                 <div class="glass-pill flex space-x-1 p-1">
                     <a href="#solution" class="glass-link nav-link">Solución</a>
                     <a href="#benefits" class="glass-link nav-link">Beneficios</a>
@@ -473,18 +475,20 @@
             // Change navbar style on scroll
             if (scrollY > 100) {
                 navbar.classList.add('navbar-scrolled');
-                // Switch to glass design
+                // Desktop: Switch to glass design
                 desktopNav.classList.add('hidden');
                 desktopNavGlass.classList.remove('hidden');
-                desktopNavGlass.classList.add('md:flex');
+                desktopNavGlass.classList.add('flex');
+                // Mobile: Switch to glass design
                 mobileNav.classList.add('hidden');
                 mobileNavGlass.classList.remove('hidden');
             } else {
                 navbar.classList.remove('navbar-scrolled');
-                // Switch back to normal design
+                // Desktop: Switch back to normal design
                 desktopNav.classList.remove('hidden');
                 desktopNavGlass.classList.add('hidden');
-                desktopNavGlass.classList.remove('md:flex');
+                desktopNavGlass.classList.remove('flex');
+                // Mobile: Switch back to normal design
                 mobileNav.classList.remove('hidden');
                 mobileNavGlass.classList.add('hidden');
             }
