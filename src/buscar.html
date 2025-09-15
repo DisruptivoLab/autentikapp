@@ -2,7 +2,6 @@
 <html lang="es">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-.glass-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); }
 .search-input { background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255, 255, 255, 0.2); transition: all 0.3s ease; color: white; }
 .search-input:focus { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.3); box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1); }
 .search-input::placeholder { color: rgba(255, 255, 255, 0.5); }
@@ -16,7 +15,7 @@
     <div class="fixed inset-0 z-0 overflow-hidden">
         <iframe 
             src="https://www.youtube.com/embed/ZjnReH543pI?autoplay=1&mute=1&loop=1&playlist=ZjnReH543pI&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&enablejsapi=1&origin=https://autentikapp.vercel.app"
-            class="absolute top-1/2 left-1/2 w-[177.77vh] h-[56.25vw] min-w-full min-h-full transform -translate-x-1/2 -translate-y-1/2 opacity-40"
+            class="absolute top-1/2 left-1/2 w-[200vh] h-[112.5vw] min-w-full min-h-full transform -translate-x-1/2 -translate-y-1/2 opacity-40 scale-110"
             frameborder="0"
             allow="autoplay; encrypted-media"
             allowfullscreen>
@@ -40,42 +39,39 @@
             <p class="text-lg text-gray-300 font-light max-w-md mx-auto">Confirma que tu producto es 100% auténtico ingresando su código único</p>
         </div>
 
-        <!-- Search Card -->
-        <div class="glass-card rounded-3xl p-8 mb-8">
-            <div class="space-y-6">
-                <!-- Search Input -->
+        <!-- Search Section -->
+        <div class="space-y-6 mb-8">
+            <!-- Search Input -->
+            <div class="relative">
+                <label class="block text-sm font-medium text-gray-300 mb-3">Código del Producto</label>
                 <div class="relative">
-                    <label class="block text-sm font-medium text-gray-300 mb-3">Código del Producto</label>
-                    <div class="relative">
-                        <input 
-                            type="text" 
-                            id="product-id" 
-                            placeholder="AUT-2025-WM-A7B9C2D1" 
-                            class="search-input w-full px-6 py-4 rounded-2xl font-mono text-lg text-center focus:outline-none"
-                            maxlength="20"
-                        >
-                        <div class="absolute right-4 top-1/2 transform -translate-y-1/2">
-                            <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
-
-                </div>
-                
-                <!-- Search Button -->
-                <button 
-                    onclick="searchProduct()" 
-                    class="luxury-button w-full px-8 py-4 rounded-2xl font-medium text-lg focus:outline-none"
-                >
-                    <span class="flex items-center justify-center space-x-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.25-4.5a12.002 12.002 0 01-.1 5.75m-.65 5.25a12.002 12.002 0 01-5.75-.1m-5.25-.65a12.002 12.002 0 01-.1-5.75m.65-5.25a12.002 12.002 0 015.75.1"></path>
+                    <input 
+                        type="text" 
+                        id="product-id" 
+                        placeholder="AUT-2025-WM-A7B9C2D1" 
+                        class="search-input w-full px-6 py-4 rounded-2xl font-mono text-lg text-center focus:outline-none"
+                        maxlength="20"
+                    >
+                    <div class="absolute right-4 top-1/2 transform -translate-y-1/2">
+                        <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
-                        <span>Verificar Producto</span>
-                    </span>
-                </button>
+                    </div>
+                </div>
             </div>
+            
+            <!-- Search Button -->
+            <button 
+                onclick="searchProduct()" 
+                class="luxury-button w-full px-8 py-4 rounded-2xl font-medium text-lg focus:outline-none"
+            >
+                <span class="flex items-center justify-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.25-4.5a12.002 12.002 0 01-.1 5.75m-.65 5.25a12.002 12.002 0 01-5.75-.1m-5.25-.65a12.002 12.002 0 01-.1-5.75m.65-5.25a12.002 12.002 0 715.75.1"></path>
+                    </svg>
+                    <span>Verificar Producto</span>
+                </span>
+            </button>
         </div>
 
         <!-- Help Link -->
