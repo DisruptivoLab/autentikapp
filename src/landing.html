@@ -120,12 +120,14 @@
             transform: translateY(-1px);
         }
         
-        /* Scrollbar minimalista para carrusel móvil */
-        .benefits-carousel::-webkit-scrollbar {
+        /* Scrollbar minimalista para carruseles móviles */
+        .benefits-carousel::-webkit-scrollbar,
+        .problem-carousel::-webkit-scrollbar {
             height: 2px;
         }
         
-        .benefits-carousel::-webkit-scrollbar-track {
+        .benefits-carousel::-webkit-scrollbar-track,
+        .problem-carousel::-webkit-scrollbar-track {
             background: transparent;
         }
         
@@ -134,8 +136,17 @@
             height: 1px;
         }
         
+        .problem-carousel::-webkit-scrollbar-thumb {
+            background: #ffffff;
+            height: 1px;
+        }
+        
         .benefits-carousel::-webkit-scrollbar-thumb:hover {
             background: #e3e3e36b;
+        }
+        
+        .problem-carousel::-webkit-scrollbar-thumb:hover {
+            background: #ffffff80;
         }
 
     </style>
@@ -238,7 +249,8 @@
             <h3 class="text-5xl md:text-6xl font-light mb-24 text-luxury fade-in-up" data-animate>
                 El Problema que <span class="font-bold">Enfrentas</span>
             </h3>
-            <div class="grid md:grid-cols-3 gap-20">
+            <!-- Desktop Grid -->
+            <div class="hidden md:grid md:grid-cols-3 gap-20">
                 <div class="text-center fade-in-up stagger-1" data-animate>
                     <div class="scale-in" data-animate>
                         <svg class="w-16 h-16 text-white mx-auto mb-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -265,6 +277,36 @@
                     </div>
                     <h4 class="text-2xl font-light mb-8">Conexión Perdida</h4>
                     <p class="text-gray-400 text-lg leading-relaxed font-light">No tienes forma directa de conectar con quien realmente compra tus productos</p>
+                </div>
+            </div>
+            <!-- Mobile Carousel -->
+            <div class="md:hidden problem-carousel overflow-x-auto flex space-x-4 px-4 pb-4 fade-in-left" data-animate>
+                <div class="text-left group cursor-pointer flex-shrink-0 w-64 fade-in-up stagger-1" data-animate>
+                    <div class="scale-in" data-animate>
+                        <svg class="w-16 h-16 text-white mb-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-2xl font-light mb-8 slide-in-bottom stagger-2" data-animate>Falsificación Rampante</h4>
+                    <p class="text-gray-400 text-lg leading-relaxed font-light fade-in-up stagger-3" data-animate>Las copias ilegales dañan tu reputación y reducen tus ingresos hasta un 40%</p>
+                </div>
+                <div class="text-left group cursor-pointer flex-shrink-0 w-64 fade-in-up stagger-2" data-animate>
+                    <div class="scale-in" data-animate>
+                        <svg class="w-16 h-16 text-white mb-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-2xl font-light mb-8 slide-in-bottom stagger-2" data-animate>Desconfianza del Cliente</h4>
+                    <p class="text-gray-400 text-lg leading-relaxed font-light fade-in-up stagger-3" data-animate>Tus clientes dudan de la autenticidad, afectando la experiencia de compra</p>
+                </div>
+                <div class="text-left group cursor-pointer flex-shrink-0 w-64 fade-in-up stagger-3" data-animate>
+                    <div class="scale-in" data-animate>
+                        <svg class="w-16 h-16 text-white mb-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-2xl font-light mb-8 slide-in-bottom stagger-2" data-animate>Conexión Perdida</h4>
+                    <p class="text-gray-400 text-lg leading-relaxed font-light fade-in-up stagger-3" data-animate>No tienes forma directa de conectar con quien realmente compra tus productos</p>
                 </div>
             </div>
         </div>
