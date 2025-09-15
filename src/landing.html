@@ -12,6 +12,12 @@
             height: 100vh;
             height: 100dvh;
         }
+        @media (max-width: 768px) {
+            .hero-height {
+                height: 90vh;
+                height: 90dvh;
+            }
+        }
         .video-overlay {
             background: rgba(0, 0, 0, 0.6);
         }
@@ -57,10 +63,10 @@
 <body class="bg-black text-white">
     <!-- Transparent Header -->
     <header class="absolute top-0 left-0 right-0 z-50 bg-transparent">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="container mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
             <div class="flex items-center">
-                <img src="/identidad/logotipo-oficial.webp" alt="Autentikapp" class="h-10 mr-3">
-                <h1 class="text-2xl text-white font-light">
+                <img src="/identidad/logotipo-oficial.webp" alt="Autentikapp" class="h-8 md:h-10 mr-2 md:mr-3">
+                <h1 class="text-lg md:text-2xl text-white font-light">
                     <span class="font-bold">autentik</span><span class="font-light">app</span>
                 </h1>
             </div>
@@ -69,7 +75,7 @@
                 <a href="#benefits" class="hover:text-blue-400 transition text-white font-light">Beneficios</a>
                 <a href="#luxury" class="hover:text-blue-400 transition text-white font-light">Marcas Premium</a>
             </nav>
-            <button onclick="window.location.href='/login'" class="bg-white text-black px-6 py-2 rounded-full font-medium hover:bg-gray-100 transition">
+            <button onclick="window.location.href='/login'" class="bg-white text-black px-4 md:px-6 py-2 rounded-full font-medium hover:bg-gray-100 transition text-sm md:text-base">
                 Acceder
             </button>
         </div>
@@ -84,26 +90,26 @@
         
         <div class="absolute inset-0 z-10" style="background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,1) 100%);"></div>
         
-        <div class="relative z-20 text-center px-6 max-w-6xl mx-auto">
-            <h2 class="text-6xl md:text-8xl font-light mb-8 bg-gradient-to-r from-blue-400 to-white bg-clip-text text-transparent leading-tight">
+        <div class="relative z-20 text-center px-4 md:px-6 max-w-6xl mx-auto">
+            <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-light mb-6 md:mb-8 bg-gradient-to-r from-blue-400 to-white bg-clip-text text-transparent leading-tight">
                 Autenticidad<br><span class="font-bold">Garantizada</span>
             </h2>
-            <p class="text-xl md:text-2xl text-gray-200 mb-12 max-w-4xl mx-auto leading-relaxed font-light">
+            <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 mb-8 md:mb-12 max-w-4xl mx-auto leading-relaxed font-light px-2">
                 La plataforma de confianza para marcas de lujo que valoran la autenticidad y la conexión directa con sus clientes más exclusivos.
             </p>
             
-            <div class="flex flex-col sm:flex-row gap-6 justify-center">
-                <button onclick="window.location.href='/login'" class="bg-white text-black px-12 py-4 rounded-full font-semibold text-lg transition transform hover:scale-105 shadow-2xl">
+            <div class="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center px-4">
+                <button onclick="window.location.href='/login'" class="bg-white text-black px-8 md:px-12 py-3 md:py-4 rounded-full font-semibold text-base md:text-lg transition transform hover:scale-105 shadow-2xl">
                     Proteger mi Marca
                 </button>
-                <button onclick="scrollToProblem()" class="border-2 border-white hover:bg-white hover:text-black px-12 py-4 rounded-full font-semibold text-lg transition transform hover:scale-105">
+                <button onclick="scrollToProblem()" class="border-2 border-white hover:bg-white hover:text-black px-8 md:px-12 py-3 md:py-4 rounded-full font-semibold text-base md:text-lg transition transform hover:scale-105">
                     Descubrir Más
                 </button>
             </div>
         </div>
         
         <!-- Floating Navigation -->
-        <div class="fixed right-8 top-1/2 transform -translate-y-1/2 z-50 flex flex-col space-y-4">
+        <div class="hidden md:flex fixed right-8 top-1/2 transform -translate-y-1/2 z-50 flex-col space-y-4">
             <div class="nav-dot" onclick="scrollToSection('hero')" title="Inicio"></div>
             <div class="nav-dot" onclick="scrollToSection('problem')" title="Problema"></div>
             <div class="nav-dot" onclick="scrollToSection('solution')" title="Solución"></div>
