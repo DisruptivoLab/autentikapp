@@ -103,7 +103,7 @@
         </div>
 
         <!-- Welcome Modal -->
-        <div id="welcomeModal" class="fixed inset-0 bg-black/20 backdrop-blur-xl z-[100] flex items-center justify-center">
+        <div id="welcomeModal" class="fixed inset-0 bg-black/20 backdrop-blur-xl z-[100] flex items-center justify-center" onclick="startAudioOnClick(event)">
             
             <!-- Audio Controls -->
             <div class="absolute top-6 right-6 z-10">
@@ -149,6 +149,11 @@
                     
                     <p class="text-xl md:text-2xl font-medium text-white">
                         Sal a la calle con <span class="font-bold">todo el estilo</span>
+                    </p>
+                    
+                    <!-- Music hint -->
+                    <p id="musicHint" class="text-sm text-gray-400 mt-4 opacity-70">
+                        🎵 Haz clic para activar la música
                     </p>
                 </div>
                 
@@ -386,6 +391,25 @@
             }
         }
         
+        // Start audio on first click
+        function startAudioOnClick(event) {
+            if (event.target.closest('button')) return; // Don't trigger on button clicks
+            
+            const music = document.getElementById('backgroundMusic');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            const hint = document.getElementById('musicHint');
+            
+            if (music.paused) {
+                music.volume = 0.7;
+                music.play().then(() => {
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                    if (hint) hint.style.display = 'none';
+                }).catch(e => console.log('Audio play failed:', e));
+            }
+        }
+        
         // Show welcome modal on page load
         window.addEventListener('load', function() {
             const modal = document.getElementById('welcomeModal');
@@ -398,14 +422,14 @@
                 modal.style.opacity = '1';
                 modal.style.transform = 'scale(1)';
                 
-                // Try to autoplay music
-                music.volume = 0.7; // Set volume to 70%
+                // Try to autoplay music (will likely fail)
+                music.volume = 0.7;
                 music.play().then(() => {
                     playIcon.classList.add('hidden');
                     pauseIcon.classList.remove('hidden');
                 }).catch(() => {
-                    // Autoplay failed, keep play button visible
-                    console.log('Autoplay prevented by browser');
+                    // Show hint to user
+                    console.log('Click anywhere to start music');
                 });
             }, 500);
         });
