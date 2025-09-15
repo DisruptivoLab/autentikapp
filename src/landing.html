@@ -132,20 +132,21 @@
                     <span class="font-bold">autentik</span><span class="font-light">app</span>
                 </h1>
             </div>
-            <!-- Desktop Navigation Normal -->
-            <nav class="hidden md:flex space-x-8" id="desktopNav">
-                <a href="#solution" class="hover:text-blue-400 transition text-white font-light nav-link">Solución</a>
-                <a href="#benefits" class="hover:text-blue-400 transition text-white font-light nav-link">Beneficios</a>
-                <a href="#luxury" class="hover:text-blue-400 transition text-white font-light nav-link">Marcas Premium</a>
-            </nav>
-            <!-- Desktop Navigation Glass -->
-            <nav class="hidden" id="desktopNavGlass">
-                <div class="glass-pill flex space-x-1 p-1">
-                    <a href="#solution" class="glass-link nav-link">Solución</a>
-                    <a href="#benefits" class="glass-link nav-link">Beneficios</a>
-                    <a href="#luxury" class="glass-link nav-link">Marcas Premium</a>
-                </div>
-            </nav>
+            <!-- Solo Desktop tiene menú en navbar -->
+            <div class="hidden md:block">
+                <nav class="flex space-x-8" id="desktopNav">
+                    <a href="#solution" class="hover:text-blue-400 transition text-white font-light nav-link">Solución</a>
+                    <a href="#benefits" class="hover:text-blue-400 transition text-white font-light nav-link">Beneficios</a>
+                    <a href="#luxury" class="hover:text-blue-400 transition text-white font-light nav-link">Marcas Premium</a>
+                </nav>
+                <nav class="hidden" id="desktopNavGlass">
+                    <div class="glass-pill flex space-x-1 p-1">
+                        <a href="#solution" class="glass-link nav-link">Solución</a>
+                        <a href="#benefits" class="glass-link nav-link">Beneficios</a>
+                        <a href="#luxury" class="glass-link nav-link">Marcas Premium</a>
+                    </div>
+                </nav>
+            </div>
             <button onclick="window.location.href='/login'" class="bg-white text-black px-4 md:px-6 py-2 rounded-full font-medium hover:bg-gray-100 transition text-sm md:text-base">
                 Acceder
             </button>
@@ -475,22 +476,28 @@
             // Change navbar style on scroll
             if (scrollY > 100) {
                 navbar.classList.add('navbar-scrolled');
-                // Desktop: Switch to glass design
-                desktopNav.classList.add('hidden');
-                desktopNavGlass.classList.remove('hidden');
-                desktopNavGlass.classList.add('flex');
-                // Mobile: Switch to glass design
-                mobileNav.classList.add('hidden');
-                mobileNavGlass.classList.remove('hidden');
+                // Desktop: Switch to glass
+                if (desktopNav) {
+                    desktopNav.classList.add('hidden');
+                    desktopNavGlass.classList.remove('hidden');
+                }
+                // Mobile: Switch to glass
+                if (mobileNav) {
+                    mobileNav.classList.add('hidden');
+                    mobileNavGlass.classList.remove('hidden');
+                }
             } else {
                 navbar.classList.remove('navbar-scrolled');
-                // Desktop: Switch back to normal design
-                desktopNav.classList.remove('hidden');
-                desktopNavGlass.classList.add('hidden');
-                desktopNavGlass.classList.remove('flex');
-                // Mobile: Switch back to normal design
-                mobileNav.classList.remove('hidden');
-                mobileNavGlass.classList.add('hidden');
+                // Desktop: Switch back to normal
+                if (desktopNav) {
+                    desktopNav.classList.remove('hidden');
+                    desktopNavGlass.classList.add('hidden');
+                }
+                // Mobile: Switch back to normal
+                if (mobileNav) {
+                    mobileNav.classList.remove('hidden');
+                    mobileNavGlass.classList.add('hidden');
+                }
             }
             
             let current = '';
