@@ -58,11 +58,24 @@
             height: 30px;
             box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4);
         }
+        .navbar-scrolled {
+            background: rgba(0, 0, 0, 0.8) !important;
+        }
+        .navbar-scrolled .nav-link,
+        .navbar-scrolled h1 {
+            color: #000 !important;
+        }
+        .mobile-nav-scrolled {
+            background: rgba(0, 0, 0, 0.8) !important;
+        }
+        .mobile-nav-scrolled .nav-link-mobile {
+            color: #000 !important;
+        }
     </style>
 </head>
 <body class="bg-black text-white">
-    <!-- Transparent Header -->
-    <header class="absolute top-0 left-0 right-0 z-50 bg-transparent">
+    <!-- Sticky Header -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-transparent backdrop-blur-sm transition-all duration-300">
         <div class="container mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
             <div class="flex items-center">
                 <img src="/identidad/logotipo-oficial.webp" alt="Autentikapp" class="h-8 md:h-10 mr-2 md:mr-3">
@@ -71,9 +84,9 @@
                 </h1>
             </div>
             <nav class="hidden md:flex space-x-8">
-                <a href="#solution" class="hover:text-blue-400 transition text-white font-light">Solución</a>
-                <a href="#benefits" class="hover:text-blue-400 transition text-white font-light">Beneficios</a>
-                <a href="#luxury" class="hover:text-blue-400 transition text-white font-light">Marcas Premium</a>
+                <a href="#solution" class="hover:text-blue-400 transition text-white font-light nav-link">Solución</a>
+                <a href="#benefits" class="hover:text-blue-400 transition text-white font-light nav-link">Beneficios</a>
+                <a href="#luxury" class="hover:text-blue-400 transition text-white font-light nav-link">Marcas Premium</a>
             </nav>
             <button onclick="window.location.href='/login'" class="bg-white text-black px-4 md:px-6 py-2 rounded-full font-medium hover:bg-gray-100 transition text-sm md:text-base">
                 Acceder
@@ -81,8 +94,17 @@
         </div>
     </header>
 
+    <!-- Mobile Bottom Navigation -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-transparent backdrop-blur-sm border-t border-white/10">
+        <div class="flex justify-around py-3">
+            <a href="#solution" class="text-white font-light text-sm nav-link-mobile">Solución</a>
+            <a href="#benefits" class="text-white font-light text-sm nav-link-mobile">Beneficios</a>
+            <a href="#luxury" class="text-white font-light text-sm nav-link-mobile">Marcas Premium</a>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
-    <section id="hero" class="hero-height relative flex items-center justify-center overflow-hidden">
+    <section id="hero" class="hero-height relative flex items-center justify-center overflow-hidden pt-16 md:pt-20">
         <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0">
             <source src="https://www.pexels.com/es-es/download/video/5095294/" type="video/mp4">
             <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-black to-green-900"></div>
@@ -127,7 +149,7 @@
     </section>
 
     <!-- Problem Statement -->
-    <section id="problem" class="py-40 px-6 bg-black">
+    <section id="problem" class="py-40 px-6 bg-black pb-20 md:pb-40">
         <div class="container mx-auto max-w-5xl text-center">
             <h3 class="text-5xl md:text-6xl font-light mb-24 text-luxury">
                 El Problema que <span class="font-bold">Enfrentas</span>
@@ -374,10 +396,22 @@
             });
         }
 
-        // Update active navigation dot on scroll
+        // Update active navigation dot and navbar style on scroll
         window.addEventListener('scroll', () => {
             const sections = ['hero', 'problem', 'solution', 'benefits', 'luxury'];
             const navDots = document.querySelectorAll('.nav-dot');
+            const navbar = document.getElementById('navbar');
+            const mobileNav = document.querySelector('nav.md\\:hidden');
+            const scrollY = window.scrollY;
+            
+            // Change navbar style on scroll
+            if (scrollY > 100) {
+                navbar.classList.add('navbar-scrolled');
+                if (mobileNav) mobileNav.classList.add('mobile-nav-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+                if (mobileNav) mobileNav.classList.remove('mobile-nav-scrolled');
+            }
             
             let current = '';
             sections.forEach(section => {
