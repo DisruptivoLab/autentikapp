@@ -20,10 +20,10 @@
   left: 0;
   transform: translateY(-50%);
   white-space: nowrap;
-  font-size: 8rem;
+  font-size: 60vh;
   font-weight: 900;
   color: rgba(64, 64, 64, 0.15);
-  animation: scroll 30s linear infinite;
+  animation: scroll 60s linear infinite;
   user-select: none;
 }
 .scrolling-text span {
@@ -33,9 +33,6 @@
 @keyframes scroll {
   0% { transform: translateX(100vw) translateY(-50%); }
   100% { transform: translateX(-100%) translateY(-50%); }
-}
-@media (max-width: 768px) {
-  .scrolling-text { font-size: 4rem; }
 }
 </style>
 <body class="min-h-screen bg-black relative overflow-x-hidden">
@@ -128,8 +125,8 @@
             </div>
             
             <!-- Hidden Audio Element -->
-            <audio id="backgroundMusic" loop>
-                <source src="https://www.youtube.com/watch?v=BzshmDQHEm4" type="audio/mpeg">
+            <audio id="backgroundMusic" loop autoplay>
+                <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
             </audio>
             
             <div class="max-w-2xl w-full text-center relative z-10">
@@ -353,10 +350,23 @@
         // Show welcome modal on page load
         window.addEventListener('load', function() {
             const modal = document.getElementById('welcomeModal');
+            const music = document.getElementById('backgroundMusic');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            
             modal.style.transition = 'all 0.3s ease';
             setTimeout(() => {
                 modal.style.opacity = '1';
                 modal.style.transform = 'scale(1)';
+                
+                // Try to autoplay music
+                music.play().then(() => {
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                }).catch(() => {
+                    // Autoplay failed, keep play button visible
+                    console.log('Autoplay prevented by browser');
+                });
             }, 500);
         });
     </script>
