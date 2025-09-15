@@ -28,8 +28,8 @@
   padding-right: 2rem;
 }
 @keyframes scroll {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-200%); }
 }
 @media (max-width: 768px) {
   .scrolling-carousel { font-size: 7rem; }
@@ -117,8 +117,10 @@
                 </button>
             </div>
             
-            <!-- Spotify Embed -->
-            <iframe id="spotifyPlayer" src="https://open.spotify.com/embed/track/4G1DYPZP4vGWfY2ki1rvjP?utm_source=generator&autoplay=1" width="0" height="0" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="position: absolute; opacity: 0; pointer-events: none;"></iframe>
+            <!-- Audio Player -->
+            <audio id="backgroundMusic" loop preload="auto" style="display: none;">
+                <source src="https://screenapp.io/app/api/file/55YZzbWsOl/download" type="audio/mpeg">
+            </audio>
             
             <div class="w-full text-center relative z-10">
                 <!-- Animated Logo -->
@@ -152,10 +154,15 @@
                 
                 <!-- CTA Button -->
                 <button 
-                    onclick="closeWelcomeModal()" 
+                    id="ctaButton"
+                    onclick="handleVamosClick()" 
                     class="luxury-button px-12 py-4 rounded-full font-semibold text-xl tracking-wide transform hover:scale-105 transition-all duration-300 shadow-2xl"
                 >
-                    ¡VAMOS!
+                    <span id="ctaText">¡VAMOS!</span>
+                    <svg id="ctaLoader" class="animate-spin w-6 h-6 mx-auto hidden" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -317,15 +324,49 @@
         });
         
         // Welcome Modal Functions
+        function handleVamosClick() {
+            const button = document.getElementById('ctaButton');
+            const text = document.getElementById('ctaText');
+            const loader = document.getElementById('ctaLoader');
+            
+            // Show loading state
+            text.classList.add('hidden');
+            loader.classList.remove('hidden');
+            button.disabled = true;
+            
+            // First loading phase
+            setTimeout(() => {
+                // Reset and show loading again
+                loader.classList.add('hidden');
+                text.classList.remove('hidden');
+                text.textContent = 'Cargando...';
+                loader.classList.remove('hidden');
+                text.classList.add('hidden');
+                
+                // Second loading phase
+                setTimeout(() => {
+                    closeWelcomeModal();
+                    restartVideo();
+                }, 1000);
+            }, 1000);
+        }
+        
         function closeWelcomeModal() {
             const modal = document.getElementById('welcomeModal');
-            const music = document.getElementById('backgroundMusic');
-            music.pause();
             modal.style.opacity = '0';
             modal.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 modal.style.display = 'none';
             }, 300);
+        }
+        
+        function restartVideo() {
+            const iframe = document.querySelector('iframe');
+            const currentSrc = iframe.src;
+            iframe.src = '';
+            setTimeout(() => {
+                iframe.src = currentSrc;
+            }, 100);
         }
         
         // Music toggle function
@@ -335,7 +376,7 @@
             const pauseIcon = document.getElementById('pauseIcon');
             
             if (music.paused) {
-                music.play();
+                music.play().catch(e => console.log('Audio play failed:', e));
                 playIcon.classList.add('hidden');
                 pauseIcon.classList.remove('hidden');
             } else {
@@ -358,6 +399,7 @@
                 modal.style.transform = 'scale(1)';
                 
                 // Try to autoplay music
+                music.volume = 0.7; // Set volume to 70%
                 music.play().then(() => {
                     playIcon.classList.add('hidden');
                     pauseIcon.classList.remove('hidden');
