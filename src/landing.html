@@ -132,7 +132,12 @@
                     <span class="font-bold">autentik</span><span class="font-light">app</span>
                 </h1>
             </div>
-            <nav class="hidden md:flex">
+            <nav class="hidden md:flex space-x-8" id="desktopNav">
+                <a href="#solution" class="hover:text-blue-400 transition text-white font-light nav-link">Solución</a>
+                <a href="#benefits" class="hover:text-blue-400 transition text-white font-light nav-link">Beneficios</a>
+                <a href="#luxury" class="hover:text-blue-400 transition text-white font-light nav-link">Marcas Premium</a>
+            </nav>
+            <nav class="hidden md:hidden" id="desktopNavGlass">
                 <div class="glass-pill flex space-x-1 p-1">
                     <a href="#solution" class="glass-link nav-link">Solución</a>
                     <a href="#benefits" class="glass-link nav-link">Beneficios</a>
@@ -146,11 +151,18 @@
     </header>
 
     <!-- Mobile Bottom Navigation -->
-    <nav class="md:hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
-        <div class="glass-pill-mobile flex space-x-1 p-1">
-            <a href="#solution" class="glass-link-mobile nav-link-mobile">Solución</a>
-            <a href="#benefits" class="glass-link-mobile nav-link-mobile">Beneficios</a>
-            <a href="#luxury" class="glass-link-mobile nav-link-mobile">Marcas Premium</a>
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-transparent" id="mobileNav">
+        <div class="flex justify-around py-3">
+            <a href="#solution" class="text-white font-normal text-sm nav-link-mobile">Solución</a>
+            <a href="#benefits" class="text-white font-normal text-sm nav-link-mobile">Beneficios</a>
+            <a href="#luxury" class="text-white font-normal text-sm nav-link-mobile">Marcas Premium</a>
+        </div>
+    </nav>
+    <nav class="md:hidden fixed bottom-4 left-0 right-0 z-50 px-1 hidden" id="mobileNavGlass">
+        <div class="glass-pill-mobile flex justify-around p-1 w-full">
+            <a href="#solution" class="glass-link-mobile nav-link-mobile flex-1 text-center">Solución</a>
+            <a href="#benefits" class="glass-link-mobile nav-link-mobile flex-1 text-center">Beneficios</a>
+            <a href="#luxury" class="glass-link-mobile nav-link-mobile flex-1 text-center">Marcas Premium</a>
         </div>
     </nav>
 
@@ -452,16 +464,29 @@
             const sections = ['hero', 'problem', 'solution', 'benefits', 'luxury'];
             const navDots = document.querySelectorAll('.nav-dot');
             const navbar = document.getElementById('navbar');
-            const mobileNav = document.querySelector('nav.md\\:hidden');
+            const desktopNav = document.getElementById('desktopNav');
+            const desktopNavGlass = document.getElementById('desktopNavGlass');
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileNavGlass = document.getElementById('mobileNavGlass');
             const scrollY = window.scrollY;
             
             // Change navbar style on scroll
             if (scrollY > 100) {
                 navbar.classList.add('navbar-scrolled');
-                if (mobileNav) mobileNav.classList.add('mobile-nav-scrolled');
+                // Switch to glass design
+                desktopNav.classList.add('hidden');
+                desktopNavGlass.classList.remove('hidden');
+                desktopNavGlass.classList.add('md:flex');
+                mobileNav.classList.add('hidden');
+                mobileNavGlass.classList.remove('hidden');
             } else {
                 navbar.classList.remove('navbar-scrolled');
-                if (mobileNav) mobileNav.classList.remove('mobile-nav-scrolled');
+                // Switch back to normal design
+                desktopNav.classList.remove('hidden');
+                desktopNavGlass.classList.add('hidden');
+                desktopNavGlass.classList.remove('md:flex');
+                mobileNav.classList.remove('hidden');
+                mobileNavGlass.classList.add('hidden');
             }
             
             let current = '';
