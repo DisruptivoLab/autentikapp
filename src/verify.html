@@ -14,6 +14,19 @@
             50% { transform: scale(1.2); }
             100% { transform: scale(1); }
         }
+        .image-carousel::-webkit-scrollbar {
+            height: 1px;
+        }
+        .image-carousel::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .image-carousel::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            height: 1px;
+        }
+        .image-carousel::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-white">
@@ -46,9 +59,19 @@
 
         <!-- Product Details -->
         <div class="border-t border-gray-100 pt-16 mb-16">
-            <!-- Product Image -->
-            <div class="text-center mb-12">
-                <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch" class="w-full max-w-sm mx-auto">
+            <!-- Product Images Carousel -->
+            <div class="mb-12">
+                <div class="image-carousel overflow-x-auto flex space-x-4 px-6 pb-2">
+                    <div class="flex-shrink-0 w-80">
+                        <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 1" class="w-full">
+                    </div>
+                    <div class="flex-shrink-0 w-80">
+                        <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 2" class="w-full">
+                    </div>
+                    <div class="flex-shrink-0 w-80">
+                        <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 3" class="w-full">
+                    </div>
+                </div>
             </div>
             
             <!-- Product Info -->
@@ -58,22 +81,75 @@
                     <p class="text-gray-600 font-light text-sm">Colección 2025</p>
                 </div>
                 
-                <div class="space-y-4 max-w-sm mx-auto">
-                    <div class="flex justify-between items-center py-3 border-b border-gray-100">
-                        <span class="text-gray-600 font-light text-sm">Modelo</span>
-                        <span class="font-light text-sm">Bolso 1</span>
+                <!-- Info Cards -->
+                <div class="space-y-2 max-w-sm mx-auto">
+                    <div class="info-card border-b border-gray-100 py-4 cursor-pointer" onclick="toggleCard('basic')">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600 font-light text-sm">Información Básica</span>
+                            <svg class="w-4 h-4 text-gray-400 transform transition-transform" id="basic-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </div>
+                        <div class="info-content hidden mt-4 space-y-3" id="basic-content">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500 text-xs">Modelo</span>
+                                <span class="font-light text-xs">Bolso 1</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500 text-xs">Fabricación</span>
+                                <span class="font-light text-xs">Enero 2025</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500 text-xs">Material</span>
+                                <span class="font-light text-xs">Cuero Premium</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex justify-between items-center py-3 border-b border-gray-100">
-                        <span class="text-gray-600 font-light text-sm">Fabricación</span>
-                        <span class="font-light text-sm">Enero 2025</span>
+                    
+                    <div class="info-card border-b border-gray-100 py-4 cursor-pointer" onclick="toggleCard('specs')">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600 font-light text-sm">Especificaciones</span>
+                            <svg class="w-4 h-4 text-gray-400 transform transition-transform" id="specs-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </div>
+                        <div class="info-content hidden mt-4 space-y-3" id="specs-content">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500 text-xs">Dimensiones</span>
+                                <span class="font-light text-xs">30 x 25 x 12 cm</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500 text-xs">Peso</span>
+                                <span class="font-light text-xs">850g</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500 text-xs">Color</span>
+                                <span class="font-light text-xs">Negro</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex justify-between items-center py-3 border-b border-gray-100">
-                        <span class="text-gray-600 font-light text-sm">Material</span>
-                        <span class="font-light text-sm">Cuero Premium</span>
-                    </div>
-                    <div class="flex justify-between items-center py-3">
-                        <span class="text-gray-600 font-light text-sm">Estado</span>
-                        <span class="font-light text-sm">Verificado</span>
+                    
+                    <div class="info-card py-4 cursor-pointer" onclick="toggleCard('auth')">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600 font-light text-sm">Autenticación</span>
+                            <svg class="w-4 h-4 text-gray-400 transform transition-transform" id="auth-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </div>
+                        <div class="info-content hidden mt-4 space-y-3" id="auth-content">
+                            <div class="flex justify-between">
+                                <span class="text-gray-500 text-xs">Estado</span>
+                                <span class="font-light text-xs">Verificado</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500 text-xs">Blockchain</span>
+                                <span class="font-light text-xs">Registrado</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-500 text-xs">Garantía</span>
+                                <span class="font-light text-xs">2 años</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,6 +212,19 @@
             document.getElementById('productCode').textContent = productId;
         }
 
+        function toggleCard(cardId) {
+            const content = document.getElementById(cardId + '-content');
+            const arrow = document.getElementById(cardId + '-arrow');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+        
         function downloadCertificate() {
             // Simulate certificate download
             const link = document.createElement('a');
