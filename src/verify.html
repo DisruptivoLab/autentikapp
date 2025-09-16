@@ -144,15 +144,36 @@
         // Obtener código del producto de la URL
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('id') || 'AUT-2025-WM-A7B9C2D1';
+        console.log('Product ID:', productId);
         
         // Cargar datos desde business.json
         async function loadBusinessData() {
             try {
-                const response = await fetch('/business.json');
+                console.log('Intentando cargar business.json...');
+                const response = await fetch('./business.json');
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
+                console.log('Datos cargados:', data.products?.length, 'productos');
                 return data;
             } catch (error) {
                 console.error('Error cargando business.json:', error);
+                // Intentar ruta alternativa
+                try {
+                    console.log('Intentando ruta alternativa: /src/business.json');
+                    const response2 = await fetch('/src/business.json');
+                    if (response2.ok) {
+                        const data = await response2.json();
+                        console.log('Datos cargados desde /src/:', data.products?.length, 'productos');
+                        return data;
+                    }
+                } catch (error2) {
+                    console.error('Error con ruta alternativa:', error2);
+                }
                 return null;
             }
         }
@@ -193,13 +214,22 @@
             
             if (!businessData) {
                 console.error('No se pudo cargar business.json');
+                // Mostrar datos de prueba
+                document.getElementById('productName').textContent = 'Error: No se pudo cargar datos';
+                document.getElementById('productMaterial').textContent = 'Error de conexión';
                 return;
             }
             
+            console.log('Buscando producto con ID:', productId);
             const result = findProductByItemId(businessData, productId);
             
             if (!result) {
                 console.error('Producto no encontrado:', productId);
+                console.log('IDs disponibles:', businessData.products.flatMap(p => p.items.map(i => i.id)).slice(0, 10));
+                
+                // Mostrar mensaje de error
+                document.getElementById('productName').textContent = 'Producto no encontrado';
+                document.getElementById('productMaterial').textContent = 'ID no válido';
                 return;
             }
             
