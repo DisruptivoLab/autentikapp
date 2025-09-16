@@ -26,7 +26,18 @@ const API_KEYS = {
 };
 
 // Validar API Key
-export function validateApiKey(apiKey, requiredPermission = null) {
+export function validateApiKey(apiKey, requiredPermission = null, referer = null) {
+  // Permitir acceso desde el mismo dominio (navegador)
+  if (!apiKey && referer && referer.includes('autentikapp.vercel.app')) {
+    return { 
+      valid: true, 
+      keyData: {
+        name: 'Browser Access',
+        permissions: ['verify', 'products', 'business']
+      }
+    };
+  }
+  
   if (!apiKey) {
     return { valid: false, error: 'API Key required' };
   }

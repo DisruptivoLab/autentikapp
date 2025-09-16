@@ -16,9 +16,10 @@ export default function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Validar API Key
+  // Validar API Key (permitir acceso desde navegador)
   const apiKey = req.headers['x-api-key'];
-  const authResult = validateApiKey(apiKey, 'products');
+  const referer = req.headers['referer'];
+  const authResult = validateApiKey(apiKey, 'products', referer);
   
   if (!authResult.valid) {
     return res.status(401).json({
