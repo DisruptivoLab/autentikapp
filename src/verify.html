@@ -59,7 +59,7 @@
                 <!-- Producto -->
                 <div class="text-center mb-8">
                     <h2 id="productName" class="text-2xl font-light text-black mb-2">Cargando...</h2>
-                    <p class="text-gray-600 font-light">Colección 2025</p>
+                    <p id="registrationDate" class="text-gray-600 font-light">Cargando...</p>
                 </div>
                 
                 <!-- Info básica -->
@@ -77,8 +77,12 @@
                         <span id="productType" class="font-light">Cargando...</span>
                     </div>
                     <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-600">Fabricante</span>
+                        <span id="manufacturerName" class="font-light">Cargando...</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
                         <span class="text-gray-600">Estado</span>
-                        <span class="font-light text-green-600">Verificado</span>
+                        <span id="itemStatus" class="font-light text-green-600">Verificado</span>
                     </div>
                 </div>
                 
@@ -90,7 +94,7 @@
                     <div class="grid grid-cols-3 gap-4 text-center mb-8">
                         <div>
                             <p class="text-gray-500 text-xs mb-1">Origen</p>
-                            <p class="font-medium text-sm">W Merch</p>
+                            <p id="manufacturerCity" class="font-medium text-sm">Cargando...</p>
                         </div>
                         <div>
                             <p class="text-gray-500 text-xs mb-1">Seguridad</p>
@@ -98,7 +102,7 @@
                         </div>
                         <div>
                             <p class="text-gray-500 text-xs mb-1">Garantía</p>
-                            <p class="font-medium text-sm">2 años</p>
+                            <p id="warrantyPeriod" class="font-medium text-sm">Cargando...</p>
                         </div>
                     </div>
                 </div>
@@ -139,7 +143,7 @@
     <script>
         // Obtener código del producto de la URL
         const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('id') || 'AUT-2025-WM-B1A7C9D2';
+        const productId = urlParams.get('id') || 'AUT-2025-WM-A7B9C2D1';
         
         // Cargar datos desde business.json
         async function loadBusinessData() {
@@ -169,13 +173,18 @@
         
         // Generar múltiples imágenes desde productImage
         function generateImages(productImage, productName) {
-            // Por ahora usar la misma imagen 4 veces, luego se puede expandir
-            return [
+            // Crear variaciones de la imagen principal
+            const baseImages = [
                 productImage,
                 productImage,
                 productImage,
                 productImage
             ];
+            
+            // Si no hay imagen, usar placeholder
+            return baseImages.map((img, index) => {
+                return img || `https://via.placeholder.com/400x400/f3f4f6/9ca3af?text=${encodeURIComponent(productName)}+${index + 1}`;
+            });
         }
         
         // Cargar datos del producto
@@ -199,13 +208,28 @@
             // Actualizar información del producto
             document.getElementById('productCode').textContent = productId;
             document.getElementById('productName').textContent = product.productName;
+            document.getElementById('registrationDate').textContent = `Registrado: ${product.registrationDate}`;
             document.getElementById('productMaterial').textContent = product.details.material;
             document.getElementById('productColor').textContent = product.details.color;
             document.getElementById('productType').textContent = product.details.tipo;
+            document.getElementById('manufacturerName').textContent = product.manufacturer.name;
+            document.getElementById('manufacturerCity').textContent = `${product.manufacturer.city}, ${product.manufacturer.country}`;
+            
+            // Estado del item
+            const statusText = item.status === 'Claimed' ? 'Reclamado' : 'Disponible';
+            const statusColor = item.status === 'Claimed' ? 'text-green-600' : 'text-blue-600';
+            document.getElementById('itemStatus').textContent = statusText;
+            document.getElementById('itemStatus').className = `font-light ${statusColor}`;
+            
+            // Garantía desde care.repair.warranty o valor por defecto
+            const warranty = product.care?.repair?.warranty || '24 meses';
+            document.getElementById('warrantyPeriod').textContent = warranty;
             
             // Generar y cargar imágenes
             const images = generateImages(product.productImage, product.productName);
             loadImages(images);
+            
+            console.log('Producto cargado:', product.productName, 'Item:', item.id, 'Status:', item.status);
         }
         
         // Cargar imágenes dinámicamente
