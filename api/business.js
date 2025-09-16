@@ -18,8 +18,8 @@ export default function handler(req, res) {
 
   // Validar API Key (permitir acceso desde navegador)
   const apiKey = req.headers['x-api-key'];
-  const referer = req.headers['referer'];
-  const authResult = validateApiKey(apiKey, 'business', referer);
+  const userAgent = req.headers['user-agent'];
+  const authResult = validateApiKey(apiKey, 'business', userAgent);
   
   if (!authResult.valid) {
     return res.status(401).json({
