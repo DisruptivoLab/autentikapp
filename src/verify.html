@@ -144,38 +144,32 @@
         // Obtener código del producto de la URL
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('id') || 'AUT-2025-WM-A7B9C2D1';
-        console.log('Product ID:', productId);
+        console.log('🔍 Product ID desde URL:', productId);
+        console.log('🌐 URL completa:', window.location.href);
         
         // Cargar datos desde business.json
         async function loadBusinessData() {
-            try {
-                console.log('Intentando cargar business.json...');
-                const response = await fetch('./business.json');
-                console.log('Response status:', response.status);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('Datos cargados:', data.products?.length, 'productos');
-                return data;
-            } catch (error) {
-                console.error('Error cargando business.json:', error);
-                // Intentar ruta alternativa
+            const routes = ['./business.json', '/business.json', '/src/business.json'];
+            
+            for (const route of routes) {
                 try {
-                    console.log('Intentando ruta alternativa: /src/business.json');
-                    const response2 = await fetch('/src/business.json');
-                    if (response2.ok) {
-                        const data = await response2.json();
-                        console.log('Datos cargados desde /src/:', data.products?.length, 'productos');
+                    console.log(`Intentando cargar: ${route}`);
+                    const response = await fetch(route);
+                    console.log(`Response status para ${route}:`, response.status);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('✅ Datos cargados exitosamente:', data.products?.length, 'productos');
+                        console.log('✅ Ruta exitosa:', route);
                         return data;
                     }
-                } catch (error2) {
-                    console.error('Error con ruta alternativa:', error2);
+                } catch (error) {
+                    console.error(`❌ Error con ${route}:`, error.message);
                 }
-                return null;
             }
+            
+            console.error('❌ No se pudo cargar business.json desde ninguna ruta');
+            return null;
         }
         
         // Buscar producto por ID en los items
