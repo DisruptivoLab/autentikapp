@@ -275,16 +275,15 @@
             totalImages = images.length;
             currentImageIndex = 0;
             
-            // Crear contenedor de imágenes
+            // Crear contenedor de imágenes vertical
             const imagesWrapper = document.createElement('div');
-            imagesWrapper.className = 'flex transition-transform duration-300 ease-in-out h-full';
-            imagesWrapper.style.width = `${totalImages * 100}%`;
+            imagesWrapper.className = 'flex flex-col transition-transform duration-300 ease-in-out';
+            imagesWrapper.style.height = `${totalImages * 70}vh`;
             imagesWrapper.id = 'imagesWrapper';
             
             images.forEach((imageSrc, index) => {
                 const imageDiv = document.createElement('div');
-                imageDiv.className = 'flex-shrink-0 h-full flex items-center justify-center';
-                imageDiv.style.width = `${100 / totalImages}%`;
+                imageDiv.className = 'flex-shrink-0 h-[70vh] flex items-center justify-center';
                 imageDiv.innerHTML = `
                     <img src="${imageSrc}" alt="Producto - Vista ${index + 1}" 
                          class="max-h-full max-w-full object-contain" 
@@ -314,8 +313,8 @@
             
             currentImageIndex = index;
             const wrapper = document.getElementById('imagesWrapper');
-            const translateX = -(index * (100 / totalImages));
-            wrapper.style.transform = `translateX(${translateX}%)`;
+            const translateY = -(index * 70);
+            wrapper.style.transform = `translateY(${translateY}vh)`;
             
             // Actualizar dots
             const dots = document.querySelectorAll('#imageDots > div');
