@@ -34,17 +34,8 @@
         <!-- Columna Izquierda: Imágenes -->
         <div class="w-1/2 overflow-y-auto">
             <div class="p-6">
-                <div class="mb-6 h-96 flex items-center justify-center">
-                    <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Imagen 1" class="max-h-full max-w-full object-contain">
-                </div>
-                <div class="mb-6 h-96 flex items-center justify-center">
-                    <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Imagen 2" class="max-h-full max-w-full object-contain">
-                </div>
-                <div class="mb-6 h-96 flex items-center justify-center">
-                    <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Imagen 3" class="max-h-full max-w-full object-contain">
-                </div>
-                <div class="mb-6 h-96 flex items-center justify-center">
-                    <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Imagen 4" class="max-h-full max-w-full object-contain">
+                <div id="imageContainer" class="space-y-6">
+                    <!-- Las imágenes se cargarán dinámicamente aquí -->
                 </div>
             </div>
         </div>
@@ -62,28 +53,28 @@
                     </div>
                     <h1 class="text-3xl font-light text-black mb-2">Producto Auténtico</h1>
                     <p class="text-gray-600 font-light mb-4">Verificación completada</p>
-                    <p class="text-xs text-gray-400 font-mono">AUT-2025-WM-B1A7C9D2</p>
+                    <p id="productCode" class="text-xs text-gray-400 font-mono">AUT-2025-WM-B1A7C9D2</p>
                 </div>
                 
                 <!-- Producto -->
                 <div class="text-center mb-8">
-                    <h2 class="text-2xl font-light text-black mb-2">Bolso Premium</h2>
+                    <h2 id="productName" class="text-2xl font-light text-black mb-2">Cargando...</h2>
                     <p class="text-gray-600 font-light">Colección 2025</p>
                 </div>
                 
                 <!-- Info básica -->
                 <div class="space-y-4 mb-8">
                     <div class="flex justify-between py-2 border-b border-gray-100">
-                        <span class="text-gray-600">Modelo</span>
-                        <span class="font-light">Bolso 1</span>
-                    </div>
-                    <div class="flex justify-between py-2 border-b border-gray-100">
                         <span class="text-gray-600">Material</span>
-                        <span class="font-light">Cuero Premium</span>
+                        <span id="productMaterial" class="font-light">Cargando...</span>
                     </div>
                     <div class="flex justify-between py-2 border-b border-gray-100">
                         <span class="text-gray-600">Color</span>
-                        <span class="font-light">Negro</span>
+                        <span id="productColor" class="font-light">Cargando...</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-600">Tipo</span>
+                        <span id="productType" class="font-light">Cargando...</span>
                     </div>
                     <div class="flex justify-between py-2 border-b border-gray-100">
                         <span class="text-gray-600">Estado</span>
@@ -145,5 +136,99 @@
         </div>
     </div>
 
+    <script>
+        // Obtener código del producto de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id') || 'AUT-2025-WM-B1A7C9D2';
+        
+        // Cargar datos desde business.json
+        async function loadBusinessData() {
+            try {
+                const response = await fetch('/business.json');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error cargando business.json:', error);
+                return null;
+            }
+        }
+        
+        // Buscar producto por ID en los items
+        function findProductByItemId(data, itemId) {
+            for (const product of data.products) {
+                const item = product.items.find(item => item.id === itemId);
+                if (item) {
+                    return {
+                        product: product,
+                        item: item
+                    };
+                }
+            }
+            return null;
+        }
+        
+        // Generar múltiples imágenes desde productImage
+        function generateImages(productImage, productName) {
+            // Por ahora usar la misma imagen 4 veces, luego se puede expandir
+            return [
+                productImage,
+                productImage,
+                productImage,
+                productImage
+            ];
+        }
+        
+        // Cargar datos del producto
+        async function loadProduct() {
+            const businessData = await loadBusinessData();
+            
+            if (!businessData) {
+                console.error('No se pudo cargar business.json');
+                return;
+            }
+            
+            const result = findProductByItemId(businessData, productId);
+            
+            if (!result) {
+                console.error('Producto no encontrado:', productId);
+                return;
+            }
+            
+            const { product, item } = result;
+            
+            // Actualizar información del producto
+            document.getElementById('productCode').textContent = productId;
+            document.getElementById('productName').textContent = product.productName;
+            document.getElementById('productMaterial').textContent = product.details.material;
+            document.getElementById('productColor').textContent = product.details.color;
+            document.getElementById('productType').textContent = product.details.tipo;
+            
+            // Generar y cargar imágenes
+            const images = generateImages(product.productImage, product.productName);
+            loadImages(images);
+        }
+        
+        // Cargar imágenes dinámicamente
+        function loadImages(images) {
+            const container = document.getElementById('imageContainer');
+            container.innerHTML = '';
+            
+            images.forEach((imageSrc, index) => {
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'mb-6 h-[80vh] flex items-center justify-center bg-gray-50 rounded';
+                imageDiv.innerHTML = `
+                    <img src="${imageSrc}" alt="Producto - Vista ${index + 1}" 
+                         class="max-h-full max-w-full object-contain" 
+                         onerror="this.src='https://via.placeholder.com/400x400/f3f4f6/9ca3af?text=Imagen+No+Disponible'">
+                `;
+                container.appendChild(imageDiv);
+            });
+        }
+        
+        // Inicializar cuando se carga la página
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProduct();
+        });
+    </script>
 </body>
 </html>
