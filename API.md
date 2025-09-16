@@ -7,7 +7,14 @@ https://autentikapp.vercel.app/api
 
 ## 🔐 Autenticación
 
-Todos los endpoints requieren autenticación mediante API Key.
+### Acceso desde Navegador
+**✅ Sin API Key requerida** - Puedes abrir cualquier endpoint directamente en el navegador:
+- https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1
+- https://autentikapp.vercel.app/api/products
+- https://autentikapp.vercel.app/api/business
+
+### Acceso desde Aplicaciones
+**🔐 API Key requerida** - Para integraciones programáticas necesitas autenticación:
 
 ### Obtener API Key
 **Endpoint:** `POST /api/auth`
@@ -55,7 +62,12 @@ Verifica la autenticidad de un producto específico por su ID.
 **Parámetros:**
 - `id` (required): ID único del producto
 
-**Ejemplo:**
+**Desde navegador:**
+```
+https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1
+```
+
+**Desde aplicación:**
 ```bash
 curl -H "X-API-Key: ak_wmerch_live_7f8e9d2c1b4a5e6f" \
      "https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1"
@@ -125,7 +137,12 @@ Obtiene todos los productos disponibles con sus estadísticas.
 
 **Endpoint:** `GET /api/products`
 
-**Ejemplo:**
+**Desde navegador:**
+```
+https://autentikapp.vercel.app/api/products
+```
+
+**Desde aplicación:**
 ```bash
 curl -H "X-API-Key: ak_wmerch_test_3a2b1c4d5e6f7g8h" \
      "https://autentikapp.vercel.app/api/products"
@@ -187,7 +204,12 @@ Obtiene información completa del negocio y estadísticas generales.
 
 **Endpoint:** `GET /api/business`
 
-**Ejemplo:**
+**Desde navegador:**
+```
+https://autentikapp.vercel.app/api/business
+```
+
+**Desde aplicación:**
 ```bash
 curl -H "X-API-Key: ak_wmerch_live_7f8e9d2c1b4a5e6f" \
      "https://autentikapp.vercel.app/api/business"
@@ -243,11 +265,16 @@ curl -H "X-API-Key: ak_wmerch_live_7f8e9d2c1b4a5e6f" \
 
 ## 🔧 Características Técnicas
 
+### Detección de Acceso
+- **Navegadores**: Detectados por User-Agent (contiene "Mozilla")
+- **Aplicaciones**: Requieren API Key en header `X-API-Key`
+
 ### CORS
 Todos los endpoints tienen CORS habilitado para permitir acceso desde cualquier dominio.
 
 ### Métodos HTTP
 - **GET**: Todos los endpoints
+- **POST**: Solo /api/auth
 - **OPTIONS**: Para preflight requests
 
 ### Content-Type
@@ -283,7 +310,20 @@ No hay límites de rate implementados actualmente.
 
 ## 🧪 Ejemplos de Uso
 
-### JavaScript/Fetch
+### Acceso Directo (Navegador)
+```javascript
+// Verificar producto - Sin API Key
+const response = await fetch('https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1');
+const data = await response.json();
+
+if (data.success) {
+  console.log('Producto auténtico:', data.product.name);
+} else {
+  console.log('Error:', data.error);
+}
+```
+
+### Acceso Programático (Aplicaciones)
 ```javascript
 // Obtener API Key
 const authResponse = await fetch('https://autentikapp.vercel.app/api/auth', {
@@ -294,7 +334,7 @@ const authResponse = await fetch('https://autentikapp.vercel.app/api/auth', {
 const authData = await authResponse.json();
 const apiKey = authData.apiKeys.production;
 
-// Verificar producto
+// Verificar producto con API Key
 const response = await fetch('https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1', {
   headers: { 'X-API-Key': apiKey }
 });
@@ -309,35 +349,27 @@ if (data.success) {
 
 ### cURL
 ```bash
-# Obtener API Key
+# Acceso directo (simula navegador)
+curl -H "User-Agent: Mozilla/5.0" \
+     "https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1"
+
+# Acceso con API Key (aplicaciones)
+# 1. Obtener API Key
 curl -X POST "https://autentikapp.vercel.app/api/auth" \
      -H "Content-Type: application/json" \
      -d '{"username":"wmerch","password":"demo2025"}'
 
-# Verificar producto
+# 2. Usar API Key
 curl -H "X-API-Key: ak_wmerch_live_7f8e9d2c1b4a5e6f" \
      "https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1"
-
-# Listar productos
-curl -H "X-API-Key: ak_wmerch_test_3a2b1c4d5e6f7g8h" \
-     "https://autentikapp.vercel.app/api/products"
-
-# Información del negocio
-curl -H "X-API-Key: ak_wmerch_live_7f8e9d2c1b4a5e6f" \
-     "https://autentikapp.vercel.app/api/business"
 ```
 
 ### Python
 ```python
 import requests
 
-# Obtener API Key
-auth_response = requests.post('https://autentikapp.vercel.app/api/auth', 
-                             json={'username': 'wmerch', 'password': 'demo2025'})
-api_key = auth_response.json()['apiKeys']['production']
-
-# Verificar producto
-headers = {'X-API-Key': api_key}
+# Acceso directo (simula navegador)
+headers = {'User-Agent': 'Mozilla/5.0'}
 response = requests.get('https://autentikapp.vercel.app/api/verify', 
                        params={'id': 'AUT-2025-WM-A7B9C2D1'},
                        headers=headers)
@@ -347,6 +379,17 @@ if data['success']:
     print(f"Producto auténtico: {data['product']['name']}")
 else:
     print(f"Error: {data['error']}")
+
+# Acceso con API Key (aplicaciones)
+auth_response = requests.post('https://autentikapp.vercel.app/api/auth', 
+                             json={'username': 'wmerch', 'password': 'demo2025'})
+api_key = auth_response.json()['apiKeys']['production']
+
+headers = {'X-API-Key': api_key}
+response = requests.get('https://autentikapp.vercel.app/api/verify', 
+                       params={'id': 'AUT-2025-WM-A7B9C2D1'},
+                       headers=headers)
+data = response.json()
 ```
 
 ---
