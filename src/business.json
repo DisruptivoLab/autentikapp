@@ -542,7 +542,7 @@
   ],
   "products": [
     {
-      "productName": "Bolso de Cuero Negro",
+      "productName": "Bolso 1",
       "productImage": "/w-merch/productos/Bolso 1/bolso 1.webp",
       "details": {"color": "Negro", "material": "Cuero", "tipo": "Bolso de hombro"},
       "registrationDate": "2025-01-10",
@@ -648,7 +648,7 @@
       ]
     },
     {
-      "productName": "Gorra Edición Limitada",
+      "productName": "Bolso 2",
       "productImage": "https://via.placeholder.com/300x300/1f2937/ffffff?text=Gorra+Limitada",
       "details": {"color": "Negro/Blanco", "material": "Algodón", "tipo": "Gorra de béisbol"},
       "registrationDate": "2025-01-12",
@@ -744,7 +744,7 @@
       ]
     },
     {
-      "productName": "Bolso de Lona Blanco",
+      "productName": "Bolso 3",
       "productImage": "https://via.placeholder.com/300x300/1f2937/ffffff?text=Bolso+Blanco",
       "details": {"color": "Blanco", "material": "Lona", "tipo": "Tote bag"},
       "registrationDate": "2025-01-08",
