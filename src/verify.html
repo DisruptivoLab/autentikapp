@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Producto Verificado - W Merch</title>
+    <title id="pageTitle">Producto Verificado - Cargando...</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -38,8 +38,8 @@
     <!-- Header -->
     <header class="h-10 bg-white/20 flex items-center px-2">
         <div class="flex items-center space-x-3">
-            <img src="/w-merch/logo_w_merch.webp" alt="W Merch" class="w-8 h-8">
-            <span class="text-lg font-light text-black">W MERCH</span>
+            <img id="businessLogo" src="/w-merch/logo_w_merch.webp" alt="Cargando..." class="w-8 h-8">
+            <span id="businessName" class="text-lg font-light text-black">CARGANDO...</span>
         </div>
         <div class="ml-auto">
             <a href="/buscar" class="text-gray-600 hover:text-black font-light text-sm">← Verificar otro</a>
@@ -237,6 +237,13 @@
                 return;
             }
             
+            // Cargar datos del negocio dinámicamente
+            const business = businessData.business;
+            document.getElementById('pageTitle').textContent = `Producto Verificado - ${business.basic.name}`;
+            document.getElementById('businessLogo').src = business.basic.logo;
+            document.getElementById('businessLogo').alt = business.basic.name;
+            document.getElementById('businessName').textContent = business.basic.name.toUpperCase();
+            
             console.log('Buscando producto con ID:', productId);
             const result = findProductByItemId(businessData, productId);
             
@@ -277,6 +284,7 @@
             loadImages(images);
             
             console.log('Producto cargado:', product.productName, 'Item:', item.id, 'Status:', item.status);
+            console.log('Negocio cargado:', businessData.business.basic.name);
         }
         
         // Variables del carrusel
