@@ -5,6 +5,46 @@
 https://autentikapp.vercel.app/api
 ```
 
+## 🔐 Autenticación
+
+Todos los endpoints requieren autenticación mediante API Key.
+
+### Obtener API Key
+**Endpoint:** `POST /api/auth`
+
+**Body:**
+```json
+{
+  "username": "wmerch",
+  "password": "demo2025"
+}
+```
+
+**Respuesta:**
+```json
+{
+  "success": true,
+  "apiKeys": {
+    "production": "ak_wmerch_live_7f8e9d2c1b4a5e6f",
+    "testing": "ak_wmerch_test_3a2b1c4d5e6f7g8h",
+    "demo": "ak_wmerch_demo_9i8j7k6l5m4n3o2p"
+  },
+  "usage": {
+    "production": "Full access to all endpoints",
+    "testing": "Access to verify and products endpoints",
+    "demo": "Access to verify endpoint only"
+  }
+}
+```
+
+### Usar API Key
+Incluye la API Key en el header `X-API-Key` de todas las requests:
+
+```bash
+curl -H "X-API-Key: ak_wmerch_live_7f8e9d2c1b4a5e6f" \
+     "https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1"
+```
+
 ## 📋 Endpoints
 
 ### 1. Verificar Producto
@@ -17,7 +57,8 @@ Verifica la autenticidad de un producto específico por su ID.
 
 **Ejemplo:**
 ```bash
-GET https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1
+curl -H "X-API-Key: ak_wmerch_live_7f8e9d2c1b4a5e6f" \
+     "https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1"
 ```
 
 **Respuesta exitosa (200):**
@@ -86,7 +127,8 @@ Obtiene todos los productos disponibles con sus estadísticas.
 
 **Ejemplo:**
 ```bash
-GET https://autentikapp.vercel.app/api/products
+curl -H "X-API-Key: ak_wmerch_test_3a2b1c4d5e6f7g8h" \
+     "https://autentikapp.vercel.app/api/products"
 ```
 
 **Respuesta exitosa (200):**
@@ -147,7 +189,8 @@ Obtiene información completa del negocio y estadísticas generales.
 
 **Ejemplo:**
 ```bash
-GET https://autentikapp.vercel.app/api/business
+curl -H "X-API-Key: ak_wmerch_live_7f8e9d2c1b4a5e6f" \
+     "https://autentikapp.vercel.app/api/business"
 ```
 
 **Respuesta exitosa (200):**
@@ -222,9 +265,19 @@ No hay límites de rate implementados actualmente.
 |--------|-------------|
 | 200 | Éxito |
 | 400 | Solicitud incorrecta (parámetros faltantes) |
+| 401 | No autorizado (API Key inválida o faltante) |
 | 404 | Recurso no encontrado |
 | 405 | Método no permitido |
 | 500 | Error interno del servidor |
+
+### Error 401 (No autorizado):
+```json
+{
+  "error": "Authentication failed",
+  "message": "API Key required",
+  "instructions": "Get API Key from /api/auth with credentials wmerch/demo2025"
+}
+```
 
 ---
 
@@ -232,8 +285,19 @@ No hay límites de rate implementados actualmente.
 
 ### JavaScript/Fetch
 ```javascript
+// Obtener API Key
+const authResponse = await fetch('https://autentikapp.vercel.app/api/auth', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ username: 'wmerch', password: 'demo2025' })
+});
+const authData = await authResponse.json();
+const apiKey = authData.apiKeys.production;
+
 // Verificar producto
-const response = await fetch('https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1');
+const response = await fetch('https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1', {
+  headers: { 'X-API-Key': apiKey }
+});
 const data = await response.json();
 
 if (data.success) {
@@ -245,23 +309,38 @@ if (data.success) {
 
 ### cURL
 ```bash
+# Obtener API Key
+curl -X POST "https://autentikapp.vercel.app/api/auth" \
+     -H "Content-Type: application/json" \
+     -d '{"username":"wmerch","password":"demo2025"}'
+
 # Verificar producto
-curl "https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1"
+curl -H "X-API-Key: ak_wmerch_live_7f8e9d2c1b4a5e6f" \
+     "https://autentikapp.vercel.app/api/verify?id=AUT-2025-WM-A7B9C2D1"
 
 # Listar productos
-curl "https://autentikapp.vercel.app/api/products"
+curl -H "X-API-Key: ak_wmerch_test_3a2b1c4d5e6f7g8h" \
+     "https://autentikapp.vercel.app/api/products"
 
 # Información del negocio
-curl "https://autentikapp.vercel.app/api/business"
+curl -H "X-API-Key: ak_wmerch_live_7f8e9d2c1b4a5e6f" \
+     "https://autentikapp.vercel.app/api/business"
 ```
 
 ### Python
 ```python
 import requests
 
+# Obtener API Key
+auth_response = requests.post('https://autentikapp.vercel.app/api/auth', 
+                             json={'username': 'wmerch', 'password': 'demo2025'})
+api_key = auth_response.json()['apiKeys']['production']
+
 # Verificar producto
+headers = {'X-API-Key': api_key}
 response = requests.get('https://autentikapp.vercel.app/api/verify', 
-                       params={'id': 'AUT-2025-WM-A7B9C2D1'})
+                       params={'id': 'AUT-2025-WM-A7B9C2D1'},
+                       headers=headers)
 data = response.json()
 
 if data['success']:
