@@ -9,254 +9,141 @@
     <style>
         body { 
             font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
             overflow: hidden;
-        }
-        .verified-check { animation: checkmark 0.6s ease-in-out; }
-        @keyframes checkmark {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        .left-scroll::-webkit-scrollbar {
-            width: 6px;
-        }
-        .left-scroll::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        .left-scroll::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-        .left-scroll::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        .right-scroll::-webkit-scrollbar {
-            width: 6px;
-        }
-        .right-scroll::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        .right-scroll::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 3px;
-        }
-        .right-scroll::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
         }
     </style>
 </head>
 <body class="bg-white">
     
     <!-- Header -->
-    <header class="h-16 bg-white border-b border-gray-100 flex items-center px-6">
+    <header class="h-16 bg-white border-b border-gray-200 flex items-center px-6">
         <div class="flex items-center space-x-3">
             <img src="/w-merch/logo_w_merch.webp" alt="W Merch" class="w-8 h-8">
             <span class="text-lg font-light text-black">W MERCH</span>
         </div>
         <div class="ml-auto">
-            <a href="/buscar" class="text-gray-600 hover:text-black font-light text-sm transition-colors">← Verificar otro</a>
+            <a href="/buscar" class="text-gray-600 hover:text-black font-light text-sm">← Verificar otro</a>
         </div>
     </header>
 
-    <!-- Main Layout -->
-    <div class="flex h-screen" style="height: calc(100vh - 64px);">
+    <!-- Main Layout: Dos columnas -->
+    <div class="flex" style="height: calc(100vh - 64px);">
         
-        <!-- Left Column - Images -->
-        <div class="w-1/2 border-r border-gray-100">
-            <div class="left-scroll h-full overflow-y-auto p-6">
-                <div class="space-y-6">
-                    <div class="h-[70vh] flex items-center justify-center bg-gray-50 rounded">
-                        <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 1" class="max-h-full max-w-full object-contain">
-                    </div>
-                    <div class="h-[70vh] flex items-center justify-center bg-gray-50 rounded">
-                        <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 2" class="max-h-full max-w-full object-contain">
-                    </div>
-                    <div class="h-[70vh] flex items-center justify-center bg-gray-50 rounded">
-                        <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 3" class="max-h-full max-w-full object-contain">
-                    </div>
-                    <div class="h-[70vh] flex items-center justify-center bg-gray-50 rounded">
-                        <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Bolso W Merch - Vista 4" class="max-h-full max-w-full object-contain">
-                    </div>
+        <!-- Columna Izquierda: Imágenes -->
+        <div class="w-1/2 bg-gray-50 border-r border-gray-200 overflow-y-auto">
+            <div class="p-6">
+                <div class="mb-6 h-96 bg-white rounded flex items-center justify-center">
+                    <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Imagen 1" class="max-h-full max-w-full object-contain">
+                </div>
+                <div class="mb-6 h-96 bg-white rounded flex items-center justify-center">
+                    <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Imagen 2" class="max-h-full max-w-full object-contain">
+                </div>
+                <div class="mb-6 h-96 bg-white rounded flex items-center justify-center">
+                    <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Imagen 3" class="max-h-full max-w-full object-contain">
+                </div>
+                <div class="mb-6 h-96 bg-white rounded flex items-center justify-center">
+                    <img src="/w-merch/productos/Bolso 1/bolso 1.webp" alt="Imagen 4" class="max-h-full max-w-full object-contain">
                 </div>
             </div>
         </div>
         
-        <!-- Right Column - Info -->
-        <div class="w-1/2">
-            <div class="right-scroll h-full overflow-y-auto p-8">
+        <!-- Columna Derecha: Información -->
+        <div class="w-1/2 bg-white overflow-y-auto">
+            <div class="p-8">
                 
-                <!-- Verification Status -->
-                <div class="text-center mb-12">
-                    <div class="verified-check inline-flex items-center justify-center w-16 h-16 border border-black mb-6">
+                <!-- Status -->
+                <div class="text-center mb-8">
+                    <div class="inline-flex items-center justify-center w-16 h-16 border border-black mb-4">
                         <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
                     </div>
-                    <h1 class="text-4xl font-light text-black mb-4">Producto Auténtico</h1>
-                    <p class="text-gray-600 font-light mb-6">Verificación completada exitosamente</p>
-                    <p class="text-xs text-gray-400 font-mono tracking-wider" id="productCode">AUT-2025-WM-B1A7C9D2</p>
+                    <h1 class="text-3xl font-light text-black mb-2">Producto Auténtico</h1>
+                    <p class="text-gray-600 font-light mb-4">Verificación completada</p>
+                    <p class="text-xs text-gray-400 font-mono">AUT-2025-WM-B1A7C9D2</p>
                 </div>
                 
-                <!-- Product Info -->
-                <div class="max-w-md mx-auto space-y-8">
-                    <div class="text-center border-b border-gray-100 pb-8">
-                        <h2 class="text-3xl font-light text-black mb-2">Bolso Premium</h2>
-                        <p class="text-gray-600 font-light">Colección 2025</p>
-                    </div>
-                    
-                    <!-- Info Cards -->
-                    <div class="space-y-4">
-                        <div class="border-b border-gray-100 pb-4">
-                            <div class="flex justify-between items-center cursor-pointer" onclick="toggleCard('basic')">
-                                <span class="text-gray-700 font-medium">Información Básica</span>
-                                <svg class="w-5 h-5 text-gray-400 transform transition-transform" id="basic-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
-                                </svg>
-                            </div>
-                            <div class="hidden mt-4 space-y-3" id="basic-content">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500 text-sm">Modelo</span>
-                                    <span class="font-light text-sm">Bolso 1</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500 text-sm">Fabricación</span>
-                                    <span class="font-light text-sm">Enero 2025</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500 text-sm">Material</span>
-                                    <span class="font-light text-sm">Cuero Premium</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="border-b border-gray-100 pb-4">
-                            <div class="flex justify-between items-center cursor-pointer" onclick="toggleCard('specs')">
-                                <span class="text-gray-700 font-medium">Especificaciones</span>
-                                <svg class="w-5 h-5 text-gray-400 transform transition-transform" id="specs-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
-                                </svg>
-                            </div>
-                            <div class="hidden mt-4 space-y-3" id="specs-content">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500 text-sm">Dimensiones</span>
-                                    <span class="font-light text-sm">30 x 25 x 12 cm</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500 text-sm">Peso</span>
-                                    <span class="font-light text-sm">850g</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500 text-sm">Color</span>
-                                    <span class="font-light text-sm">Negro</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="border-b border-gray-100 pb-4">
-                            <div class="flex justify-between items-center cursor-pointer" onclick="toggleCard('auth')">
-                                <span class="text-gray-700 font-medium">Autenticación</span>
-                                <svg class="w-5 h-5 text-gray-400 transform transition-transform" id="auth-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/>
-                                </svg>
-                            </div>
-                            <div class="hidden mt-4 space-y-3" id="auth-content">
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500 text-sm">Estado</span>
-                                    <span class="font-light text-sm text-green-600">Verificado</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500 text-sm">Blockchain</span>
-                                    <span class="font-light text-sm">Registrado</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-500 text-sm">Garantía</span>
-                                    <span class="font-light text-sm">2 años</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Certificate Section -->
-                    <div class="border-t border-gray-100 pt-8">
-                        <div class="text-center mb-8">
-                            <h3 class="text-2xl font-light text-black mb-4">Certificado de Autenticidad</h3>
-                            <p class="text-gray-600 font-light">Este producto ha sido verificado como 100% auténtico</p>
-                        </div>
-                        
-                        <div class="grid grid-cols-3 gap-6 text-center">
-                            <div>
-                                <p class="text-gray-500 text-xs mb-2">Origen</p>
-                                <p class="font-medium">W Merch</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 text-xs mb-2">Seguridad</p>
-                                <p class="font-medium">Blockchain</p>
-                            </div>
-                            <div>
-                                <p class="text-gray-500 text-xs mb-2">Garantía</p>
-                                <p class="font-medium">2 años</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Actions -->
-                    <div class="text-center space-y-6 pt-8">
-                        <button onclick="downloadCertificate()" class="border border-black text-black px-8 py-3 font-light hover:bg-black hover:text-white transition-colors">
-                            Descargar Certificado
-                        </button>
-                        <div class="space-y-3">
-                            <div><a href="/buscar" class="text-gray-600 hover:text-black font-light transition-colors">Verificar otro producto</a></div>
-                            <div><a href="/" class="text-gray-400 hover:text-gray-600 font-light text-sm transition-colors">Volver al inicio</a></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Extra content to test scroll -->
-                    <div class="pt-16 pb-8">
-                        <div class="text-center text-gray-400 text-sm">
-                            <p>Contenido adicional para probar el scroll</p>
-                            <div class="mt-8 space-y-4">
-                                <p>Línea 1</p>
-                                <p>Línea 2</p>
-                                <p>Línea 3</p>
-                                <p>Línea 4</p>
-                                <p>Línea 5</p>
-                                <p>Final del contenido</p>
-                            </div>
-                        </div>
-                    </div>
-                    
+                <!-- Producto -->
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-light text-black mb-2">Bolso Premium</h2>
+                    <p class="text-gray-600 font-light">Colección 2025</p>
                 </div>
+                
+                <!-- Info básica -->
+                <div class="space-y-4 mb-8">
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-600">Modelo</span>
+                        <span class="font-light">Bolso 1</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-600">Material</span>
+                        <span class="font-light">Cuero Premium</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-600">Color</span>
+                        <span class="font-light">Negro</span>
+                    </div>
+                    <div class="flex justify-between py-2 border-b border-gray-100">
+                        <span class="text-gray-600">Estado</span>
+                        <span class="font-light text-green-600">Verificado</span>
+                    </div>
+                </div>
+                
+                <!-- Certificado -->
+                <div class="text-center mb-8">
+                    <h3 class="text-xl font-light text-black mb-4">Certificado de Autenticidad</h3>
+                    <p class="text-gray-600 font-light text-sm mb-6">Este producto ha sido verificado como 100% auténtico</p>
+                    
+                    <div class="grid grid-cols-3 gap-4 text-center mb-8">
+                        <div>
+                            <p class="text-gray-500 text-xs mb-1">Origen</p>
+                            <p class="font-medium text-sm">W Merch</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-xs mb-1">Seguridad</p>
+                            <p class="font-medium text-sm">Blockchain</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-xs mb-1">Garantía</p>
+                            <p class="font-medium text-sm">2 años</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Acciones -->
+                <div class="text-center space-y-4">
+                    <button class="border border-black text-black px-6 py-2 font-light hover:bg-black hover:text-white transition-colors">
+                        Descargar Certificado
+                    </button>
+                    <div class="space-y-2">
+                        <div><a href="/buscar" class="text-gray-600 hover:text-black font-light text-sm">Verificar otro producto</a></div>
+                        <div><a href="/" class="text-gray-400 hover:text-gray-600 font-light text-sm">Volver al inicio</a></div>
+                    </div>
+                </div>
+                
+                <!-- Contenido extra para probar scroll -->
+                <div class="mt-16 pt-8 border-t border-gray-100">
+                    <div class="text-center text-gray-400 text-sm space-y-2">
+                        <p>Contenido adicional</p>
+                        <p>Línea 1</p>
+                        <p>Línea 2</p>
+                        <p>Línea 3</p>
+                        <p>Línea 4</p>
+                        <p>Línea 5</p>
+                        <p>Línea 6</p>
+                        <p>Línea 7</p>
+                        <p>Línea 8</p>
+                        <p>Línea 9</p>
+                        <p>Línea 10</p>
+                        <p>Final del scroll</p>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
 
-    <script>
-        // Get product code from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('id');
-        if (productId) {
-            document.getElementById('productCode').textContent = productId;
-        }
-
-        function toggleCard(cardId) {
-            const content = document.getElementById(cardId + '-content');
-            const arrow = document.getElementById(cardId + '-arrow');
-            
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                arrow.style.transform = 'rotate(180deg)';
-            } else {
-                content.classList.add('hidden');
-                arrow.style.transform = 'rotate(0deg)';
-            }
-        }
-        
-        function downloadCertificate() {
-            const link = document.createElement('a');
-            link.href = 'data:text/plain;charset=utf-8,CERTIFICADO DE AUTENTICIDAD\n\nProducto: Bolso Premium W Merch\nCódigo: ' + (productId || 'AUT-2025-WM-B1A7C9D2') + '\nFecha: ' + new Date().toLocaleDateString() + '\n\nEste producto ha sido verificado como 100% auténtico por Autentikapp.';
-            link.download = 'certificado-autenticidad-' + (productId || 'AUT-2025-WM-B1A7C9D2') + '.txt';
-            link.click();
-        }
-    </script>
 </body>
 </html>
